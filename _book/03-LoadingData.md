@@ -1,4 +1,0 @@
-
-# Loading data {#loadingData}
-
-...

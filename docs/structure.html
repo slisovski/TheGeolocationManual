@@ -30,8 +30,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="twilight.html">
-
+<link rel="prev" href="index.html">
+<link rel="next" href="start.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -134,14 +134,86 @@ code > span.in { color: #008000; } /* Information */
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered">
-<h1>References</h1>
-<p>Ekstrom, P. (2004). An advance in geolocation by light. Memoirs of the National Insitute of Polar Research, Special Issue, 58, 210–226.<a id="ekstrom_2004"></a> Ekstrom, P. (2007). Error measures for template-fit geolocation based on light. Deep Sea Research Part II: Topical Studies in Oceanography, 54, 392–403.<a id="ekstrom_2007"></a> Lisovski, S., Hahn, S. (2012a). GeoLight - processing and analysing light-based geolocator data in R. Methods in Ecology and Evolution, 3, 1055–1059.<a id="lisovski_2012b"></a> Lisovski, S., Hewson, C.M., Klaassen, R.H.G., Korner-Nievergelt, F., Kristensen, M.W. &amp; Hahn, S. (2012b). Geolocation by light: accuracy and precision affected by environmental factors. Methods in Ecology and Evolution, 3, 603–612.<a id="lisovski_2012a"></a> Pedersen L., et. al. <a id="pedersen_et_al"></a> Rakhimberdiev, E., Winkler, D.W., Bridge, E., Seavy, N.E., Sheldon, D., Piersma, T. &amp; Saveliev, A. (2015). A hidden Markov model for reconstructing animal paths from solar geolocation loggers using templates for light intensity. Movement Ecology, 3, 25.<a id="rakhimberdiev_movecol_2015"></a> Rakhimberdiev, E., Senner, N. R., Verhoeven, M. A., Winkler, D. W., Bouten, W. and Piersma T. (2016) Comparing inferences of solar geolocation data against high-precision GPS data: annual movements of a double-tagged Black-Tailed Godwit. Journal of Avian Biology 47: 589-596.<a id="rakhimberdiev_jab_2016"></a> Rakhimberdiev, E., Saveliev, A., Piersma, T., &amp; Karagicheva, J. (2017). FLightR: An R package for reconstructing animal paths from solar geolocation loggers. Methods in Ecology and Evolution, 8(11), 1482-1487.<a id="rakhimberdiev_mee_2017"></a></p>
-
-<div id="refs" class="references">
-<div>
-<p>Lisovski, S, C M Hewson, R H G Klaassen, F Korner-Nievergelt, M W Kristensen, and S Hahn. 2012. “Geolocation by light: accuracy and precision affected by environmental factors.” <em>Methods in Ecology and Evolution</em> 3 (3): 603–12. doi:<a href="https://doi.org/Doi 10.1111/J.2041-210x.2012.00185.X">Doi 10.1111/J.2041-210x.2012.00185.X</a>.</p>
+<div id="structure" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Structure of the manual</h1>
+<p>This manual should allow users with limited knowledge in R coding to perform a state-of-the-art analysis of geolocator data. Thus, we start with the very basics of loading packages and data <a href="loadingData.html#loadingData">3</a> Starting with the initial data editing steps, which we call twilight annotation <a href="twilight.html#twilight">9</a>, we provide instructions on how to use several prominent analysis packages, illustrate the general analysis workflow using example data, and provide some recommendations for how to visualize and present results. We do not cover every available analysis package but focus on what we percieve to be the most frequently used tools, which are GeoLight <a href="GeoLight.html#GeoLight">4</a>, probGLS <a href="probGLS.html#probGLS">5</a>, SGAT <a href="SGAT.html#SGAT">6</a> and FLightR <a href="FLightR.html#FLightR">7</a>. The manual … for geolocator tracks.</p>
+<div id="the-datasets" class="section level2 unnumbered">
+<h2>The datasets</h2>
+<p>To illustrate the capabilities of the different packages, discuss the potential pitfalls, and provide some recommendations, we will use raw geolocator data from four individuals of different species.</p>
+<table>
+<thead>
+<tr class="header">
+<th>TagID</th>
+<th>Species</th>
+<th>Folder</th>
+<th>Tag type</th>
+<th>Movebank information</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>M034</td>
+<td>Red-backed Shrike</td>
+<td>LanCol</td>
+<td>Integio (Migrate Technology Ltd.)</td>
+<td>TBA</td>
+</tr>
+<tr class="even">
+<td>14SA</td>
+<td>European bee-eater</td>
+<td>MerApi</td>
+<td>PAM (Swiss Ornithological Institute)</td>
+<td>TAB</td>
+</tr>
+<tr class="odd">
+<td>PasCir01</td>
+<td>Purple martin</td>
+<td>PasCir</td>
+<td>Custom</td>
+<td>TBA</td>
+</tr>
+<tr class="even">
+<td>xxx</td>
+<td>xxxx</td>
+<td>XX</td>
+<td>Lotek</td>
+</tr>
+</tbody>
+</table>
+<p>Although all of these tag types record light values over time, they differ in some key details. First, tags often differ in the frequency at which they write/log data. Many tags collect a reading every minute and store the maximal light value every 5 or 10 minutes. Other may store a maximum every 2 minutes. The tag that yielded the Purple martin data set, averaged 1min readings every 10min instead of taking a maximum. These four tags also differ in their sensitivity and how they record light levels. Some tags are sensitive only at low light levels and quickly “max out” when they experience a lot of light. As such, their light-levels do not have units and are simply an index of light intensity. The Integio tags can record unique light values for all natural light levels on earth, and they store lux values that range from 0 to ~70,000. Depending on the tag type, you may have to perform some preliminary steps such as log-transforming your data or time shifting light values for sunsets (we will provide details while working on the specific datasets).</p>
 </div>
+<div id="reproducing-the-analyses" class="section level2 unnumbered">
+<h2>Reproducing the analyses</h2>
+<p>This manual contains code that can be copy pasted into an R script and executed to reproduce the results. In order to do so, you need to download the raw data as well as annotated twilight files used in this manual. The data need to be in a specific structure of folders and we do recommend you have a similar structure for your own analysis. During the processing of the data we save intermediate steps that allow us to step into the next analysis step without going through all initial and often time consuming parts. Having your raw data and your results in a well structured fomr, becomes especially important if you run analyses for many tags of the same or different species. It is also recommended that you create a single R script for each analysis (e.g. for each individual and each analysis using different tools). For example, you can name the R scripts using the tag id and the tool e.g. <code>14SA_SGAT.R</code>. Since this manual is dealing with tags from different species, the following structure with sub-folders per speces (first three letters of the genus name and the species name) is setup within the main folder (called <em>data</em>):</p>
+<ul>
+<li>RawData
+<ul>
+<li>LanCol</li>
+<li>MerApi</li>
+<li>PasCir</li>
+</ul></li>
+<li>Results
+<ul>
+<li>LanCol</li>
+<li>MerApi</li>
+<li>PasCir</li>
+</ul></li>
+<li>RCode
+<ul>
+<li>LanCol</li>
+<li>MerApi</li>
+<li>PasCir</li>
+</ul></li>
+</ul>
+<p>You can download the folders with the raw data as well as the annotaded twilight files directly via R and extract into a <em>data</em> folder.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">url &lt;-<span class="st"> &quot;https://github.com/slisovski/TheGeolocationManual/raw/master/download/data.zip&quot;</span>
+
+temp &lt;-<span class="st"> </span><span class="kw">tempfile</span>()
+<span class="kw">download.file</span>(url, temp)
+<span class="kw">unzip</span>(temp, <span class="dt">exdir =</span> <span class="st">&quot;data&quot;</span>)</code></pre></div>
+<p>We also recommend using R Studio and creating a project (File -&gt; NewProject). Alternatively, you can set the working directory using the <code>setwd</code> function. With the <em>data</em> folder in your project folder (or more in general in your working directory) you should be able to run the code provided in this manual.</p>
+<p>We also recommend to use <em>R Studio</em> and to create a project (File -&gt; NewProject). Save the project file into the existing <em>Data</em> folder. This makes sure that <em>Data</em> is your working directory and it will remain the working directory even if the folder moves around on your drive. Alternatively, you can set the working directory using the <code>setwd</code> function. With the suggested folder structure and the raw data and the annotaded twiligth files you should be able to run the code provided in this manual.</p>
+
 </div>
 </div>
             </section>
@@ -149,8 +221,8 @@ code > span.in { color: #008000; } /* Information */
           </div>
         </div>
       </div>
-<a href="twilight.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="start.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

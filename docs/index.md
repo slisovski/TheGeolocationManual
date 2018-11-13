@@ -14,7 +14,7 @@ description: "This is a compilation of lecture notes that accompany my Intro to 
 
 # Preface {-}
 
-**Note: The Manual is currently under development and content may not show up (ask Simeon if you need immediate access)!***
+**Note: The Manual is currently under development and content may not show up (ask Simeon if you need immediate access)!**
 
 <img src="images/front.png" style="display: block; margin: auto;" />
 

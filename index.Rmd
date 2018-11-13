@@ -13,7 +13,7 @@ description: "This is a compilation of lecture notes that accompany my Intro to 
 
 # Preface {-}
 
-**Note: The Manual is currently under development and content may not show up (ask Simeon if you need immediate access)!***
+**Note: The Manual is currently under development and content may not show up (ask Simeon if you need immediate access)!**
 
 ```{r fig.align='center', echo=FALSE, size = "tiny"}
 knitr::include_graphics('images/front.png', dpi = NA)
