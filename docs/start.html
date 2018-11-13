@@ -107,12 +107,12 @@ code > span.in { color: #008000; } /* Information */
 </ul></li>
 <li class="chapter" data-level="2" data-path="start.html"><a href="start.html"><i class="fa fa-check"></i><b>2</b> Getting started</a></li>
 <li class="chapter" data-level="3" data-path="loadingData.html"><a href="loadingData.html"><i class="fa fa-check"></i><b>3</b> Loading data</a></li>
-<li class="chapter" data-level="4" data-path="GeoLight.html"><a href="GeoLight.html"><i class="fa fa-check"></i><b>4</b> GeoLight</a></li>
-<li class="chapter" data-level="5" data-path="probGLS.html"><a href="probGLS.html"><i class="fa fa-check"></i><b>5</b> probGLS</a></li>
-<li class="chapter" data-level="6" data-path="SGAT.html"><a href="SGAT.html"><i class="fa fa-check"></i><b>6</b> SGAT</a></li>
-<li class="chapter" data-level="7" data-path="FLightR.html"><a href="FLightR.html"><i class="fa fa-check"></i><b>7</b> FLightR</a></li>
-<li class="chapter" data-level="8" data-path="repositories.html"><a href="repositories.html"><i class="fa fa-check"></i><b>8</b> Data repositories</a></li>
-<li class="chapter" data-level="9" data-path="twilight.html"><a href="twilight.html"><i class="fa fa-check"></i><b>9</b> Twilight Annotation</a></li>
+<li class="chapter" data-level="4" data-path="twilight.html"><a href="twilight.html"><i class="fa fa-check"></i><b>4</b> Twilight Annotation</a></li>
+<li class="chapter" data-level="5" data-path="GeoLight.html"><a href="GeoLight.html"><i class="fa fa-check"></i><b>5</b> GeoLight</a></li>
+<li class="chapter" data-level="6" data-path="probGLS.html"><a href="probGLS.html"><i class="fa fa-check"></i><b>6</b> probGLS</a></li>
+<li class="chapter" data-level="7" data-path="SGAT.html"><a href="SGAT.html"><i class="fa fa-check"></i><b>7</b> SGAT</a></li>
+<li class="chapter" data-level="8" data-path="FLightR.html"><a href="FLightR.html"><i class="fa fa-check"></i><b>8</b> FLightR</a></li>
+<li class="chapter" data-level="9" data-path="repositories.html"><a href="repositories.html"><i class="fa fa-check"></i><b>9</b> Data repositories</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="http://ornithologyexchange.org/forums/forum/259-geolocator-discussion-support/" target="_blank">Forum</a></li>
@@ -141,6 +141,25 @@ code > span.in { color: #008000; } /* Information */
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(devtools)
 <span class="kw">install_github</span>(<span class="st">&quot;SLisovski/GeoLocTools&quot;</span>)</code></pre></div>
 <p>You should now be able to load the package and run the <code>setupGeolocation()</code> function. We recommend to include this line at the beginning of each script you create for a geolocator analysis. Also check (every now and then), if there is a new version of <em>GeoLocTools</em> available. And if that is the case, re-install the package using the same code you used for initial installation.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(GeoLocTools)
+<span class="kw">setupGeolocation</span>()</code></pre></div>
+<p>if you see “You are all set!” in your console, the function ran succesfully and you are able to proceed.</p>
+<p>Amongst dependencies, the following geolocator specific packages are loaded by this function:</p>
+<ul>
+<li>twGeos</li>
+<li>GeoLight</li>
+<li>probGLS</li>
+<li>SGAT</li>
+<li>FLightR</li>
+</ul>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<ul>
+<li><p><strong>What the $#@%!#!!!</strong> Although the <em>GeoLocTools</em> should make things much easier, it is quite common for problems to arise when setting up your environment. A few frequent and frustrating issues are:</p></li>
+<li><p><strong>Outdated version of R</strong>. If you are not running the latest (or at least a recent) version of R, then some of the packages might not be compatible. Use <em>sessionInfo()</em> to see what version of R you are running. You can ususally track down the latest version of R at the R project webpage: <a href="www.r-project.org" class="uri">www.r-project.org</a>. Note that you may have to reinstall all of your packages when you get a new version of R. So expect to spend a few minutes on the update.)</p></li>
+<li><p><strong>Missing libraries</strong>. Some packages require that you have specific sofware libraries installed an accessible on your system. if you get a message like “configure: error: geos-config not found or not executable,” you may be missing a library. Dealing with these issues may require some use of the Bash or Unix shell to install or locate a library. You can often find instructions for intalling new libraries by searching the internet, but if you do not feel comfortable installing stuff with the command line or you do not have permission to do so, you will probably need to seek some assistance from someone with IT credentials.</p></li>
+<li><strong>Typos</strong>. Probably the most common error in R arises simply from typos. Even published scripts or manuals like these may contain small typos that prevent your script from running.</li>
+</ul>
+</div>
 
 </div>
             </section>

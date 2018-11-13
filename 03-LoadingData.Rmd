@@ -1,3 +1,72 @@
 # Loading data {#loadingData}
 
-...
+```{r, echo = FALSE, message=FALSE, warning=FALSE}
+library(GeoLocTools)
+setupGeolocation()
+```
+
+The first step is to load your raw data into R. Different geolocator types (e.g. from different manufacturers or different series) provide raw data in different formats. And while there are functions available to read a whole range of formats, you may have to either write your own function, use simple read text utilities or get in touch with the package managers to write code that fits your format if it is not yet implemented.
+
+The most frequently used geolocators provide files with the extension `.lux` (Migrate Technology Ltd), `.lig` (BAS, Biotrack) or `.glf` (Swiss Ornithological Institute). The functions `readMTlux`, `ligTrans` and `glfTrans` allows you to read these files. The documentations of the different packages may help to provide information on how to read other files (e.g. ?GeoLight). In most cases the raw data is stored in a text file that can also be read in to R using the base function `read.table()`.
+
+
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+
+```{r fig.align='center', echo=FALSE, size = "tiny"}
+knitr::include_graphics('images/note.png', dpi = NA)
+```
+
+A short note on ***naming and saving of data files*** (final results and intermediate steps):
+We have already discussed, that it makes sense to have a certain folder structure for the analysis of geolocators. It not only helps to keep track of all files and analysis, but most importantly it allows to run the same code for saving and reading of data once you defined a set of metadata information.
+</div>
+
+With the suggested data structure, we can then define metadata information on the individual, the species, the deployment location, and define the sub-folder for saving and extracting data files.
+
+```{r}
+ID <- "14SA"
+Species <- "MerApi"
+
+lon.calib <- 11.96
+lat.calib <- 51.32
+
+wd <- "data"
+```
+
+By using the above metadata we can use the `paste0` command to include this information in reading and writing of files.
+
+```{r}
+raw <- glfTrans(paste0(wd, "/RawData/", Species, "/", ID, ".glf"))
+  names(raw) <- c("Date", "Light")
+  raw$Light  <- log(raw$Light+0.0001) + abs(min(log(raw$Light+0.0001)))
+head(raw)
+```
+
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+```{r fig.align='center', echo=FALSE, size = "tiny"}
+knitr::include_graphics('images/important.png', dpi = NA)
+```
+
+In this case it is required log transform the light data. In addition, we add a small value since the night readings are sometimes smaller than zero, values that cannot be log transformed.
+</div>
+
+Adding to the confusion of different raw data types, the read functions also provide different output. However, the most important columns are,
+
+1. Date
+2. Light
+
+and these columns need to be in a specific format with Date being a `POSIXc` class and Light being `numeric` integers. Check if the structure of your data follows the required format with the function `str`. If not adjust Date format with `as.POSIXct(raw$Date, tz = "GMT")`.
+
+```{r}
+str(raw)
+```
+
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+```{r fig.align='center', echo=FALSE, size = "tiny"}
+knitr::include_graphics('images/tip.png', dpi = NA)
+```
+
+_Do I need to log-transform my raw light measurements?_
+  
+Log-transformation of the light intensities is helpful to visualise and inspect the data and for the twilight annotation process. It allows to focus at the low light values while seeing the whole light curve and thus makes sense for the tags that measure the full light spectrum (e.g. tags from Migrate Technology Ltd. and from the Swiss Ornithological Institute). If you proceed to analyse your data with FLightR, where you need the raw light intensities, there is no need to back-transform you light data as FLightR will do that automatically.
+</div>
+

@@ -107,12 +107,12 @@ code > span.in { color: #008000; } /* Information */
 </ul></li>
 <li class="chapter" data-level="2" data-path="start.html"><a href="start.html"><i class="fa fa-check"></i><b>2</b> Getting started</a></li>
 <li class="chapter" data-level="3" data-path="loadingData.html"><a href="loadingData.html"><i class="fa fa-check"></i><b>3</b> Loading data</a></li>
-<li class="chapter" data-level="4" data-path="GeoLight.html"><a href="GeoLight.html"><i class="fa fa-check"></i><b>4</b> GeoLight</a></li>
-<li class="chapter" data-level="5" data-path="probGLS.html"><a href="probGLS.html"><i class="fa fa-check"></i><b>5</b> probGLS</a></li>
-<li class="chapter" data-level="6" data-path="SGAT.html"><a href="SGAT.html"><i class="fa fa-check"></i><b>6</b> SGAT</a></li>
-<li class="chapter" data-level="7" data-path="FLightR.html"><a href="FLightR.html"><i class="fa fa-check"></i><b>7</b> FLightR</a></li>
-<li class="chapter" data-level="8" data-path="repositories.html"><a href="repositories.html"><i class="fa fa-check"></i><b>8</b> Data repositories</a></li>
-<li class="chapter" data-level="9" data-path="twilight.html"><a href="twilight.html"><i class="fa fa-check"></i><b>9</b> Twilight Annotation</a></li>
+<li class="chapter" data-level="4" data-path="twilight.html"><a href="twilight.html"><i class="fa fa-check"></i><b>4</b> Twilight Annotation</a></li>
+<li class="chapter" data-level="5" data-path="GeoLight.html"><a href="GeoLight.html"><i class="fa fa-check"></i><b>5</b> GeoLight</a></li>
+<li class="chapter" data-level="6" data-path="probGLS.html"><a href="probGLS.html"><i class="fa fa-check"></i><b>6</b> probGLS</a></li>
+<li class="chapter" data-level="7" data-path="SGAT.html"><a href="SGAT.html"><i class="fa fa-check"></i><b>7</b> SGAT</a></li>
+<li class="chapter" data-level="8" data-path="FLightR.html"><a href="FLightR.html"><i class="fa fa-check"></i><b>8</b> FLightR</a></li>
+<li class="chapter" data-level="9" data-path="repositories.html"><a href="repositories.html"><i class="fa fa-check"></i><b>9</b> Data repositories</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="http://ornithologyexchange.org/forums/forum/259-geolocator-discussion-support/" target="_blank">Forum</a></li>
@@ -136,10 +136,10 @@ code > span.in { color: #008000; } /* Information */
             <section class="normal" id="section-">
 <div id="structure" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Structure of the manual</h1>
-<p>This manual should allow users with limited knowledge in R coding to perform a state-of-the-art analysis of geolocator data. Thus, we start with the very basics of loading packages and data <a href="loadingData.html#loadingData">3</a> Starting with the initial data editing steps, which we call twilight annotation <a href="twilight.html#twilight">9</a>, we provide instructions on how to use several prominent analysis packages, illustrate the general analysis workflow using example data, and provide some recommendations for how to visualize and present results. We do not cover every available analysis package but focus on what we percieve to be the most frequently used tools, which are GeoLight <a href="GeoLight.html#GeoLight">4</a>, probGLS <a href="probGLS.html#probGLS">5</a>, SGAT <a href="SGAT.html#SGAT">6</a> and FLightR <a href="FLightR.html#FLightR">7</a>. The manual … for geolocator tracks.</p>
+<p>This manual should allow users with limited knowledge in R coding to perform a state-of-the-art analysis of geolocator data. Thus, we start with the very basics of loading packages and data <a href="loadingData.html#loadingData">3</a> Starting with the initial data editing steps, which we call twilight annotation <a href="twilight.html#twilight">4</a>, we provide instructions on how to use several prominent analysis packages, illustrate the general analysis workflow using example data, and provide some recommendations for how to visualize and present results. We do not cover every available analysis package but focus on what we percieve to be the most frequently used tools, which are GeoLight <a href="GeoLight.html#GeoLight">5</a>, probGLS <a href="probGLS.html#probGLS">6</a>, SGAT <a href="SGAT.html#SGAT">7</a> and FLightR <a href="FLightR.html#FLightR">8</a>. The manual concludes with a section on data repositories such as Movebank that allows storing and shring geolocator tracks <a href="repositories.html#repositories">9</a>.</p>
 <div id="the-datasets" class="section level2 unnumbered">
 <h2>The datasets</h2>
-<p>To illustrate the capabilities of the different packages, discuss the potential pitfalls, and provide some recommendations, we will use raw geolocator data from four individuals of different species.</p>
+<p>To illustrate the capabilities of the different packages, discuss the potential pitfalls, and provide some recommendations, we will use raw geolocator data from four individuals of different species. All used tag data and the results as well as the code for the analyses has been uploaded onto Movebank unter study: xxxx.</p>
 <table>
 <thead>
 <tr class="header">
@@ -147,7 +147,6 @@ code > span.in { color: #008000; } /* Information */
 <th>Species</th>
 <th>Folder</th>
 <th>Tag type</th>
-<th>Movebank information</th>
 </tr>
 </thead>
 <tbody>
@@ -156,26 +155,23 @@ code > span.in { color: #008000; } /* Information */
 <td>Red-backed Shrike</td>
 <td>LanCol</td>
 <td>Integio (Migrate Technology Ltd.)</td>
-<td>TBA</td>
 </tr>
 <tr class="even">
 <td>14SA</td>
 <td>European bee-eater</td>
 <td>MerApi</td>
 <td>PAM (Swiss Ornithological Institute)</td>
-<td>TAB</td>
 </tr>
 <tr class="odd">
 <td>PasCir01</td>
 <td>Purple martin</td>
 <td>PasCir</td>
-<td>Custom</td>
-<td>TBA</td>
+<td>Custom (by Eli Bridge)</td>
 </tr>
 <tr class="even">
-<td>xxx</td>
-<td>xxxx</td>
-<td>XX</td>
+<td>2655</td>
+<td>Brünnich’s guillemot</td>
+<td>UriLom</td>
 <td>Lotek</td>
 </tr>
 </tbody>

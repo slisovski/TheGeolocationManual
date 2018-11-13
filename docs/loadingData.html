@@ -31,7 +31,7 @@
   
   
 <link rel="prev" href="start.html">
-<link rel="next" href="GeoLight.html">
+<link rel="next" href="twilight.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -107,12 +107,12 @@ code > span.in { color: #008000; } /* Information */
 </ul></li>
 <li class="chapter" data-level="2" data-path="start.html"><a href="start.html"><i class="fa fa-check"></i><b>2</b> Getting started</a></li>
 <li class="chapter" data-level="3" data-path="loadingData.html"><a href="loadingData.html"><i class="fa fa-check"></i><b>3</b> Loading data</a></li>
-<li class="chapter" data-level="4" data-path="GeoLight.html"><a href="GeoLight.html"><i class="fa fa-check"></i><b>4</b> GeoLight</a></li>
-<li class="chapter" data-level="5" data-path="probGLS.html"><a href="probGLS.html"><i class="fa fa-check"></i><b>5</b> probGLS</a></li>
-<li class="chapter" data-level="6" data-path="SGAT.html"><a href="SGAT.html"><i class="fa fa-check"></i><b>6</b> SGAT</a></li>
-<li class="chapter" data-level="7" data-path="FLightR.html"><a href="FLightR.html"><i class="fa fa-check"></i><b>7</b> FLightR</a></li>
-<li class="chapter" data-level="8" data-path="repositories.html"><a href="repositories.html"><i class="fa fa-check"></i><b>8</b> Data repositories</a></li>
-<li class="chapter" data-level="9" data-path="twilight.html"><a href="twilight.html"><i class="fa fa-check"></i><b>9</b> Twilight Annotation</a></li>
+<li class="chapter" data-level="4" data-path="twilight.html"><a href="twilight.html"><i class="fa fa-check"></i><b>4</b> Twilight Annotation</a></li>
+<li class="chapter" data-level="5" data-path="GeoLight.html"><a href="GeoLight.html"><i class="fa fa-check"></i><b>5</b> GeoLight</a></li>
+<li class="chapter" data-level="6" data-path="probGLS.html"><a href="probGLS.html"><i class="fa fa-check"></i><b>6</b> probGLS</a></li>
+<li class="chapter" data-level="7" data-path="SGAT.html"><a href="SGAT.html"><i class="fa fa-check"></i><b>7</b> SGAT</a></li>
+<li class="chapter" data-level="8" data-path="FLightR.html"><a href="FLightR.html"><i class="fa fa-check"></i><b>8</b> FLightR</a></li>
+<li class="chapter" data-level="9" data-path="repositories.html"><a href="repositories.html"><i class="fa fa-check"></i><b>9</b> Data repositories</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="http://ornithologyexchange.org/forums/forum/259-geolocator-discussion-support/" target="_blank">Forum</a></li>
@@ -136,7 +136,51 @@ code > span.in { color: #008000; } /* Information */
             <section class="normal" id="section-">
 <div id="loadingData" class="section level1">
 <h1><span class="header-section-number">Chapter 3</span> Loading data</h1>
-<p>…</p>
+<p>The first step is to load your raw data into R. Different geolocator types (e.g. from different manufacturers or different series) provide raw data in different formats. And while there are functions available to read a whole range of formats, you may have to either write your own function, use simple read text utilities or get in touch with the package managers to write code that fits your format if it is not yet implemented.</p>
+<p>The most frequently used geolocators provide files with the extension <code>.lux</code> (Migrate Technology Ltd), <code>.lig</code> (BAS, Biotrack) or <code>.glf</code> (Swiss Ornithological Institute). The functions <code>readMTlux</code>, <code>ligTrans</code> and <code>glfTrans</code> allows you to read these files. The documentations of the different packages may help to provide information on how to read other files (e.g. ?GeoLight). In most cases the raw data is stored in a text file that can also be read in to R using the base function <code>read.table()</code>.</p>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/note.png" style="display: block; margin: auto;" /></p>
+<p>A short note on <strong><em>naming and saving of data files</em></strong> (final results and intermediate steps): We have already discussed, that it makes sense to have a certain folder structure for the analysis of geolocators. It not only helps to keep track of all files and analysis, but most importantly it allows to run the same code for saving and reading of data once you defined a set of metadata information.</p>
+</div>
+<p>With the suggested data structure, we can then define metadata information on the individual, the species, the deployment location, and define the sub-folder for saving and extracting data files.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ID &lt;-<span class="st"> &quot;14SA&quot;</span>
+Species &lt;-<span class="st"> &quot;MerApi&quot;</span>
+
+lon.calib &lt;-<span class="st"> </span><span class="fl">11.96</span>
+lat.calib &lt;-<span class="st"> </span><span class="fl">51.32</span>
+
+wd &lt;-<span class="st"> &quot;data&quot;</span></code></pre></div>
+<p>By using the above metadata we can use the <code>paste0</code> command to include this information in reading and writing of files.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">raw &lt;-<span class="st"> </span><span class="kw">glfTrans</span>(<span class="kw">paste0</span>(wd, <span class="st">&quot;/RawData/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;.glf&quot;</span>))
+  <span class="kw">names</span>(raw) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, <span class="st">&quot;Light&quot;</span>)
+  raw<span class="op">$</span>Light  &lt;-<span class="st"> </span><span class="kw">log</span>(raw<span class="op">$</span>Light<span class="op">+</span><span class="fl">0.0001</span>) <span class="op">+</span><span class="st"> </span><span class="kw">abs</span>(<span class="kw">min</span>(<span class="kw">log</span>(raw<span class="op">$</span>Light<span class="op">+</span><span class="fl">0.0001</span>)))
+<span class="kw">head</span>(raw)</code></pre></div>
+<pre><code>                 Date Light
+1 2015-07-10 00:00:00     0
+2 2015-07-10 00:05:00     0
+3 2015-07-10 00:10:00     0
+4 2015-07-10 00:15:00     0
+5 2015-07-10 00:20:00     0
+6 2015-07-10 00:25:00     0</code></pre>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/important.png" style="display: block; margin: auto;" /></p>
+<p>In this case it is required log transform the light data. In addition, we add a small value since the night readings are sometimes smaller than zero, values that cannot be log transformed.</p>
+</div>
+<p>Adding to the confusion of different raw data types, the read functions also provide different output. However, the most important columns are,</p>
+<ol style="list-style-type: decimal">
+<li>Date</li>
+<li>Light</li>
+</ol>
+<p>and these columns need to be in a specific format with Date being a <code>POSIXc</code> class and Light being <code>numeric</code> integers. Check if the structure of your data follows the required format with the function <code>str</code>. If not adjust Date format with <code>as.POSIXct(raw$Date, tz = &quot;GMT&quot;)</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(raw)</code></pre></div>
+<pre><code>&#39;data.frame&#39;:   112161 obs. of  2 variables:
+ $ Date : POSIXct, format: &quot;2015-07-10 00:00:00&quot; &quot;2015-07-10 00:05:00&quot; ...
+ $ Light: num  0 0 0 0 0 0 0 0 0 0 ...</code></pre>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/tip.png" style="display: block; margin: auto;" /></p>
+<p><em>Do I need to log-transform my raw light measurements?</em></p>
+<p>Log-transformation of the light intensities is helpful to visualise and inspect the data and for the twilight annotation process. It allows to focus at the low light values while seeing the whole light curve and thus makes sense for the tags that measure the full light spectrum (e.g. tags from Migrate Technology Ltd. and from the Swiss Ornithological Institute). If you proceed to analyse your data with FLightR, where you need the raw light intensities, there is no need to back-transform you light data as FLightR will do that automatically.</p>
+</div>
 
 </div>
             </section>
@@ -145,7 +189,7 @@ code > span.in { color: #008000; } /* Information */
         </div>
       </div>
 <a href="start.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="GeoLight.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="twilight.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

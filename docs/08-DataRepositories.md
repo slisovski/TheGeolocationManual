@@ -1,4 +1,0 @@
-
-# Data repositories {#repositories}
-
-...

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:title" content="Light-level geolocation analyses" />
+<meta property="og:type" content="book" />
+
+
+<meta property="og:description" content="This is a compilation of lecture notes that accompany my Intro to GIS and Spatial Analysis course." />
+<meta name="github-repo" content="slisovski/TheGeolocationManual" />
+
+
+
+
+<meta name="description" content="This is a compilation of lecture notes that accompany my Intro to GIS and Spatial Analysis course.">
+
+<title>Light-level geolocation analyses</title>
+
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid main-container">
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul>
+<li class="has-sub"><a href="index.html#preface">Preface</a><ul>
+<li><a href="acknowledgements.html#acknowledgements">Acknowledgements</a></li>
+<li><a href="license.html#license">License</a></li>
+</ul></li>
+<li class="has-sub"><a href="1-structure.html#structure"><span class="toc-section-number">1</span> Structure of the manual</a><ul>
+<li><a href="the-datasets.html#the-datasets">The datasets</a></li>
+<li><a href="reproducing-the-analyses.html#reproducing-the-analyses">Reproducing the analyses</a></li>
+</ul></li>
+<li><a href="2-start.html#start"><span class="toc-section-number">2</span> Getting started</a></li>
+<li><a href="3-loadingData.html#loadingData"><span class="toc-section-number">3</span> Loading data</a></li>
+<li><a href="4-twilight.html#twilight"><span class="toc-section-number">4</span> Twilight Annotation</a></li>
+<li><a href="5-GeoLight.html#GeoLight"><span class="toc-section-number">5</span> GeoLight</a></li>
+<li><a href="6-probGLS.html#probGLS"><span class="toc-section-number">6</span> probGLS</a></li>
+<li><a href="7-SGAT.html#SGAT"><span class="toc-section-number">7</span> SGAT</a></li>
+<li><a href="8-FLightR.html#FLightR"><span class="toc-section-number">8</span> FLightR</a></li>
+<li><a href="9-repositories.html#repositories"><span class="toc-section-number">9</span> Data repositories</a></li>
+<li><a href="references.html#references">References</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<div id="loadingData" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> Loading data</h1>
+<p>The first step is to load your raw data into R. Different geolocator types (e.g. from different manufacturers or different series) provide raw data in different formats. And while there are functions available to read a whole range of formats, you may have to either write your own function, use simple read text utilities or get in touch with the package managers to write code that fits your format if it is not yet implemented.</p>
+<p>The most frequently used geolocators provide files with the extension <code>.lux</code> (Migrate Technology Ltd), <code>.lig</code> (BAS, Biotrack) or <code>.glf</code> (Swiss Ornithological Institute). The functions <code>readMTlux</code>, <code>ligTrans</code> and <code>glfTrans</code> allows you to read these files. The documentations of the different packages may help to provide information on how to read other files (e.g. ?GeoLight). In most cases the raw data is stored in a text file that can also be read in to R using the base function <code>read.table()</code>.</p>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p>A short note on <strong><em>naming and saving of data files</em></strong> (final results and intermediate steps): We have already discussed, that it makes sense to have a certain folder structure for the analysis of geolocators. It not only helps to keep track of all files and analysis, but most importantly it allows to run the same code for saving and reading of data once you defined a set of metadata information.</p>
+</div>
+<p>With the suggested data structure, we can then define metadata information on the individual, the species, the deployment location, and define the sub-folder for saving and extracting data files.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ID &lt;-<span class="st"> &quot;14SA&quot;</span>
+Species &lt;-<span class="st"> &quot;MerApi&quot;</span>
+
+lon.calib &lt;-<span class="st"> </span><span class="fl">11.96</span>
+lat.calib &lt;-<span class="st"> </span><span class="fl">51.32</span>
+
+wd &lt;-<span class="st"> &quot;data&quot;</span></code></pre></div>
+<p>By using the above metadata we can use the <code>paste0</code> command to include this information in reading and writing of files.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">raw &lt;-<span class="st"> </span><span class="kw">glfTrans</span>(<span class="kw">paste0</span>(wd, <span class="st">&quot;/RawData/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;.glf&quot;</span>))
+  <span class="kw">names</span>(raw) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, <span class="st">&quot;Light&quot;</span>)
+  raw<span class="op">$</span>Light  &lt;-<span class="st"> </span><span class="kw">log</span>(raw<span class="op">$</span>Light<span class="op">+</span><span class="fl">0.0001</span>) <span class="op">+</span><span class="st"> </span><span class="kw">abs</span>(<span class="kw">min</span>(<span class="kw">log</span>(raw<span class="op">$</span>Light<span class="op">+</span><span class="fl">0.0001</span>)))
+<span class="kw">head</span>(raw)</code></pre></div>
+<pre><code>                 Date Light
+1 2015-07-10 00:00:00     0
+2 2015-07-10 00:05:00     0
+3 2015-07-10 00:10:00     0
+4 2015-07-10 00:15:00     0
+5 2015-07-10 00:20:00     0
+6 2015-07-10 00:25:00     0</code></pre>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p>In this case it is required log transform the light data. In addition, we add a small value since the night readings are sometimes smaller than zero, values that cannot be log transformed.</p>
+</div>
+<p>Adding to the confusion of different raw data types, the read functions also provide different output. However, the most important columns are,</p>
+<ol style="list-style-type: decimal">
+<li>Date</li>
+<li>Light</li>
+</ol>
+<p>and these columns need to be in a specific format with Date being a <code>POSIXc</code> class and Light being <code>numeric</code> integers. Check if the structure of your data follows the required format with the function <code>str</code>. If not adjust Date format with <code>as.POSIXct(raw$Date, tz = &quot;GMT&quot;)</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(raw)</code></pre></div>
+<pre><code>&#39;data.frame&#39;:   112161 obs. of  2 variables:
+ $ Date : POSIXct, format: &quot;2015-07-10 00:00:00&quot; &quot;2015-07-10 00:05:00&quot; ...
+ $ Light: num  0 0 0 0 0 0 0 0 0 0 ...</code></pre>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><em>Do I need to log-transform my raw light measurements?</em></p>
+<p>Log-transformation of the light intensities is helpful to visualise and inspect the data and for the twilight annotation process. It allows to focus at the low light values while seeing the whole light curve and thus makes sense for the tags that measure the full light spectrum (e.g. tags from Migrate Technology Ltd. and from the Swiss Ornithological Institute). If you proceed to analyse your data with FLightR, where you need the raw light intensities, there is no need to back-transform you light data as FLightR will do that automatically.</p>
+</div>
+
+</div>
+<p style="text-align: center;">
+<a href="2-start.html"><button class="btn btn-default">Previous</button></a>
+<a href="4-twilight.html"><button class="btn btn-default">Next</button></a>
+</p>
+</div>
+</div>
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+</body>
+</html>

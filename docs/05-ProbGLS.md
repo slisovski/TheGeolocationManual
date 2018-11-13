@@ -1,4 +1,0 @@
-
-# probGLS {#probGLS}
-
-...
