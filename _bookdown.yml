@@ -1,0 +1,4 @@
+book_filename: "Light-level geolocation analyses"
+chapter_name: "Chapter "
+before_chapter_script: "Common.R"
+new_session: yes
