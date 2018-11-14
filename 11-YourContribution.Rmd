@@ -1,0 +1,31 @@
+# Your contribution (#contribution)
+
+We do consider this document to be a community endeavour for which we have given a starting point. We apprechiate any contribution in terms of thoughs on the current version, changes and additions.
+Arguably, your expereince with geolocation is valuable for the community and by adding it to this manual it can help users significantly. Fortunately, the GitHub and RStudio environemnts make it (relatively)
+easy to give access to the source code of this manual and to _push_ your changes directly into the online version
+
+It may seem combersome at first but it is worth the effort to get familiar with GitHub and make use of the massive potential of version control and developing as well as publishing code,
+such as this manual.
+
+If you have not already created an account do so (www.github.com). And while RStudio has implemented a Git environment that allows direct communication with GitHub, we recommend to download the GitHub Desktop application
+if you are new to this world of version control. The application can be downloaded from: https://desktop.github.com/.
+
+Once you have installed and loged into your account you can _clone_ repositories that are already on GitHub or _create_ new repositories via the file menu.
+
+To get started with _The Manual_, choose _clone a repository_, define the local path where the data should be saved and type in _slisovski/TheGeolocationManual_ and press _Clone_:
+  
+  ```{r fig.align='center', echo=FALSE}
+knitr::include_graphics('images/GitHub1.png', dpi = NA)
+```
+
+Navigate to the local folder that should now contain a subfolder called _TheGeolocationManual_. In this subfolder you will find a RStudio project file called "TheGeolocationManual.Rproj". Open this file with a double click.
+In RStudio you are now working within this folder and in the _Files_ window, you will find all the files that are part of _The Manual_.
+
+```{r fig.align='center', echo=FALSE}
+knitr::include_graphics('images/GitHub2.png', dpi = NA)
+```
+
+The important files are the **.Rmd** files that contain all the code and text of _The Manual_. If you intent to edit something in the e.g. GeoLight section, open the _05-GeoLight.Rmd_ file and start editing. Make sure to save changes once you are done.
+
+Back in the GitHub Application you will now see, that you have made changes:
+
