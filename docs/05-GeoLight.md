@@ -321,3 +321,5 @@ schedule(mS$twl$tFirst, mS$twl$tSecond, site = mS$site)
 <img src="images/caution.png" style="display: block; margin: auto;" />
 The temporal resolution of a _GeoLight_ analysis is very low. And while high quality data may produce exact timing, the extracted dates should only be seen as approximate departure and arrival dates that can have errors of plus/minus two days.
 </div>
+
+My own contribution: I like GeoLight!
