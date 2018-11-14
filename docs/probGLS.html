@@ -117,7 +117,15 @@ code > span.in { color: #008000; } /* Information */
 <li class="chapter" data-level="" data-path="GeoLight.html"><a href="GeoLight.html#hill-ekstrom-calibration"><i class="fa fa-check"></i>Hill-Ekstrom calibration</a></li>
 <li class="chapter" data-level="" data-path="GeoLight.html"><a href="GeoLight.html#movement-analysis"><i class="fa fa-check"></i>Movement analysis</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="probGLS.html"><a href="probGLS.html"><i class="fa fa-check"></i><b>6</b> probGLS</a></li>
+<li class="chapter" data-level="6" data-path="probGLS.html"><a href="probGLS.html"><i class="fa fa-check"></i><b>6</b> probGLS</a><ul>
+<li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#implementation"><i class="fa fa-check"></i>Implementation</a><ul>
+<li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#load-additional-data"><i class="fa fa-check"></i>Load additional data</a></li>
+<li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#download-remote-sensed-environmental-data"><i class="fa fa-check"></i>Download remote sensed environmental data</a></li>
+<li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#estimate-twilight-error-distribution"><i class="fa fa-check"></i>Estimate twilight error distribution</a></li>
+<li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#run-the-iterative-algorithm"><i class="fa fa-check"></i>Run the iterative algorithm</a></li>
+<li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#plot-results"><i class="fa fa-check"></i>Plot results</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="7" data-path="SGAT.html"><a href="SGAT.html"><i class="fa fa-check"></i><b>7</b> SGAT</a></li>
 <li class="chapter" data-level="8" data-path="FLightR.html"><a href="FLightR.html"><i class="fa fa-check"></i><b>8</b> FLightR</a></li>
 <li class="chapter" data-level="9" data-path="repositories.html"><a href="repositories.html"><i class="fa fa-check"></i><b>9</b> Data repositories</a></li>
@@ -144,8 +152,231 @@ code > span.in { color: #008000; } /* Information */
             <section class="normal" id="section-">
 <div id="probGLS" class="section level1">
 <h1><span class="header-section-number">Chapter 6</span> probGLS</h1>
-<p>…</p>
+<p>ProbGLS is an intuitive framework to compute locations from twilight events collected by geolocators from different manufacturers. The procedure uses an iterative forward step selection, weighting each possible position using a set of parameters that can be specifically selected for each analysis.</p>
+<div id="implementation" class="section level2 unnumbered">
+<h2>Implementation</h2>
+<p>To illustrate the <em>probGLS</em> analysis we use the Brünnich’s guillemot (<em>Uria lomvia</em>) dataset which was collected as part of the SEATRACK project (<a href="http://www.seapop.no/en/seatrack" class="uri">http://www.seapop.no/en/seatrack</a>). <em>probGLS</em> was developed mainly for the marine realm. Here, remote sensed data are often available to help location estimation. In contrast, solar angle calibration is often challenging as many species breed at high latitudes (i.e. no twilight events during breeding) and stationary periods are not as easily definable.</p>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/note.png" style="display: block; margin: auto;" /> The tag used here has been developed by <em>Lotek</em>. No raw light intensities are stored by the logger. Instead, they estimate locations with onboard algorithms and summarises these outputs in their day log file. Additionally, these loggers record saltwater immersion every 5 minutes as well as ambient temperature at the same rate.</p>
+</div>
+<p>We first define the metadata and read in the raw recordings.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Species &lt;-<span class="st"> &quot;UriLom&quot;</span>
+ID &lt;-<span class="st"> &quot;2655&quot;</span>
 
+lat.calib &lt;-<span class="st"> </span><span class="fl">15.15</span>
+lon.calib &lt;-<span class="st"> </span><span class="fl">78.17</span>
+
+<span class="co"># define deployement and retrieval dates</span>
+start    &lt;-<span class="st"> </span><span class="kw">as.Date</span>(<span class="st">&quot;2012-07-11&quot;</span>)
+end      &lt;-<span class="st"> </span><span class="kw">as.Date</span>(<span class="st">&quot;2013-05-01&quot;</span>)
+
+wd &lt;-<span class="st"> &quot;data&quot;</span>
+
+raw       &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="kw">paste0</span>(wd, <span class="st">&quot;/RawData/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;.csv&quot;</span>),<span class="dt">sep=</span><span class="st">&quot;,&quot;</span>, <span class="dt">header =</span> T,<span class="dt">row.names =</span> <span class="ot">NULL</span>)
+raw<span class="op">$</span>TimeS &lt;-<span class="st"> </span><span class="kw">as.Date</span>(<span class="kw">strptime</span>(raw<span class="op">$</span>TimeS,<span class="st">&quot;%d/%m/%y&quot;</span>))
+<span class="kw">head</span>(raw, <span class="dv">2</span>)</code></pre></div>
+<pre><code>       TimeS Sunrise Sunset TFLatN TFLatS TFNoonN TFNoonS SST1 SST1Depth
+1 2012-06-06                   100  100.0   00:00   00:00   45      2000
+2 2012-06-07   13:45  29:19     53   52.9   20:54   21:15   45      2000
+  SST1Time TFLatErrN TFLatErrS TFLonErrN TFLonErrS MinIntTemp WetDryChange
+1        0      38.7       2.1  1.00e+06       3.7      20.08            1
+2        0      15.8      12.7  2.31e+01      19.5      16.90            1
+  MaxPress  TRLon TRLat TFLonN TFLonS  X
+1        0  200.0 100.0  179.7  179.7 NA
+2        0 -143.2  40.6 -133.7 -139.0 NA</code></pre>
+<p><em>TRLon</em> and <em>TRLat</em> are calculated using the threshold method and a hard coded solar angle of -3.44 degrees. Hence, if this angle does not mirror the actual solar angle, the latitudinal component of the data will of course be highly biased.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># exclude data outside deployment period</span>
+raw2  &lt;-<span class="st"> </span>raw[raw<span class="op">$</span>TimeS <span class="op">&gt;</span><span class="st"> </span>start <span class="op">&amp;</span><span class="st"> </span>raw<span class="op">$</span>TimeS <span class="op">&lt;</span><span class="st"> </span>end,] 
+
+<span class="co"># Plot threshold method derived location provided by the onboard algorithm</span>
+<span class="kw">data</span>(wrld_simpl)
+<span class="kw">plot</span>(raw2<span class="op">$</span>TRLon,raw2<span class="op">$</span>TRLat ,<span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">ylab=</span><span class="st">&quot;Latitude&quot;</span>, <span class="dt">xlab=</span><span class="st">&quot;Longitude&quot;</span>,
+     <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">180</span>, <span class="dv">180</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">60</span>, <span class="dv">90</span>), <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>)
+<span class="kw">plot</span>(wrld_simpl, <span class="dt">col =</span> <span class="st">&quot;grey90&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;grey40&quot;</span>, <span class="dt">add =</span> T)
+<span class="kw">points</span>(raw2<span class="op">$</span>TRLon,raw2<span class="op">$</span>TRLat, <span class="dt">pch=</span><span class="dv">16</span>, <span class="dt">col=</span><span class="st">&quot;cornflowerblue&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;o&quot;</span>)</code></pre></div>
+<p><img src="06-ProbGLS_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Therefore, we back calculate times of sunrise and sunset using this angle and positional data provided by the day log file.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trn &lt;-<span class="st"> </span><span class="kw">lotek_to_dataframe</span>(<span class="dt">date    =</span> raw<span class="op">$</span>TimeS,
+                          <span class="dt">sunrise =</span> <span class="kw">as.character</span>(raw<span class="op">$</span>Sunrise),
+                          <span class="dt">sunset  =</span> <span class="kw">as.character</span>(raw<span class="op">$</span>Sunset),
+                          <span class="dt">TRLat   =</span> raw<span class="op">$</span>TRLat,
+                          <span class="dt">TRLon   =</span> raw<span class="op">$</span>TRLon)
+trn &lt;-<span class="st"> </span>trn[<span class="op">!</span><span class="kw">is.na</span>(trn<span class="op">$</span>tSecond),]
+<span class="kw">head</span>(trn,<span class="dv">2</span>)</code></pre></div>
+<pre><code>               tFirst             tSecond type
+1 2012-06-07 13:45:42 2012-06-08 05:18:12    1
+2 2012-06-08 05:18:12 2012-06-08 07:29:15    2</code></pre>
+<p>Now we can have a look at these calculated twilight times to see how noisy they are using the <code>loessFilter</code> function from <em>GeoLight</em>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">trn<span class="op">$</span>keep &lt;-<span class="st"> </span><span class="kw">loessFilter</span>(trn, <span class="dt">k =</span> <span class="dv">3</span>, <span class="dt">plot =</span> T)</code></pre></div>
+<p><img src="06-ProbGLS_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>In this example the data seems to be quite clean. However, we can see spurious twilight times during summer as well as a gap of no data whatsoever until about August and from April onwards. Reason for this pattern is the fact that the study colony is located at 78 North. Hence, it is experiencing constant day light (i.e. midnight sun) from April until the end of August. This makes it difficult to calibrate the solar angle based on a known location as this species is breeding from June to the beginning of August.</p>
+<p>To get around this obstacle we use additional data recorded by the logger to be able to estimate a probable movement track without calibrating the solar angle.</p>
+<div id="load-additional-data" class="section level3 unnumbered">
+<h3>Load additional data</h3>
+<p><strong>Saltwater immersion data</strong>*</p>
+<p>We use 2 additional data streams recorded by the logger. These are salt water immersion (aka wet dry) and immersion temperature.</p>
+<p>In this example the sampling rate is every 5 minutes. However, this may differ between the actual geolocator models.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data &lt;-<span class="st">  </span><span class="kw">read.csv</span>(<span class="kw">paste0</span>(wd, <span class="st">&quot;/RawData/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;_Basic Log.csv&quot;</span>))
+
+## datetime object needs to be in POSIXct, UTC time zone and must be called &#39;dtime&#39;
+data<span class="op">$</span>dtime     &lt;-<span class="st"> </span><span class="kw">as.POSIXct</span>(<span class="kw">strptime</span>(data[,<span class="dv">1</span>], <span class="dt">format =</span> <span class="st">&quot;%H:%M:%S %d/%m/%y&quot;</span>),<span class="dt">tz=</span><span class="st">&#39;UTC&#39;</span>)
+data           &lt;-<span class="st"> </span>data[<span class="op">!</span><span class="kw">is.na</span>(data<span class="op">$</span>dtime),]
+act            &lt;-<span class="st"> </span>data
+## wet dry data column must be called &#39;wetdry&#39;
+act<span class="op">$</span>wetdry    &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">-</span>act<span class="op">$</span>WetDryState
+act &lt;-<span class="st"> </span><span class="kw">subset</span>(act, <span class="dt">select =</span> <span class="kw">c</span>(dtime,wetdry))
+
+<span class="kw">head</span>(act)</code></pre></div>
+<pre><code>                dtime wetdry
+1 2012-06-08 13:44:59      0
+2 2012-06-08 13:49:59      0
+3 2012-06-08 13:54:59      0
+4 2012-06-08 13:59:59      0
+5 2012-06-08 14:04:59      0
+6 2012-06-08 14:09:59      0</code></pre>
+<p>Using this auxiliary data, we can plot the daily proportion the logger has been submerged in saltwater.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(<span class="kw">unique</span>(<span class="kw">as.Date</span>(act<span class="op">$</span>dtime)), <span class="kw">tapply</span>(act<span class="op">$</span>wetdry,<span class="kw">as.Date</span>(act<span class="op">$</span>dtime),sum)<span class="op">/</span><span class="dv">288</span>,
+     <span class="dt">type=</span><span class="st">&quot;l&quot;</span>,<span class="dt">col=</span><span class="kw">grey</span>(<span class="fl">0.5</span>),<span class="dt">ylab=</span><span class="st">&quot;daily proportion of saltwater immersion&quot;</span>)
+<span class="kw">points</span>(<span class="kw">unique</span>(<span class="kw">as.Date</span>(act<span class="op">$</span>dtime)),<span class="kw">tapply</span>(act<span class="op">$</span>wetdry,<span class="kw">as.Date</span>(act<span class="op">$</span>dtime),sum)<span class="op">/</span><span class="dv">288</span>,
+     <span class="dt">pch=</span><span class="dv">19</span>,<span class="dt">cex=</span><span class="fl">0.8</span>)</code></pre></div>
+<p><img src="06-ProbGLS_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>The here shown proportion, the logger is immersed in salt water each day can be used to estimate behaviour states of the individual tracked (e.g. sitting on water or flying). Additionally, the movement speed of a bird on or in water is not as high as when it is airborne, allowing us to define 2 speed distributions: One for when the logger is dry and one for when the logger is wet. The first should be informed by the ecology of the study species. In our example we can use speed estimates from GPS tracking studies to define a speed distribution.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">speed_dry  =<span class="st"> </span><span class="kw">c</span>(<span class="dv">17</span>, <span class="dv">4</span>, <span class="dv">30</span>) 
+
+sd &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">speed=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">35</span>,<span class="fl">0.1</span>),<span class="dt">prob=</span><span class="kw">dnorm</span>(<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">35</span>,<span class="fl">0.1</span>),speed_dry[<span class="dv">1</span>],speed_dry[<span class="dv">2</span>]))
+sd<span class="op">$</span>prob &lt;-<span class="st"> </span>sd<span class="op">$</span>prob<span class="op">/</span><span class="kw">max</span>(sd<span class="op">$</span>prob)
+sd<span class="op">$</span>prob[sd<span class="op">$</span>speed<span class="op">&lt;</span>speed_dry[<span class="dv">1</span>]] &lt;-<span class="st"> </span><span class="dv">1</span>
+<span class="kw">plot</span>(sd,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>,<span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">31</span>),<span class="dt">xlab=</span><span class="st">&quot;speed [m/s]&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;probability&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)
+<span class="kw">abline</span>(<span class="dt">v=</span>speed_dry[<span class="dv">3</span>],<span class="dt">lty=</span><span class="dv">2</span>,<span class="dt">col=</span><span class="st">&quot;orange&quot;</span>)</code></pre></div>
+<p><img src="06-ProbGLS_files/figure-html/unnamed-chunk-11-1.png" width="576" /></p>
+<p>The movement speed of an animal when wet can be defined using current speeds from ocean currents in the part of the globe you assume the animal to be in. In our example this is the North Atlantic current and the fast East Greenland current.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">speed_wet  =<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="fl">1.3</span>, <span class="dv">5</span>)
+
+sd &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">speed=</span><span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">35</span>,<span class="fl">0.1</span>),<span class="dt">prob=</span><span class="kw">dnorm</span>(<span class="kw">seq</span>(<span class="dv">0</span>,<span class="dv">35</span>,<span class="fl">0.1</span>),speed_wet[<span class="dv">1</span>],speed_wet[<span class="dv">2</span>]))
+sd<span class="op">$</span>prob &lt;-<span class="st"> </span>sd<span class="op">$</span>prob<span class="op">/</span><span class="kw">max</span>(sd<span class="op">$</span>prob)
+sd<span class="op">$</span>prob[sd<span class="op">$</span>speed<span class="op">&lt;</span>speed_wet[<span class="dv">1</span>]] &lt;-<span class="st"> </span><span class="dv">1</span>
+<span class="kw">plot</span>(sd,<span class="dt">type=</span><span class="st">&quot;l&quot;</span>,<span class="dt">xlim=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">31</span>),<span class="dt">xlab=</span><span class="st">&quot;speed [m/s]&quot;</span>,<span class="dt">ylab=</span><span class="st">&quot;probability&quot;</span>,<span class="dt">lwd=</span><span class="dv">2</span>)
+<span class="kw">abline</span>(<span class="dt">v=</span>speed_wet[<span class="dv">3</span>],<span class="dt">lty=</span><span class="dv">2</span>,<span class="dt">col=</span><span class="st">&quot;orange&quot;</span>)</code></pre></div>
+<p><img src="06-ProbGLS_files/figure-html/unnamed-chunk-12-1.png" width="576" /></p>
+<p><strong><em>Immersion temperature data</em></strong></p>
+<p>In this example the sampling rate is every 5 minutes. This differs between logger models and brands.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">td &lt;-<span class="st"> </span>data
+
+## only keep temperature values when the logger was immersed in salt water 
+## and if the 3 previous readings have been recorded while immersed in sea water as well
+td<span class="op">$</span>WetDryState.before   &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NA</span>,<span class="kw">head</span>(td<span class="op">$</span>WetDryState,<span class="op">-</span><span class="dv">1</span>))
+td<span class="op">$</span>WetDryState.before.<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="kw">head</span>(td<span class="op">$</span>WetDryState,<span class="op">-</span><span class="dv">2</span>))
+td<span class="op">$</span>WetDryState.before.<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="ot">NA</span>,<span class="kw">head</span>(td<span class="op">$</span>WetDryState,<span class="op">-</span><span class="dv">3</span>))
+td           &lt;-<span class="st"> </span>td[td<span class="op">$</span>WetDryState         <span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>
+<span class="st">                   </span>td<span class="op">$</span>WetDryState.before  <span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>
+<span class="st">                   </span>td<span class="op">$</span>WetDryState.before.<span class="dv">2</span><span class="op">==</span><span class="dv">0</span> <span class="op">&amp;</span><span class="st"> </span>
+<span class="st">                   </span>td<span class="op">$</span>WetDryState.before.<span class="dv">3</span><span class="op">==</span><span class="dv">0</span>,]
+
+## determine daily SST value recorded by the logger
+sst           &lt;-<span class="st"> </span><span class="kw">sst_deduction</span>(<span class="dt">datetime =</span> td<span class="op">$</span>dtime, <span class="dt">temp =</span> td<span class="op">$</span>IntTemp, <span class="dt">temp.range =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>,<span class="dv">19</span>))
+<span class="kw">abline</span>(<span class="dt">h=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>,<span class="dv">19</span>),<span class="dt">lty=</span><span class="dv">2</span>,<span class="dt">col=</span><span class="st">&quot;orange&quot;</span>)</code></pre></div>
+<p><img src="06-ProbGLS_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>In grey you can see the temperature values recorded by the tag. In black is the estimated daily sea surface temperature (SST) values determined from the algorithm. All red data points are labeled as “remove”. Here, data is conservativly removed rather than smoothed out or interpolated as temperature can often shift rather dramatically, especially when an individual is utilizing an oceanographic front. For removed values no SST data will be used to improve the location estimation algorithm.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(sst)</code></pre></div>
+<pre><code>                 date   SST SST.remove
+2012-07-11 2012-07-11 5.290      FALSE
+2012-07-12 2012-07-12 4.340      FALSE
+2012-07-13 2012-07-13 4.475      FALSE
+2012-07-14 2012-07-14 5.225      FALSE
+2012-07-15 2012-07-15 4.815      FALSE
+2012-07-16 2012-07-16 3.515      FALSE</code></pre>
+</div>
+<div id="download-remote-sensed-environmental-data" class="section level3 unnumbered">
+<h3>Download remote sensed environmental data</h3>
+<p>Now, we need remote sensed SST fields to fit the deduced SST values recorded by the logger with what was available in the environment. Here we use one of many remote sensed data products. The strength of this product is the long temporal time scale (1981 - now) coupled with a reasonable spatial resolution of 0.25 x 0.25 degrees.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download environmental data ----</span>
+
+<span class="co"># download yearly NetCDF files for (replace YEAR with appropriate number): </span>
+<span class="co"># daily mean SST                   -&gt; &#39;sst.day.mean.YEAR.nc&#39;</span>
+<span class="co"># daily SST error                  -&gt; &#39;sst.day.err.YEAR.nc&#39;</span>
+<span class="co"># daily mean sea ice concentration -&gt; &#39;icec.day.mean.YEAR.nc&#39;</span>
+
+<span class="co"># from:</span>
+<span class="co"># https://www.esrl.noaa.gov/psd/data/gridded/data.noaa.oisst.v2.highres.html</span>
+<span class="co"># and place all in the same folder (here we use a AuxiliaryData in the RawData folder of the species)</span>
+
+<span class="co"># Also, download the land mask file: &#39;lsmask.oisst.v2.nc&#39; from the same directory </span>
+<span class="co"># and place it in the same folder as all the other NetCDF files</span></code></pre></div>
+</div>
+<div id="estimate-twilight-error-distribution" class="section level3 unnumbered">
+<h3>Estimate twilight error distribution</h3>
+<p>Here we estimate the assumed error around a twilight event as log-normal distribution. The parameters used here are chosen as they resemble the twilight error structure of open habitat species.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tw            &lt;-<span class="st"> </span><span class="kw">twilight_error_estimation</span>(<span class="dt">shape =</span> <span class="fl">2.49</span>, <span class="dt">scale =</span> <span class="fl">0.94</span>, <span class="dt">delay =</span> <span class="dv">0</span>)</code></pre></div>
+<p><img src="06-ProbGLS_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+<div id="run-the-iterative-algorithm" class="section level3 unnumbered">
+<h3>Run the iterative algorithm</h3>
+<p>Finally, all pieces are in place and we can run the iterative algorithm.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pr   &lt;-<span class="st"> </span><span class="kw">prob_algorithm</span>(<span class="dt">trn                         =</span> trn,
+                       <span class="dt">sensor                      =</span> sst[sst<span class="op">$</span>SST.remove<span class="op">==</span>F,], 
+                       <span class="dt">act                         =</span> act, 
+                       <span class="dt">tagging.date                =</span> start, 
+                       <span class="dt">retrieval.date              =</span> end, 
+                       <span class="dt">loess.quartile              =</span> <span class="ot">NULL</span>, 
+                       <span class="dt">tagging.location            =</span> <span class="kw">c</span>(lon.calib, lat.calib), 
+                       <span class="dt">particle.number             =</span> <span class="dv">500</span>, 
+                       <span class="dt">iteration.number            =</span> <span class="dv">100</span>, 
+                       <span class="dt">sunrise.sd                  =</span> tw,
+                       <span class="dt">sunset.sd                   =</span> tw,
+                       <span class="dt">range.solar                 =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">7</span>,<span class="op">-</span><span class="dv">1</span>), 
+                       <span class="dt">speed.wet                   =</span> speed_wet,
+                       <span class="dt">speed.dry                   =</span> speed_dry, 
+                       <span class="dt">sst.sd                      =</span> <span class="fl">0.5</span>, 
+                       <span class="dt">max.sst.diff                =</span> <span class="dv">3</span>, 
+                       <span class="dt">boundary.box                =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">90</span>,<span class="dv">120</span>,<span class="dv">40</span>,<span class="dv">90</span>), 
+                       <span class="dt">days.around.spring.equinox  =</span> <span class="kw">c</span>(<span class="dv">21</span>,<span class="dv">14</span>),   
+                       <span class="dt">days.around.fall.equinox    =</span> <span class="kw">c</span>(<span class="dv">14</span>,<span class="dv">21</span>),
+                       <span class="dt">ice.conc.cutoff             =</span> <span class="fl">0.9</span>, 
+                       <span class="dt">land.mask                   =</span> T,   <span class="co"># The track is assumed not to be on land</span>
+                       <span class="dt">med.sea                     =</span> F,   <span class="co"># if T the track cannot enter the Mediterranean Sea        </span>
+                       <span class="dt">black.sea                   =</span> F,   <span class="co"># if T the track cannot enter the Black Sea </span>
+                       <span class="dt">baltic.sea                  =</span> F,   <span class="co"># if T the track cannot enter the Baltic Sea </span>
+                       <span class="dt">caspian.sea                 =</span> F,   <span class="co"># if T the track cannot enter the Caspian Sea </span>
+                       <span class="dt">east.west.comp              =</span> F,   <span class="co"># if true use the east west compensation (see Biotrack manual)</span>
+                       <span class="dt">wetdry.resolution           =</span> <span class="dv">300</span>, <span class="co"># in seconds, i.e. 5 minutes = 300 seconds</span>
+                       <span class="dt">NOAA.OI.location            =</span> <span class="kw">paste0</span>(wd, <span class="st">&quot;/RawData/&quot;</span>, Species, <span class="st">&quot;/AuxiliaryData&quot;</span>))
+
+## loess.quartile  - if it is not NULL then the GeoLight loessFilter function is used previous to running the iterations
+## particle.number - number of particles generated at each step
+## range.solar     - range of solar angles assumed
+## sst.sd          - accuracy of the logger temperature sensor
+## max.sst.diff    - maximum discrepancy allowed between recorded and remote sensed SST
+## boundary.box    - spatial extent
+## ice.conc.cutoff - the animal is not assumed to enter pixels with more than 90% sea ice concentration</code></pre></div>
+<p>The data object created is a list containing 5 parts:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(pr)</code></pre></div>
+<pre><code>                       Length Class                  Mode   
+all tracks              43767 SpatialPointsDataFrame S4     
+most probable track       442 SpatialPointsDataFrame S4     
+all possible particles 221966 SpatialPointsDataFrame S4     
+input parameters            2 data.frame             list   
+model run time              1 difftime               numeric</code></pre>
+<ul>
+<li>The first item contains all 100 tracks computed by the algorithms.</li>
+<li>The second item contains the most probable track as geographic median at each step.</li>
+<li>The third item contains all generates particles at each step.</li>
+<li>The fourth item stores all input parameter.</li>
+<li>The last item is just the time it took to run the algorithm (17 minutes in this example).</li>
+</ul>
+</div>
+<div id="plot-results" class="section level3 unnumbered">
+<h3>Plot results</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot lat, lon, SST vs time ----</span>
+<span class="kw">plot_timeline</span>(pr,<span class="dt">degElevation =</span> <span class="ot">NULL</span>)</code></pre></div>
+<p><img src="06-ProbGLS_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot lon vs lat map ----</span>
+<span class="kw">plot_map</span>(pr)</code></pre></div>
+<p><img src="06-ProbGLS_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>Here, the most probable track is displayed from yellow to dark red with its uncertainty in grey (light to dark). The colony location is visualised at violet square. Locations estimated around the equinox periods are marked with a cross.</p>
+<p>The median track as well as its associated uncertainty can now be used in further analyses.</p>
+
+</div>
+</div>
 </div>
             </section>
 
