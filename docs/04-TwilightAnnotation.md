@@ -39,9 +39,9 @@ Furthermore, the lines can help to identify the approximate timing of departure 
 ```r
 offset <- 12 # adjusts the y-axis to put night (dark shades) in the middle
 
-lightImage( tagdata = raw, # light data
+lightImage( tagdata = raw,
   offset = offset,     
-  zlim = c(0, 20)) # y axis
+  zlim = c(0, 20))
 
 tsimageDeploymentLines(raw$Date, lon = lon.calib, lat = lat.calib,
                        offset = offset, lwd = 3, col = adjustcolor("orange", alpha.f = 0.5))
@@ -51,7 +51,7 @@ tsimageDeploymentLines(raw$Date, lon = lon.calib, lat = lat.calib,
 
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
 <img src="images/important.png" style="display: block; margin: auto;" />
-Depending on the tag type, geolocator data are automatically adjusted for clock drift by the manufacturer, or, can be easily corrected by comparing the internal device time and real time when data is downloaded. For practical reasons, clock drift in geolocators is assumed to occur at a constant rate. If geolocator data are affected by clock drift the longitude estimates during stationary periods will drift continuously in one direction. In case the tag had stopped recording before data download or the internal time stamp is obviously incorrect, clock drift can be adjusted during the process of locations estimation. In short, an estimated clock drift is added to the twilight data and longitudinal positions are (re)calculated, e.g. using a best-guess sun elevation angle. If there are no directional changes in longitude during the stationary period anymore (the slope of a linear regression would be zero for longitude data plotted over time), clock drift is adequately corrected for. Latitude estimates are negligibly affected due to the small difference in shifting sunrise and sunset times within the same day.
+Depending on the tag type, geolocator data are automatically adjusted for clock drift by the manufacturer, or, can be easily corrected by comparing the internal device time and real time when data is downloaded. For practical reasons, clock drift in geolocators is assumed to occur at a constant rate. If geolocator data are affected by clock drift the longitude estimates during stationary periods will drift continuously in one direction. In case the tag had stopped recording before data download or the internal time stamp is obviously incorrect, clock drift can be adjusted during the process of locations estimation. In short, an estimated clock drift is added to the twilight data and longitudinal positions are (re)calculated, e.g. using a best-guess sun elevation angle. Clock  drift  is  adequately  corrected  for, if  the  slope  of  a  linear  regression    between longitude  and time during stationary periods is zero, showing that there is  no  directional  changes  in  longitude  over time anymore. Latitude estimates are negligibly affected due to the small difference in shifting sunrise and sunset times within the same day.
 </div>
 
 In the next step, we want to define daily sunrise and sunset times. `preprocessLight` is an interactive function for editing light data and deriving these twilight times Note: if you are working on a Mac you must install Quartz first (https://www.xquartz.org) and then set gr.Device to “x11” in the function. If you are working with a virtual machine, the function may not work at all. Detailed instructions of how to complete the interactive process can be found by running the following code:
@@ -71,8 +71,8 @@ When you run,
 twl <- preprocessLight(raw, 
   threshold = threshold,
   offset = offset, 
-  lmax = 20, # max. light value (adjust if contrast between night and day is weak)
-  gr.Device = "x11") # x11 works on a mac (if Quarz has been installed and works on most Windows machines too)
+  lmax = 20,         # max. light valu
+  gr.Device = "x11") # MacOS version (and windows)
 ```
 
 
@@ -104,10 +104,6 @@ How important is it to edit twilights?
 If you have no a priori reason and criteria to strongly edit twilight events, it is generally better to be a bit conservative with editing. This prevents that data are changed into an unwanted direction, e.g. erroneously removing good data points (amidst shading events), or informative events such as strong movements. Also the criteria to edit or remove badly classified twilights will be different depending on the method you use to infer locations. For curve methods, similarity in the shape of the curve around sunrise or sunset is most important, while for threshold methods the similarity in the sunrise and sunset events itself is important.
 </div>
 
-<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
-<img src="images/important.png" style="display: block; margin: auto;" />
-Save the output file as a .csv file, so that you never have to do this step again.
-</div>
 
 Have a look at the output 
 
@@ -146,6 +142,12 @@ The output contains the following important information:
 * Twilight3 (the original Twilight. Only different to Twilight if you edited the timing)
 
 Other processes like `twilightCalc` or the software `TAGS` produce different outputs but it is preferred to get them into this format (at least with the columns `Twilight` and `Rise`), since you can go ahead with any analysis you want using these two columns (***note: do not save these two columns only, since the other information is important to reproduce your analysis***).
+
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<img src="images/important.png" style="display: block; margin: auto;" />
+Save the output file as a .csv file, so that you never have to do this step again.
+</div>
+
 
 To save this file we use the metadata variables that were defined above:
 

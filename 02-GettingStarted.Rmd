@@ -22,6 +22,28 @@ knitr::knit_hooks$set(no.mar = function(before, options, envir) {
 
 
 ```
+```{r include=FALSE, cache=FALSE}
+knitr::opts_chunk$set(
+  comment = "",
+  message = FALSE,
+  tidy = FALSE,
+  cache = TRUE,
+  warning = FALSE,
+  encoding = "UTF-8",
+  fig.show='hold')
+
+knitr::opts_knit$set(list(width = 80))
+
+# Set margins
+knitr::knit_hooks$set(small.mar = function(before, options, envir) {
+  if (before) par(mar = c(4, 4, 1, 1))  # smaller margin on top and right
+})
+
+knitr::knit_hooks$set(no.mar = function(before, options, envir) {
+  if (before) par(mar = c(0, 0, 0, 0))  # no margins
+})
+
+```
 # Getting started {#start}
 
 To analyse light-level geolocator data in R we need a couple of R packages as well as functions that allow to run our code. We created a package called _GeoLocTools_ that contains functions that are not nessesarily associated to a certain package but are used in this manual. Importantly the package can also run a check on you system (function: _setupGeolocation()_), detecting packages that are already on your computer and installs the missing tools directly from CRAN or GitHub.

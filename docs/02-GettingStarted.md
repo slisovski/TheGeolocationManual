@@ -1,5 +1,6 @@
 
 
+
 # Getting started {#start}
 
 To analyse light-level geolocator data in R we need a couple of R packages as well as functions that allow to run our code. We created a package called _GeoLocTools_ that contains functions that are not nessesarily associated to a certain package but are used in this manual. Importantly the package can also run a check on you system (function: _setupGeolocation()_), detecting packages that are already on your computer and installs the missing tools directly from CRAN or GitHub.
