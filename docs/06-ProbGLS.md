@@ -4,7 +4,7 @@
 
 ProbGLS is an intuitive framework to compute locations from twilight events collected by geolocators from different manufacturers. The procedure uses an iterative forward step selection, weighting each possible position using a set of parameters that can be specifically selected for each analysis.
 
-## Implementation {-}
+## Getting started {-}
 
 To illustrate the _probGLS_ analysis we use the Brünnich’s guillemot (_Uria lomvia_) dataset which was collected as part of the SEATRACK project (http://www.seapop.no/en/seatrack). _probGLS_ was developed mainly for the marine realm. Here, remote sensed data are often available to help location estimation. In contrast, solar angle calibration is often challenging as many species breed at high latitudes (i.e. no twilight events during breeding) and stationary periods are not as easily definable.
 
@@ -100,7 +100,7 @@ In this example the data seems to be quite clean. However, we can see spurious t
 
 To get around this obstacle we use additional data recorded by the logger to be able to estimate a probable movement track without calibrating the solar angle.
 
-### Load additional data {-}
+## Load additional data {-}
 
 **Saltwater immersion data***
 
@@ -217,7 +217,7 @@ head(sst)
 2012-07-16 2012-07-16 3.515      FALSE
 ```
 
-### Download remote sensed environmental data {-}
+## Download remote sensed environmental data {-}
 
 Now, we need remote sensed SST fields to fit the deduced SST values recorded by the logger with what was available in the environment. Here we use one of many remote sensed data products. The strength of this product is the long temporal time scale (1981 - now) coupled with a reasonable spatial resolution of 0.25 x 0.25 degrees.
 
@@ -239,18 +239,18 @@ Now, we need remote sensed SST fields to fit the deduced SST values recorded by 
 ```
 
 
-###  Estimate twilight error distribution {-}
+##  Twilight error (Calibration) {-}
 
 Here we estimate the assumed error around a twilight event as log-normal distribution. The parameters used here are chosen as they resemble the twilight error structure of open habitat species. 
 
 
 ```r
-tw            <- twilight_error_estimation(shape = 2.49, scale = 0.94, delay = 0)
+tw <- twilight_error_estimation(shape = 2.49, scale = 0.94, delay = 0)
 ```
 
 ![](06-ProbGLS_files/figure-epub3/unnamed-chunk-16-1.png)<!-- -->
 
-### Run the iterative algorithm {-}
+## Run the iterative algorithm {-}
 
 Finally, all pieces are in place and we can run the iterative algorithm.
 
@@ -296,7 +296,6 @@ pr   <- prob_algorithm(trn                         = trn,
 
 
 
-
 The data object created is a list containing 5 parts:
 
 
@@ -319,7 +318,7 @@ model run time              1 difftime               numeric
 - The fourth item stores all input parameter.
 - The last item is just the time it took to run the algorithm (17 minutes in this example).
 
-### Plot results {-}
+## Plot results {-}
 
 
 ```r

@@ -118,13 +118,12 @@ code > span.in { color: #008000; } /* Information */
 <li class="chapter" data-level="" data-path="GeoLight.html"><a href="GeoLight.html#movement-analysis"><i class="fa fa-check"></i>Movement analysis</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="probGLS.html"><a href="probGLS.html"><i class="fa fa-check"></i><b>6</b> probGLS</a><ul>
-<li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#implementation"><i class="fa fa-check"></i>Implementation</a><ul>
+<li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#getting-started-1"><i class="fa fa-check"></i>Getting started</a></li>
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#load-additional-data"><i class="fa fa-check"></i>Load additional data</a></li>
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#download-remote-sensed-environmental-data"><i class="fa fa-check"></i>Download remote sensed environmental data</a></li>
-<li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#estimate-twilight-error-distribution"><i class="fa fa-check"></i>Estimate twilight error distribution</a></li>
+<li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#twilight-error-calibration"><i class="fa fa-check"></i>Twilight error (Calibration)</a></li>
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#run-the-iterative-algorithm"><i class="fa fa-check"></i>Run the iterative algorithm</a></li>
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#plot-results"><i class="fa fa-check"></i>Plot results</a></li>
-</ul></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="SGAT.html"><a href="SGAT.html"><i class="fa fa-check"></i><b>7</b> SGAT</a></li>
 <li class="chapter" data-level="8" data-path="FLightR.html"><a href="FLightR.html"><i class="fa fa-check"></i><b>8</b> FLightR</a></li>
@@ -153,8 +152,8 @@ code > span.in { color: #008000; } /* Information */
 <div id="probGLS" class="section level1">
 <h1><span class="header-section-number">Chapter 6</span> probGLS</h1>
 <p>ProbGLS is an intuitive framework to compute locations from twilight events collected by geolocators from different manufacturers. The procedure uses an iterative forward step selection, weighting each possible position using a set of parameters that can be specifically selected for each analysis.</p>
-<div id="implementation" class="section level2 unnumbered">
-<h2>Implementation</h2>
+<div id="getting-started-1" class="section level2 unnumbered">
+<h2>Getting started</h2>
 <p>To illustrate the <em>probGLS</em> analysis we use the Brünnich’s guillemot (<em>Uria lomvia</em>) dataset which was collected as part of the SEATRACK project (<a href="http://www.seapop.no/en/seatrack" class="uri">http://www.seapop.no/en/seatrack</a>). <em>probGLS</em> was developed mainly for the marine realm. Here, remote sensed data are often available to help location estimation. In contrast, solar angle calibration is often challenging as many species breed at high latitudes (i.e. no twilight events during breeding) and stationary periods are not as easily definable.</p>
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
 <p><img src="images/note.png" style="display: block; margin: auto;" /> The tag used here has been developed by <em>Lotek</em>. No raw light intensities are stored by the logger. Instead, they estimate locations with onboard algorithms and summarises these outputs in their day log file. Additionally, these loggers record saltwater immersion every 5 minutes as well as ambient temperature at the same rate.</p>
@@ -211,8 +210,9 @@ trn &lt;-<span class="st"> </span>trn[<span class="op">!</span><span class="kw">
 <p><img src="06-ProbGLS_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>In this example the data seems to be quite clean. However, we can see spurious twilight times during summer as well as a gap of no data whatsoever until about August and from April onwards. Reason for this pattern is the fact that the study colony is located at 78 North. Hence, it is experiencing constant day light (i.e. midnight sun) from April until the end of August. This makes it difficult to calibrate the solar angle based on a known location as this species is breeding from June to the beginning of August.</p>
 <p>To get around this obstacle we use additional data recorded by the logger to be able to estimate a probable movement track without calibrating the solar angle.</p>
-<div id="load-additional-data" class="section level3 unnumbered">
-<h3>Load additional data</h3>
+</div>
+<div id="load-additional-data" class="section level2 unnumbered">
+<h2>Load additional data</h2>
 <p><strong>Saltwater immersion data</strong>*</p>
 <p>We use 2 additional data streams recorded by the logger. These are salt water immersion (aka wet dry) and immersion temperature.</p>
 <p>In this example the sampling rate is every 5 minutes. However, this may differ between the actual geolocator models.</p>
@@ -286,8 +286,8 @@ sst           &lt;-<span class="st"> </span><span class="kw">sst_deduction</span
 2012-07-15 2012-07-15 4.815      FALSE
 2012-07-16 2012-07-16 3.515      FALSE</code></pre>
 </div>
-<div id="download-remote-sensed-environmental-data" class="section level3 unnumbered">
-<h3>Download remote sensed environmental data</h3>
+<div id="download-remote-sensed-environmental-data" class="section level2 unnumbered">
+<h2>Download remote sensed environmental data</h2>
 <p>Now, we need remote sensed SST fields to fit the deduced SST values recorded by the logger with what was available in the environment. Here we use one of many remote sensed data products. The strength of this product is the long temporal time scale (1981 - now) coupled with a reasonable spatial resolution of 0.25 x 0.25 degrees.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># download environmental data ----</span>
 
@@ -303,14 +303,14 @@ sst           &lt;-<span class="st"> </span><span class="kw">sst_deduction</span
 <span class="co"># Also, download the land mask file: &#39;lsmask.oisst.v2.nc&#39; from the same directory </span>
 <span class="co"># and place it in the same folder as all the other NetCDF files</span></code></pre></div>
 </div>
-<div id="estimate-twilight-error-distribution" class="section level3 unnumbered">
-<h3>Estimate twilight error distribution</h3>
+<div id="twilight-error-calibration" class="section level2 unnumbered">
+<h2>Twilight error (Calibration)</h2>
 <p>Here we estimate the assumed error around a twilight event as log-normal distribution. The parameters used here are chosen as they resemble the twilight error structure of open habitat species.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tw            &lt;-<span class="st"> </span><span class="kw">twilight_error_estimation</span>(<span class="dt">shape =</span> <span class="fl">2.49</span>, <span class="dt">scale =</span> <span class="fl">0.94</span>, <span class="dt">delay =</span> <span class="dv">0</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tw &lt;-<span class="st"> </span><span class="kw">twilight_error_estimation</span>(<span class="dt">shape =</span> <span class="fl">2.49</span>, <span class="dt">scale =</span> <span class="fl">0.94</span>, <span class="dt">delay =</span> <span class="dv">0</span>)</code></pre></div>
 <p><img src="06-ProbGLS_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 </div>
-<div id="run-the-iterative-algorithm" class="section level3 unnumbered">
-<h3>Run the iterative algorithm</h3>
+<div id="run-the-iterative-algorithm" class="section level2 unnumbered">
+<h2>Run the iterative algorithm</h2>
 <p>Finally, all pieces are in place and we can run the iterative algorithm.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pr   &lt;-<span class="st"> </span><span class="kw">prob_algorithm</span>(<span class="dt">trn                         =</span> trn,
                        <span class="dt">sensor                      =</span> sst[sst<span class="op">$</span>SST.remove<span class="op">==</span>F,], 
@@ -364,8 +364,8 @@ model run time              1 difftime               numeric</code></pre>
 <li>The last item is just the time it took to run the algorithm (17 minutes in this example).</li>
 </ul>
 </div>
-<div id="plot-results" class="section level3 unnumbered">
-<h3>Plot results</h3>
+<div id="plot-results" class="section level2 unnumbered">
+<h2>Plot results</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># plot lat, lon, SST vs time ----</span>
 <span class="kw">plot_timeline</span>(pr,<span class="dt">degElevation =</span> <span class="ot">NULL</span>)</code></pre></div>
 <p><img src="06-ProbGLS_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
@@ -375,7 +375,6 @@ model run time              1 difftime               numeric</code></pre>
 <p>Here, the most probable track is displayed from yellow to dark red with its uncertainty in grey (light to dark). The colony location is visualised at violet square. Locations estimated around the equinox periods are marked with a cross.</p>
 <p>The median track as well as its associated uncertainty can now be used in further analyses.</p>
 
-</div>
 </div>
 </div>
             </section>
