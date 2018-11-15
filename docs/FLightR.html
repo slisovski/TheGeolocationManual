@@ -151,7 +151,28 @@ code > span.in { color: #008000; } /* Information */
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#saving-the-results-1"><i class="fa fa-check"></i>Saving the Results</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="FLightR.html"><a href="FLightR.html"><i class="fa fa-check"></i><b>8</b> FLightR</a></li>
+<li class="chapter" data-level="8" data-path="FLightR.html"><a href="FLightR.html"><i class="fa fa-check"></i><b>8</b> FLightR</a><ul>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#getting-started-3"><i class="fa fa-check"></i>Getting started</a></li>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#calibration-2"><i class="fa fa-check"></i>Calibration</a><ul>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#find-calibration-periods-for-a-known-calibration-location"><i class="fa fa-check"></i>Find calibration periods for a known calibration location</a></li>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#find-a-calibration-location-for-a-known-calibration-period"><i class="fa fa-check"></i>Find a calibration location for a known calibration period</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#assign-spatial-extent"><i class="fa fa-check"></i>Assign spatial extent</a></li>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#prepare-the-model-for-run"><i class="fa fa-check"></i>Prepare the model for run</a></li>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#particle-filter-run"><i class="fa fa-check"></i>Particle filter run</a></li>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#exploration-of-results"><i class="fa fa-check"></i>Exploration of results</a><ul>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#first-look---plot-longitude-and-latitude"><i class="fa fa-check"></i>First look - plot longitude and latitude</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#summary"><i class="fa fa-check"></i>Summary</a><ul>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#repeatability-of-output"><i class="fa fa-check"></i>Repeatability of output</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#defining-stopovers"><i class="fa fa-check"></i>Defining stopovers</a></li>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#getting-specific-output"><i class="fa fa-check"></i>Getting specific output</a></li>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#visualisation-of-the-results"><i class="fa fa-check"></i>Visualisation of the results</a><ul>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#plot-a-simple-map"><i class="fa fa-check"></i>Plot a simple map</a></li>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#plot-utilization-distribution"><i class="fa fa-check"></i>Plot utilization distribution</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="9" data-path="repositories.html"><a href="repositories.html"><i class="fa fa-check"></i><b>9</b> Data repositories</a></li>
 <li class="chapter" data-level="10" data-path="contribution.html"><a href="contribution.html"><i class="fa fa-check"></i><b>10</b> Your contribution</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -177,8 +198,249 @@ code > span.in { color: #008000; } /* Information */
             <section class="normal" id="section-">
 <div id="FLightR" class="section level1">
 <h1><span class="header-section-number">Chapter 8</span> FLightR</h1>
-<p>…</p>
+<div id="getting-started-3" class="section level2 unnumbered">
+<h2>Getting started</h2>
+<p>We first define the metadata and read in the raw recordings. We then use the <code>ligthImage</code> to get a first look at the data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ID &lt;-<span class="st"> &quot;M034&quot;</span>
+wd &lt;-<span class="st"> &quot;Data&quot;</span>
+Species &lt;-<span class="st"> &quot;LanCol&quot;</span> 
 
+lon.calib &lt;-<span class="st"> </span><span class="fl">12.33</span>
+lat.calib &lt;-<span class="st"> </span><span class="fl">55.98</span>
+
+raw &lt;-<span class="st"> </span><span class="kw">readMTlux</span>(<span class="kw">paste0</span>(wd, <span class="st">&quot;/RawData/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;.lux&quot;</span>))
+  <span class="kw">names</span>(raw) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, <span class="st">&quot;Light&quot;</span>)
+  raw<span class="op">$</span>Light  &lt;-<span class="st"> </span><span class="kw">log</span>(raw<span class="op">$</span>Light<span class="op">+</span><span class="fl">0.0001</span>) <span class="op">+</span><span class="st"> </span><span class="kw">abs</span>(<span class="kw">min</span>(<span class="kw">log</span>(raw<span class="op">$</span>Light<span class="op">+</span><span class="fl">0.0001</span>)))
+  
+offset &lt;-<span class="st"> </span><span class="dv">12</span> <span class="co"># adjusts the y-axis to put night (dark shades) in the middle</span>
+
+<span class="kw">lightImage</span>( <span class="dt">tagdata =</span> raw,
+            <span class="dt">offset =</span> offset,     
+            <span class="dt">zlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">10</span>))</code></pre></div>
+<p><img src="08-FlightR_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>We skip the twilight annotation that can be done using the discussed tools (e.g. <code>preprocessLight</code>). In this case we use a twiligth file that produced with the online platform <em>TAGS</em>. <em>FLightR</em> works efficiently with the output of <em>TAGS</em>, which are CSV files containing the following fields:</p>
+<ul>
+<li><code>datetime</code> – date and time in ISO 8601 format e.g. 2013-06-16T00:00:11.000Z;</li>
+<li><code>light</code> – light value measured by tag;</li>
+<li><code>twilight</code> – assigned by the software numeric indication of whether the record belongs to sunrise (1), sunset (2) or none of those (0);</li>
+<li><code>excluded</code> – indication of whether a twilight was excluded during manual inspection (logical, <code>TRUE | FALSE</code>);</li>
+<li><code>interp</code> - indication of whether the light value at twilight was interpolated (logical, <code>TRUE | FALSE</code>). The fields <code>excluded</code> and <code>interp</code> may have values of <code>TRUE</code> only for <code>twilight &gt; 0</code>. The online service <a href="http://tags.animalmigration.org" class="uri">http://tags.animalmigration.org</a> saves data in the TAGS format. In the R packages GeoLight and BAStag or twGeos, the annotated twilight data need to be exported to TAGS, for which the functions in the FLightR (<code>GeoLight2TAGS</code>, <code>BAStag2TAGS</code> or <code>twGeos2TAGS</code>) can be used.</li>
+</ul>
+<p>The function <code>get.tags.data</code> reads comma separated file in the TAGS format, detects the tag type, checks whether the light data are log-transformed, transforms them back from the log scale if needed and creates an object, containing</p>
+<ul>
+<li>the recorded light data,</li>
+<li>the detected twilight events,</li>
+<li>the light level data at the moment of each determined sunrise and sunset and around them (24 fixes before and 24 after it events into an object of two lists</li>
+<li>technical parameters of the tag, added automatically, unless preset by the user.</li>
+</ul>
+<p>The finction works with all the common tag types: mk tags (produced by British Antarctic Survey, Lotek, and Migrate Technology Ltd.), Intigeo tags (Migrate technology Ltd.) and GDL tags (Swiss Ornithological Institute).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">FLightR.data&lt;-<span class="kw">get.tags.data</span>(<span class="kw">paste0</span>(wd, <span class="st">&quot;/Results/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;_twl.csv&quot;</span>))</code></pre></div>
+<pre><code>Detected Intigeo_Mode_1 tag
+Data found to be logtransformed
+tag saved data every 300 seconds, and is assumed to measure data every 60 seconds, and write down max </code></pre>
+</div>
+<div id="calibration-2" class="section level2 unnumbered">
+<h2>Calibration</h2>
+<p>Geolocators measure light levels with different precision, and calibration is needed to establish the relationship between the observed and the expected light levels for each device. This relationship is depicted by the calibration parameters (slopes), calculated using the data recorded in known (calibration) geographic positions, e.g. where the animal was tagged, recaptured or observed. FLightR uses a ‘template fit’ for calibration <a href="references.html#ekstrom_2004">Ekstrom 2004, 2007</a>. For each tag it finds the linear (on a log-log scale) relationship between the light levels measured in known locations and the theoretical light levels, estimated from current sun angle in these locations with the deterministic equation developed by Ekstrom <a href="references.html#rakhimberdiev_movecol_2015">Rakhimberdiev et al. 2015</a>.</p>
+<p>To calculate the calibration parameters user needs to create a data frame where the geographic coordinates of the calibration location, and the start and end dates of the calibration period, i. e. the period of residence in the known location, are specified:</p>
+<ul>
+<li><code>calibration.start</code> (POSIXct format)</li>
+<li><code>calibration.stop</code> (POSIXct format)</li>
+<li><code>lon</code> (numeric)</li>
+<li><code>lat</code> (numeric)</li>
+</ul>
+<p>The data frame contains as many rows as many distinct calibration periods the track contains.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Calibration.periods&lt;-<span class="kw">data.frame</span>(
+        <span class="dt">calibration.start=</span><span class="kw">as.POSIXct</span>(<span class="kw">c</span>(<span class="ot">NA</span>, <span class="st">&#39;2015-05-15&#39;</span>)),
+        <span class="dt">calibration.stop=</span><span class="kw">as.POSIXct</span>(<span class="kw">c</span>(<span class="st">&#39;2014-07-15&#39;</span>, <span class="ot">NA</span>)),
+        <span class="dt">lon=</span>lon.calib, <span class="dt">lat=</span>lat.calib) 
+            <span class="co"># use c() also for the geographic coordinates, </span>
+            <span class="co"># if you have more than one calibration location</span>
+            <span class="co"># (e. g.,  lon=c(5.43, 6.00), lat=c(52.93,52.94))</span>
+<span class="kw">print</span>(Calibration.periods)</code></pre></div>
+<pre><code>  calibration.start calibration.stop   lon   lat
+1              &lt;NA&gt;       2014-07-15 12.33 55.98
+2        2015-05-15             &lt;NA&gt; 12.33 55.98</code></pre>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/important.png" style="display: block; margin: auto;" /> Please carefully look at the data.frame you have created!</p>
+<p>The first column should contain dates of the calibration start and the second - ends of the calibration periods.</p>
+<p>In this example, we have two calibration periods in the same location, at the beginning and at the end of the track. This is a common case, as the birds are often recaptured at the same location, where they were tagged.</p>
+<p>When multiple calibration locations are available, each of them has to be processed with the function <code>plot_slopes_by_location</code>. In this case, in the <code>Calibration periods</code> data frame, each row should refer to one calibration period. Compiling the data frame with multiple calibration locations, use <code>c()</code> also for the geographic coordinates (e. g., <code>lon=c(5.43, 6.00), lat=c(52.93,52.94)</code>).</p>
+</div>
+<p>A <code>Calibration</code> object is compiled with the function<code>make.calibration</code> from the created <code>Calibration periods</code> data frame and the <code>FLightR.data</code> object.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Calibration&lt;-<span class="kw">make.calibration</span>(FLightR.data, Calibration.periods, <span class="dt">model.ageing=</span><span class="ot">TRUE</span>, <span class="dt">plot.final =</span> T)</code></pre></div>
+<p><img src="images/FLightRCalib.png" style="display: block; margin: auto;" /></p>
+<p>This object contains all the calibration parameters for the tag, and it will be further used for calculation of geographic positions across the track. When there are more than one calibration periods, the parameter <code>model.ageing</code> can be set <code>TRUE</code> to account for the tag ageing. In this case, the calibration parameters are calculated, based on the assumption that the calibration slope changes linearly with time. Alternatively, one can use one very long calibration period to try estimating ageing of the tag. We would recommend to have at least two months in a known location to be able to do that.</p>
+<div id="find-calibration-periods-for-a-known-calibration-location" class="section level3 unnumbered">
+<h3>Find calibration periods for a known calibration location</h3>
+<p>The exact period of a tagged animal’s stay in a known location is usually unknown, but it can be derived from the data. For this, calibration slopes for the sunset and sunrise of each day of the tracking period are calculated, based on the assumption that the tag remained in the same known position all the time. The slopes are calculated and plotted with the function <code>plot_slopes_by_location</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_slopes_by_location</span>(<span class="dt">Proc.data=</span>FLightR.data, <span class="dt">location=</span><span class="kw">c</span>(<span class="fl">12.23</span>, <span class="fl">55.98</span>), <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="fl">1.5</span>, <span class="fl">1.5</span>))
+
+<span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">as.POSIXct</span>(<span class="st">&quot;2015-05-15&quot;</span>)) <span class="co"># end of first calibration period</span>
+<span class="kw">abline</span>(<span class="dt">v=</span><span class="kw">as.POSIXct</span>(<span class="st">&quot;2014-07-15&quot;</span>)) <span class="co"># start of the second calibration period</span></code></pre></div>
+<p><img src="08-FlightR_files/figure-html/unnamed-chunk-10-1.png" width="576" /></p>
+<p>Looking at the plot, we can define the time periods, during which the tag resided in the calibration location (recall, that we assume that the tag remained in this location all the time). Because calibration slopes reflect the adequacy of the light level measured by the device, they vary little, in time and between sunsets and sunrises, as long as the tagged animal stays in the calibration location, but become apparently diverse, when it moves away from it. Both patterns are clearly distinguishable at the plot.</p>
+<p>Play with <code>abline()</code> to find the proper boundaries for the calibration.</p>
+<p>With the current tag it is a bit complicated to see the end of the calibration period and also the first arrival back to the calibration site. To solve the problem we have made two runs - first with the obcvious short calibration period:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Calibration.periods&lt;-<span class="kw">data.frame</span>(
+        <span class="dt">calibration.start=</span><span class="kw">as.POSIXct</span>(<span class="kw">c</span>(<span class="ot">NA</span>)),
+        <span class="dt">calibration.stop=</span><span class="kw">as.POSIXct</span>(<span class="kw">c</span>(<span class="st">&quot;2014-07-07&quot;</span>)),
+        <span class="dt">lon=</span><span class="fl">12.23</span>, <span class="dt">lat=</span><span class="fl">55.98</span>) </code></pre></div>
+<p>We ran the full estimation procedure with based on this short calibration. Looked at bird departure and arrival dates from and to breeding site (with simple <code>plot_lon_lat(Result)</code>), used these dates to create new calibration periods and to run the final analysis. If you will do the same, please note, that you should select edges of the calibration period on a safe side - at least 24 hours before the migration.</p>
+</div>
+<div id="find-a-calibration-location-for-a-known-calibration-period" class="section level3 unnumbered">
+<h3>Find a calibration location for a known calibration period</h3>
+<p>It may happen that an animal was tagged in the High Arctic under polar day conditions or that it moved far away from the capture site immedialtly after tagging and the roof-top calibration data are not available. Even in such cases it is still possibe to obtain calibration parameters for a resident period at unknown location. FLightR approach to this problem is similar to Hill-Ekstrom calibration <a href="references.html#lisovski_2012b">Lisovski et al. 2012b</a> implemented in GeoLight <a href="references.html#lisovski_2012a">Lisovksi et al. 2012a</a>. If bird is assumed to be resident at some period one can try:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ~ 15 min run time</span>
+Location&lt;-<span class="kw">find.stationary.location</span>(FLightR.data, <span class="st">&#39;2014-09-05&#39;</span>, <span class="st">&#39;2014-10-07&#39;</span>,
+                                   <span class="dt">initial.coords=</span><span class="kw">c</span>(<span class="dv">25</span>, <span class="op">-</span><span class="dv">10</span>))</code></pre></div>
+<p>After 15 minutes the function will return geographic coordinates of the location for which the range of errors in slopes is minimal. User has to provide the initial coordinates, which should be within a few thousand kilometers from the hypothetical real location.</p>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/caution.png" style="display: block; margin: auto;" /> Note that this function is experimental and does not always produce meaningful results . Try it from different initial locations, and check whether it gets to the same result. &gt;/div&gt;</p>
+</div>
+</div>
+<div id="assign-spatial-extent" class="section level2 unnumbered">
+<h2>Assign spatial extent</h2>
+<p>Before running the model you will have to make a scientific guess on where you expect your bird to fly and assign a spatial grid (50 X 50 km) with user-defined boundaries, within which your model will calculate probabilities of presence of the birds. The wider you set the grid boundaries,the longer will take the model to run. If you have set the boundaries too narrow, you will see it in the output map: the defined location points will bounce close to the grid boundaries (as in our example XXXX). In this case you will have to extend the grid and re-run the model.<br />
+To set up the grid use the function <code>make.grid</code> and define the boundaries: <code>left</code>, <code>right</code>. <code>bottom</code> and <code>top</code>. It is possible that your tagged animal cannot occur or stay between two subsequent twilights over particular areas, for example, over open water if it is a landbird or deep inland if it is a marine animal. In this case we recommend to apply additional parameters <code>distance.from.land.allowed.to.use</code> and <code>distance.from.land.allowed.to.stay</code>. Such restrictions will minimize the area processed and this way facilitate the analysis. Each of the parameters require a vector of two numbers: the minimal and the maximal distances (in km) from shoreline, at which the animal is allowed to occur/stay. The numbers can be negative. For instance, distance.from.land.allowed.to.stay=-30, will not allow your bird to stay further than 30 km inland from the shore. In our example we allow our shrike to fly over the water, but not further than 200 km offshore, and to be statuionary within 50 km from the land.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Grid &lt;-<span class="st"> </span><span class="kw">make.grid</span>(<span class="dt">left=</span><span class="dv">5</span>, <span class="dt">bottom=</span><span class="op">-</span><span class="dv">33</span>, <span class="dt">right=</span><span class="dv">50</span>, <span class="dt">top=</span><span class="dv">60</span>,
+   <span class="dt">distance.from.land.allowed.to.use=</span><span class="kw">c</span>(<span class="op">-</span><span class="ot">Inf</span>, <span class="dv">200</span>),
+   <span class="dt">distance.from.land.allowed.to.stay=</span><span class="kw">c</span>(<span class="op">-</span><span class="ot">Inf</span>, <span class="dv">50</span>))</code></pre></div>
+<p><img src="images/FLightRGrid.png" /><!-- --></p>
+<p>The resulting <code>Grid</code> is a matrix with the columns: <code>lon</code> (longitude), <code>lat</code> (latitude) and <code>Stay</code> (probability of stay). Grid cells that presumably cannot be visited by the animal are excluded from the data, while the locations at which an animal cannot be stationary are given a low probability of stay. The function produces a visual representation of the created grid with orange poins where the bird is allowed to be stationary and grey, where the bird can fly but not stay. Have a look at the figure and make sure it is correct. Using masks can side track model estimation to the local minima, and we recommend to initially run the model without the mask, enable the mask for the second run and visually compare the results to see if the model has converged to similar tracks.</p>
+</div>
+<div id="prepare-the-model-for-run" class="section level2 unnumbered">
+<h2>Prepare the model for run</h2>
+<p>At this stage, all the objects, created at earlier steps: the light data with the detected twilight events (<code>FLightR.data</code>), the spatial parameters (<code>Grid</code>), geographic coordinates of the initial location, where the tracking has started (<code>start</code>), and the calibration parameters (<code>Calibration</code>), are to be incorporated in one complex object , which will be used in the main run. Use the function <code>make.prerun.object</code> for the compilation. Using this function you can also change the priors for the movement model. For example we set <code>M.mean</code> parameter to 750 km, because we know that shrikes migrate fast and also because we have explored the results and figured out that average migration distance was actually 750 km.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># ~ 15 min run time</span>
+ all.in &lt;-<span class="st"> </span><span class="kw">make.prerun.object</span>(FLightR.data, Grid, <span class="dt">start=</span><span class="kw">c</span>(lon.calib, lat.calib),
+                            <span class="dt">Calibration=</span>Calibration, <span class="dt">M.mean=</span><span class="dv">750</span>)</code></pre></div>
+<p>This is the first object we want to save. It contains the twiligth file, the calibration information as well as the likelihood surfaces for each twilight.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">save</span>(all.in, <span class="dt">file =</span> <span class="kw">paste0</span>(wd, <span class="st">&quot;/Results/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;_FlightRCalib.RData&quot;</span>))</code></pre></div>
+</div>
+<div id="particle-filter-run" class="section level2 unnumbered">
+<h2>Particle filter run</h2>
+<p>Once you have got the <code>run.particle.filter</code> running, expect your computer to be busy for about 45 minutes. During this time it will generate the model output (we will call it “Results”) containing: * a table of positions at each twilight (<code>$Results$Quantiles</code>), * statistics of the positions (mean, median values and credible intervals), * a table of parameters of the movement model (<code>$Results$Movement.results</code>), * posterior distribution of the parameters at every twilight (<code>$Results$Points.rle</code>) and * at every transition between twilights (<code>$Results$Transitions.rle</code>).</p>
+<p>Within <code>run.particle.filter</code>, the following parameters can be defined: * <code>nParticles</code> - number of particles (we recommend to use 1e4 for test and 1e6 for the analysis); * <code>threads</code> - amount of parallel threads to use for the run default is -1 that means all available except one; * <code>known.last</code> - TRUE if you know that in the end of the logging period tag occurred in a known place (FALSE is the default option); * <code>check.outliers</code> – FALSE by default. Set it to TRUE if you wish on-the-fly outliers detection, highly recommended if the results have strong outliers. * <code>b</code> - the maximum distance allowed to be travelled between two subsequent twilights.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">nParticles=<span class="fl">1e6</span>
+Result&lt;-<span class="kw">run.particle.filter</span>(all.in, <span class="dt">threads=</span><span class="op">-</span><span class="dv">1</span>,
+            <span class="dt">nParticles=</span>nParticles, <span class="dt">known.last=</span><span class="ot">TRUE</span>,
+                <span class="dt">precision.sd=</span><span class="dv">25</span>, <span class="dt">check.outliers=</span>F, 
+            <span class="dt">b=</span><span class="dv">1700</span>)</code></pre></div>
+<p>Again we want to save the Result.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">save</span>(Result, <span class="dt">file =</span> <span class="kw">paste0</span>(wd, <span class="st">&quot;/Results/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;_FLightRResult.RData&quot;</span>))</code></pre></div>
+</div>
+<div id="exploration-of-results" class="section level2 unnumbered">
+<h2>Exploration of results</h2>
+<div id="first-look---plot-longitude-and-latitude" class="section level3 unnumbered">
+<h3>First look - plot longitude and latitude</h3>
+<p>After the results have been saved the first thing to do is to plot change of longitude and latitude over time. This is a very important graph.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot_lon_lat</span>(Result)</code></pre></div>
+<p><img src="08-FlightR_files/figure-html/unnamed-chunk-22-1.png" width="576" /></p>
+<p>With this graph, please, carefully check whether: 1. Your track does not approach boundaries of the spatial grid you defined (you ave to keep those in mind assessing the graph). If this is the case, change spatial extend and rerun the analysis. 2. There are no sudden jumps that have no uncertainty measurements around them. These are likely outliers that should be excluded beforehands. 3. Presented by the model estiamates of time-periods spent by the bird at the calibration site match calibration periods assigned before the model run. If they do not, correct the calibration periods, redo the calibration and rerun the model. 4. There are no S-shape patterns in estimated latitude around equinox. Such patterns point at either incorrect calibration or very poor data. Try to improve your calibration periods or concider taking calibration data from another tag taken from the same species.</p>
+</div>
+</div>
+<div id="summary" class="section level2 unnumbered">
+<h2>Summary</h2>
+<div id="repeatability-of-output" class="section level3 unnumbered">
+<h3>Repeatability of output</h3>
+<p>Note that however many times you will re-run the model with the same input parameters, you will never get the same output. Please, <strong><em>do not panic</em></strong>, as stochasticity of probabilities is an inherent feature of Bayesian analysis. Also, if you look closer at your results, you will notice that the outputs vary within each others’ standard errors.</p>
+</div>
+</div>
+<div id="defining-stopovers" class="section level2 unnumbered">
+<h2>Defining stopovers</h2>
+<p>FLightR is honest defining stopovers, which may seem a disappointing feature, but it makes us thinking. In general, geolocation analysis is all about how likely the bird was present in specific location at specific moment and how likely it was moving between two subsequent locations. It is not a problem when you work with long-distance migrants, such as bar-tailed godwit <a href="references.html#rakhimberdiev_jab_2016">Rakhimberdiev et al. 2016</a>, since it has very apparent stopover phases between apparent migration-flight bouts. However, many bird species migrate in little hops and literary stop “at every bush”. Here you can get rather messy results, due to the overlapping probability distributions. In any case, we recommend to play with the stopover probabilities by tweaking the cut-off probability parameter of 1stationary.migration.summary`. Recall that for each location and time moment the model generates a probability that the bird was moving to the next location. The cut-off probability is the minimal threshold probability of movement, at which we assume that the bird was actually moving. Depending on the assigned cut-off probability parameter, the model will consider the bird more or less likely to be stationary. In birds migrating in long leaps with few stops, defined stopovers are usually rather robust. However, in hopping migrants, probabilities of stopovers may vary, depending on the chosen cut-off probability parameter, which is a bad news if describing stopovers is the prior goal of your study. But, frankly speaking, what is stopover and does it exist in migrants moving in short hops? Presenting your results, you may arbitrarily choose the most adequate (repeatable) output and mention the cut-off probability, with which it was obtained. However, if you want to describe stopovers explicitly, you might want to present outputs obtained with several cut-off probability parameters and speculate about the variation. Most likely, some of your stopovers will be defined repeatedly with a range of cut-off parameters being assigned, and some will be less robust. Our shrike had rather distinct migration/stopover pattern. However, we get a slightly more stopovers with cut-off probabilities of 0.1 and 0.2.</p>
+<p>To distinguish between the phases of movement and stationarity use the function <code>stationary.migration.summary</code> helps . The process usually takes around 15 minutes of computer time.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Summary&lt;-<span class="kw">stationary.migration.summary</span>(Result, <span class="dt">prob.cutoff =</span> <span class="fl">0.2</span>)</code></pre></div>
+<p>To visualise results of this function we will plot them on a map.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Now we want to plot the detected stationary periods on a map</span>
+Summary<span class="op">$</span>Stationary.periods<span class="op">$</span>stopover_duration&lt;-<span class="kw">as.numeric</span>(<span class="kw">difftime</span>(Summary<span class="op">$</span>Stationary.periods<span class="op">$</span>Departure.Q.<span class="dv">50</span>,Summary<span class="op">$</span>Stationary.periods<span class="op">$</span>Arrival.Q.<span class="dv">50</span>, <span class="dt">units=</span><span class="st">&#39;days&#39;</span>))
+<span class="co"># Now I want to select the periods which were &gt;=2 days and </span>
+Main_stopovers&lt;-Summary<span class="op">$</span>Stationary.periods[<span class="kw">is.na</span>(Summary<span class="op">$</span>Stationary.periods<span class="op">$</span>stopover_duration) <span class="op">|</span><span class="st"> </span>Summary<span class="op">$</span>Stationary.periods<span class="op">$</span>stopover_duration<span class="op">&gt;=</span><span class="dv">2</span>,]
+<span class="co"># delete breeding season</span>
+Main_stopovers&lt;-Main_stopovers[<span class="op">-</span><span class="kw">which</span>(<span class="kw">is.na</span>(Main_stopovers<span class="op">$</span>stopover_duration)),]
+
+Coords2plot&lt;-<span class="kw">cbind</span>(Result<span class="op">$</span>Results<span class="op">$</span>Quantiles<span class="op">$</span>Medianlat, Result<span class="op">$</span>Results<span class="op">$</span>Quantiles<span class="op">$</span>Medianlon)
+
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(Summary<span class="op">$</span>Potential_stat_periods)) {
+  Coords2plot[Summary<span class="op">$</span>Potential_stat_periods[i,<span class="dv">1</span>]<span class="op">:</span>
+<span class="st">    </span>Summary<span class="op">$</span>Potential_stat_periods[i,<span class="dv">2</span>],<span class="dv">1</span>] =<span class="st">  </span>
+<span class="st">    </span>Summary<span class="op">$</span>Stationary.periods<span class="op">$</span>Medianlat[i]
+   
+  Coords2plot[Summary<span class="op">$</span>Potential_stat_periods[i,<span class="dv">1</span>]<span class="op">:</span>
+<span class="st">    </span>Summary<span class="op">$</span>Potential_stat_periods[i,<span class="dv">2</span>],<span class="dv">2</span>] =<span class="st">  </span>
+<span class="st">    </span>Summary<span class="op">$</span>Stationary.periods<span class="op">$</span>Medianlon[i]
+}
+Coords2plot&lt;-Coords2plot[<span class="op">!</span><span class="kw">duplicated</span>(Coords2plot),]
+
+<span class="co">#pdf(&#39;FLightR_shrike_migration_with_stopovers.pdf&#39;, width=6, height=9)</span>
+<span class="kw">par</span>(<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))
+<span class="kw">map</span>(<span class="st">&#39;worldHires&#39;</span>, <span class="dt">ylim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">35</span>, <span class="dv">60</span>), <span class="dt">xlim=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">20</span>, <span class="dv">50</span>), <span class="dt">col=</span><span class="kw">grey</span>(<span class="fl">0.7</span>),
+    <span class="dt">fill=</span><span class="ot">TRUE</span>, <span class="dt">border=</span><span class="kw">grey</span>(<span class="fl">0.9</span>), <span class="dt">mar=</span><span class="kw">rep</span>(<span class="fl">0.5</span>, <span class="dv">4</span>), <span class="dt">myborder=</span><span class="dv">0</span>)
+
+<span class="kw">lines</span>(Coords2plot[,<span class="dv">1</span>]<span class="op">~</span>Coords2plot[,<span class="dv">2</span>], <span class="dt">col=</span><span class="st">&#39;red&#39;</span>, <span class="dt">lwd=</span><span class="dv">2</span>)
+<span class="kw">points</span>(Coords2plot[,<span class="dv">1</span>]<span class="op">~</span>Coords2plot[,<span class="dv">2</span>], ,<span class="dt">lwd=</span><span class="dv">2</span>, <span class="dt">col=</span><span class="st">&#39;red&#39;</span>, <span class="dt">pch=</span><span class="dv">19</span>)
+
+<span class="co"># Here we assign the colours to represent time of the year</span>
+Seasonal_palette&lt;-grDevices<span class="op">::</span><span class="kw">colorRampPalette</span>(grDevices<span class="op">::</span><span class="kw">hsv</span>(<span class="dv">1</span><span class="op">-</span>((<span class="dv">1</span><span class="op">:</span><span class="dv">365</span>)<span class="op">+</span>(<span class="dv">365</span><span class="op">/</span><span class="dv">4</span>))<span class="op">%%</span><span class="dv">365</span><span class="op">/</span><span class="dv">365</span>,
+                                              <span class="dt">s=</span><span class="fl">0.8</span>, <span class="dt">v=</span><span class="fl">0.8</span>), <span class="dt">space=</span><span class="st">&quot;Lab&quot;</span>)
+Seasonal_colors&lt;-<span class="kw">Seasonal_palette</span>(<span class="dv">12</span>)
+
+Main_stopovers<span class="op">$</span>Main_month&lt;-<span class="kw">as.numeric</span>(<span class="kw">format</span>(Main_stopovers<span class="op">$</span>Arrival.Q.<span class="dv">50</span><span class="op">+</span>
+<span class="st">                                             </span>Main_stopovers<span class="op">$</span>stopover_duration<span class="op">/</span><span class="dv">2</span>, <span class="dt">format=</span><span class="st">&#39;%m&#39;</span>))
+
+<span class="kw">points</span>(Main_stopovers<span class="op">$</span>Medianlat<span class="op">~</span>Main_stopovers<span class="op">$</span>Medianlon, <span class="dt">pch=</span><span class="dv">21</span>, 
+       <span class="dt">cex=</span><span class="kw">log</span>(<span class="kw">as.numeric</span>(Main_stopovers<span class="op">$</span>stopover_duration)),
+       <span class="dt">bg=</span>Seasonal_colors[Main_stopovers<span class="op">$</span>Main_month])
+
+<span class="co"># Now, for each of these points we plot the uncertainties</span>
+<span class="co"># Horizontal</span>
+<span class="kw">segments</span>(<span class="dt">y0=</span>Main_stopovers<span class="op">$</span>Medianlat, <span class="dt">x0=</span>Main_stopovers<span class="op">$</span>FstQu.lon,
+         <span class="dt">x1=</span>Main_stopovers<span class="op">$</span>TrdQu.lon, <span class="dt">lwd=</span><span class="dv">2</span>)
+<span class="co"># Vertical</span>
+<span class="kw">segments</span>(<span class="dt">x0=</span>Main_stopovers<span class="op">$</span>Medianlon, <span class="dt">y0=</span>Main_stopovers<span class="op">$</span>FstQu.lat,
+         <span class="dt">y1=</span>Main_stopovers<span class="op">$</span>TrdQu.lat, <span class="dt">lwd=</span><span class="dv">2</span>)
+
+<span class="co"># and we also need to add breeding site here:</span>
+<span class="kw">points</span>(<span class="dt">x=</span><span class="fl">12.23</span>, <span class="dt">y=</span><span class="fl">55.98</span>, <span class="dt">cex=</span><span class="dv">6</span>, <span class="dt">pch=</span><span class="dv">21</span> , <span class="dt">bg=</span>Seasonal_colors[<span class="dv">6</span>])
+<span class="co"># dev.off()</span></code></pre></div>
+<p><img src="08-FlightR_files/figure-html/unnamed-chunk-25-1.png" width="576" /></p>
+</div>
+<div id="getting-specific-output" class="section level2 unnumbered">
+<h2>Getting specific output</h2>
+<p>The function <code>find.times.distribution</code> derives the time at which an animal arrived or departed from the area and provides the measure of its uncertainty. First, select grid points of interest. For example in the current data we are interested in the date when our bird left from the breding grounds and when it was back. We will make a boundary at 55.5&amp;deg latitude:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Index&lt;-<span class="kw">which</span>(Result<span class="op">$</span>Spatial<span class="op">$</span>Grid[,<span class="dv">2</span>]<span class="op">&gt;</span><span class="dv">55</span>)</code></pre></div>
+<p>Estimate probabilities of occurrence within the area at each twilight:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Arrivals.breeding&lt;-<span class="kw">find.times.distribution</span>(Result,Index)
+<span class="kw">print</span>(Arrivals.breeding)</code></pre></div>
+<pre><code>                Q.025                Q.25                Q.50
+1 2014-07-22 22:32:04 2014-07-23 17:27:14 2014-07-24 03:20:51
+2 2015-05-12 01:22:59 2015-05-13 00:21:03 2015-05-14 13:54:11
+                 Q.75               Q.975
+1 2014-07-24 14:32:33 2014-07-25 17:36:17
+2 2015-05-20 13:58:56 2015-05-26 06:00:36</code></pre>
+</div>
+<div id="visualisation-of-the-results" class="section level2 unnumbered">
+<h2>Visualisation of the results</h2>
+<div id="plot-a-simple-map" class="section level3 unnumbered">
+<h3>Plot a simple map</h3>
+<p>Plot a map with the most probable positions, i.e. combinations of the most probable latitude and longitude for each twilight:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">try</span>(<span class="kw">map.FLightR.ggmap</span>(Result, <span class="dt">zoom=</span><span class="dv">3</span>, <span class="dt">save =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/note.png" style="display: block; margin: auto;" /> We use <code>try</code> here to ease automated rendering. Just exclude it for your own runs. We also recommend a very nice feature of this function: <code>zoom='auto'</code> that will try finding optimal zoom for your output.</p>
+</div>
+</div>
+<div id="plot-utilization-distribution" class="section level3 unnumbered">
+<h3>Plot utilization distribution</h3>
+<p>Plot space utilisation distribution for the wintering range:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">try</span>(tmp &lt;-<span class="st"> </span><span class="kw">plot_util_distr</span>(Result, 
+    <span class="dt">dates=</span><span class="kw">data.frame</span>(<span class="kw">as.POSIXct</span>(<span class="st">&#39;2014-12-01&#39;</span>), <span class="kw">as.POSIXct</span>(<span class="st">&#39;2015-01-31&#39;</span>)),
+    <span class="dt">add.scale.bar=</span><span class="ot">TRUE</span>, <span class="dt">percentiles=</span><span class="fl">0.5</span>, <span class="dt">zoom=</span><span class="dv">7</span>, <span class="dt">save =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/note.png" style="display: block; margin: auto;" /> we use <code>try</code> here to ease automated rendering. Just exclude it for your own runs. We also recommend a very nice feature of this function: <code>zoom='auto'</code> that will try finding optimal zoom for your output. &gt;/div&gt;</p>
+
+</div>
+</div>
 </div>
             </section>
 
