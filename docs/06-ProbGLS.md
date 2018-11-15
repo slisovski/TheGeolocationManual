@@ -66,7 +66,7 @@ plot(wrld_simpl, col = "grey90", border = "grey40", add = T)
 points(raw2$TRLon,raw2$TRLat, pch=16, col="cornflowerblue", type = "o")
 ```
 
-<img src="06-ProbGLS_files/figure-epub3/unnamed-chunk-6-1.png"  />
+<img src="06-ProbGLS_files/figure-html/unnamed-chunk-6-1.png" width="672" />
 
 Therefore, we back calculate times of sunrise and sunset using this angle and positional data provided by the day log file.
 
@@ -94,7 +94,7 @@ Now we can have a look at these calculated twilight times to see how noisy they 
 trn$keep <- loessFilter(trn, k = 3, plot = T)
 ```
 
-![](06-ProbGLS_files/figure-epub3/unnamed-chunk-8-1.png)<!-- -->
+<img src="06-ProbGLS_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
 In this example the data seems to be quite clean. However, we can see spurious twilight times during summer as well as a gap of no data whatsoever until about August and from April onwards. Reason for this pattern is the fact that the study colony is located at 78 North. Hence, it is experiencing constant day light (i.e. midnight sun) from April until the end of August. This makes it difficult to calibrate the solar angle based on a known location as this species is breeding from June to the beginning of August.
 
@@ -143,7 +143,7 @@ points(unique(as.Date(act$dtime)),tapply(act$wetdry,as.Date(act$dtime),sum)/288,
      pch=19,cex=0.8)
 ```
 
-![](06-ProbGLS_files/figure-epub3/unnamed-chunk-10-1.png)<!-- -->
+<img src="06-ProbGLS_files/figure-html/unnamed-chunk-10-1.png" width="672" />
 
 The here shown proportion, the logger is immersed in salt water each day can be used to estimate behaviour states of the individual tracked (e.g. sitting on water or flying). Additionally, the movement speed of a bird on or in water is not as high as when it is airborne, allowing us to define 2 speed distributions: One for when the logger is dry and one for when the logger is wet. The first should be informed by the ecology of the study species. In our example we can use speed estimates from GPS tracking studies to define a speed distribution.
 
@@ -158,7 +158,7 @@ plot(sd,type="l",xlim=c(0,31),xlab="speed [m/s]",ylab="probability",lwd=2)
 abline(v=speed_dry[3],lty=2,col="orange")
 ```
 
-![](06-ProbGLS_files/figure-epub3/unnamed-chunk-11-1.png)<!-- -->
+<img src="06-ProbGLS_files/figure-html/unnamed-chunk-11-1.png" width="576" />
 
 The movement speed of an animal when wet can be defined using current speeds from ocean currents in the part of the globe you assume the animal to be in. In our example this is the North Atlantic current and the fast East Greenland current.
 
@@ -173,7 +173,7 @@ plot(sd,type="l",xlim=c(0,31),xlab="speed [m/s]",ylab="probability",lwd=2)
 abline(v=speed_wet[3],lty=2,col="orange")
 ```
 
-![](06-ProbGLS_files/figure-epub3/unnamed-chunk-12-1.png)<!-- -->
+<img src="06-ProbGLS_files/figure-html/unnamed-chunk-12-1.png" width="576" />
 
 ***Immersion temperature data***
 
@@ -198,7 +198,7 @@ sst           <- sst_deduction(datetime = td$dtime, temp = td$IntTemp, temp.rang
 abline(h=c(-2,19),lty=2,col="orange")
 ```
 
-![](06-ProbGLS_files/figure-epub3/unnamed-chunk-13-1.png)<!-- -->
+<img src="06-ProbGLS_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 
 In grey you can see the temperature values recorded by the tag. In black is the estimated daily sea surface temperature (SST) values determined from the algorithm. All red data points are labeled as "remove". Here, data is conservativly removed rather than smoothed out or interpolated as temperature can often shift rather dramatically, especially when an individual is utilizing an oceanographic front. For removed values no SST data will be used to improve the location estimation algorithm.
 
@@ -248,7 +248,7 @@ Here we estimate the assumed error around a twilight event as log-normal distrib
 tw <- twilight_error_estimation(shape = 2.49, scale = 0.94, delay = 0)
 ```
 
-![](06-ProbGLS_files/figure-epub3/unnamed-chunk-16-1.png)<!-- -->
+<img src="06-ProbGLS_files/figure-html/unnamed-chunk-16-1.png" width="672" />
 
 ## Run the iterative algorithm {-}
 
@@ -326,7 +326,7 @@ model run time              1 difftime               numeric
 plot_timeline(pr,degElevation = NULL)
 ```
 
-![](06-ProbGLS_files/figure-epub3/unnamed-chunk-20-1.png)<!-- -->
+<img src="06-ProbGLS_files/figure-html/unnamed-chunk-20-1.png" width="672" />
 
 
 ```r
@@ -334,7 +334,7 @@ plot_timeline(pr,degElevation = NULL)
 plot_map(pr)
 ```
 
-![](06-ProbGLS_files/figure-epub3/unnamed-chunk-21-1.png)<!-- -->
+<img src="06-ProbGLS_files/figure-html/unnamed-chunk-21-1.png" width="672" />
 
 Here, the most probable track is displayed from yellow to dark red with its uncertainty in grey (light to dark). The colony location is visualised at violet square. Locations estimated around the equinox periods are marked with a cross.
 

@@ -27,7 +27,7 @@ with(raw[2000:5000,], plot(Date, Light, type = "o", pch=16,  col = col, cex = 0.
 abline(h=threshold, col="orange", lty = 2, lwd = 2)
 ```
 
-![](04-TwilightAnnotation_files/figure-epub3/rawData-1.png)<!-- -->
+<img src="04-TwilightAnnotation_files/figure-html/rawData-1.png" width="960" />
 
 Another useful plot can be created using lightImage; In the resulting figure, each day is represented by a thin horizontal line that plots the light values as grayscale pixels (dark = low light and white = maximum light) in order from bottom to top. a A light image allows you to visualize an entire data set at once, and easily spot discrepancies in light to dark transitions. Additionally, you can add the sunrise and sunset times of the deployment or retrieval locaitons (using `addTwilightLine`). This may help to spot inconsistncies in the dataset, e.g.: 
 *time shifts - resulting in a good overlap of twilight times at the beginning but a systematic shift between expected and recorded twilight times. 
@@ -47,7 +47,7 @@ tsimageDeploymentLines(raw$Date, lon = lon.calib, lat = lat.calib,
                        offset = offset, lwd = 3, col = adjustcolor("orange", alpha.f = 0.5))
 ```
 
-<img src="04-TwilightAnnotation_files/figure-epub3/unnamed-chunk-4-1.png" style="display: block; margin: auto;" />
+<img src="04-TwilightAnnotation_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" />
 
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
 <img src="images/important.png" style="display: block; margin: auto;" />
@@ -201,7 +201,7 @@ twl <- twilightEdit(twilights = twl,
                     plot = TRUE)
 ```
 
-![](04-TwilightAnnotation_files/figure-epub3/unnamed-chunk-18-1.png)<!-- -->
+<img src="04-TwilightAnnotation_files/figure-html/unnamed-chunk-18-1.png" width="960" />
 
 In this particular case and with the parameters, four twilight times have been corrected. Based on the output, you can also exclude them for further analysis. While you can also save the output file, we recommend archiving the twilight file from above and redo the `twilightEdit` after reading in the archived twilight file from above.
 

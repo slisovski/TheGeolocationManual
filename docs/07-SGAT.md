@@ -98,7 +98,7 @@ tsimagePoints(twl$Twilight, offset = offset, pch = 16, cex = 1.2,
               col = ifelse(twl$Rise, "firebrick", "cornflowerblue"))
 ```
 
-![](07-SGAT_files/figure-epub3/unnamed-chunk-4-1.png)<!-- -->
+<img src="07-SGAT_files/figure-html/unnamed-chunk-4-1.png" width="672" />
 
 There are some sunrises and sunsets that have been misclassified, so we can use the `twlightEdit` function to move these to where they should be. 
 
@@ -112,7 +112,7 @@ twl <- twilightEdit(twilights = twl,
                     plot = TRUE)
 ```
 
-![](07-SGAT_files/figure-epub3/unnamed-chunk-5-1.png)<!-- -->
+<img src="07-SGAT_files/figure-html/unnamed-chunk-5-1.png" width="672" />
 
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
 <img src="images/note.png" style="display: block; margin: auto;" />
@@ -146,7 +146,7 @@ abline(v = tm.calib, lwd = 2, lty = 2, col = "orange")
 d_calib <- subset(twl, Twilight>=tm.calib[1] & Twilight<=tm.calib[2])
 ```
 
-![](07-SGAT_files/figure-epub3/unnamed-chunk-7-1.png)<!-- -->
+<img src="07-SGAT_files/figure-html/unnamed-chunk-7-1.png" width="672" />
 
 Using the calibration subset of the _twl_ table we can perform the calibration:
 
@@ -155,7 +155,7 @@ Using the calibration subset of the _twl_ table we can perform the calibration:
 calib <- thresholdCalibration(d_calib$Twilight, d_calib$Rise, lon.calib, lat.calib, method = "gamma")
 ```
 
-![](07-SGAT_files/figure-epub3/unnamed-chunk-8-1.png)<!-- -->
+<img src="07-SGAT_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
 This is how a calibration time series should look like. Based in theory it should follow a gamma or a log-normal distribution (both can be used in _SGAT_). What we can see, is that the recorded twilight times most frequently deviation approx. 12 minutes. However, deviations of up to 50 minutes have been recorded. For the following analysis, we need the zenith angle for both the zero deviation (0, and second number in return vector e.g. `calib[2]`) and the most frequent _median_ deviation (1, and the first number in the return vector e.g. `calib[1]`). Additionally we need the parameters of the error distribution (`alpha` parameters, e.g. `calib[3:4]`).
 
@@ -188,7 +188,7 @@ end = max(which(as.Date(twl$Twilight) == endDate))
 [1] 93.5
 ```
 
-![](07-SGAT_files/figure-epub3/unnamed-chunk-10-1.png)<!-- -->
+<img src="07-SGAT_files/figure-html/unnamed-chunk-10-1.png" width="576" />
 
 The top panel shows the entire path (latitude) using different zenith angles with the black line indicating the latitude estimates with the smallest variation within the specified range (in between the two blue dashed lines). One needs to be quite sure that the individual did not move during this period. The lower pane shows the actual variation in latitudes across a range of zenith angles. It is good if one can see a clear minimum in this curve.
 
@@ -222,7 +222,7 @@ end   <- max(which(mS$site == stationarySite))
 [1] 93.5
 ```
 
-![](07-SGAT_files/figure-epub3/unnamed-chunk-12-1.png)![](07-SGAT_files/figure-epub3/unnamed-chunk-12-2.png)![](07-SGAT_files/figure-epub3/unnamed-chunk-12-3.png)
+<img src="07-SGAT_files/figure-html/unnamed-chunk-12-1.png" width="576" /><img src="07-SGAT_files/figure-html/unnamed-chunk-12-2.png" width="576" /><img src="07-SGAT_files/figure-html/unnamed-chunk-12-3.png" width="576" />
 
 In this case, there is no real difference between the two calibrations. If a difference will be detected (>0.5 degrees), one should consider adjusting the zenith angles calculated from the breeding site.
 
@@ -244,7 +244,7 @@ matplot(0:100, dgamma(0:100, beta[1], beta[2]),
         type = "l", col = "orange",lty = 1,lwd = 2,ylab = "Density", xlab = "km/h")
 ```
 
-![](07-SGAT_files/figure-epub3/unnamed-chunk-14-1.png)<!-- -->
+<img src="07-SGAT_files/figure-html/unnamed-chunk-14-1.png" width="672" />
 
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
 <img src="images/important.png" style="display: block; margin: auto;" />
@@ -271,7 +271,7 @@ points(lon.calib, lat.calib, pch = 16, cex = 2.5, col = "firebrick")
 box()
 ```
 
-![](07-SGAT_files/figure-epub3/unnamed-chunk-16-1.png)<!-- -->
+<img src="07-SGAT_files/figure-html/unnamed-chunk-16-1.png" width="624" />
 
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
 <img src="images/important.png" style="display: block; margin: auto;" />
@@ -506,7 +506,7 @@ plot(wrld_simpl, xlim=xlim, ylim=ylim,add = T, bg = adjustcolor("black",alpha=0.
 lines(sm[,"Lon.50%"], sm[,"Lat.50%"], col = adjustcolor("firebrick", alpha.f = 0.6), type = "o", pch = 16)
 ```
 
-![](07-SGAT_files/figure-epub3/unnamed-chunk-31-1.png)<!-- -->
+<img src="07-SGAT_files/figure-html/unnamed-chunk-31-1.png" width="624" />
 
 
 Additionally, we can plot the Longitudes and Latitudes separately with their confidence intervals.
@@ -525,7 +525,7 @@ polygon(x=c(sm$Time1,rev(sm$Time1)), y=c(sm$`Lat.2.5%`,rev(sm$`Lat.97.5%`)), bor
 lines(sm$Time1,sm$"Lat.50%", lwd = 2)
 ```
 
-![](07-SGAT_files/figure-epub3/unnamed-chunk-32-1.png)<!-- -->
+<img src="07-SGAT_files/figure-html/unnamed-chunk-32-1.png" width="768" />
 
 ## Saving the Results {-}
 
@@ -567,7 +567,7 @@ cL <- changeLight(twl=geo_twl, quantile=0.86, summary = F, days = 2, plot = T)
 mS <- mergeSites(twl = geo_twl, site = cL$site, degElevation = 90-zenith0, distThreshold = 500)
 ```
 
-![](07-SGAT_files/figure-epub3/unnamed-chunk-35-1.png)![](07-SGAT_files/figure-epub3/unnamed-chunk-35-2.png)
+<img src="07-SGAT_files/figure-html/unnamed-chunk-35-1.png" width="672" /><img src="07-SGAT_files/figure-html/unnamed-chunk-35-2.png" width="672" />
 
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
 <img src="images/important.png" style="display: block; margin: auto;" />
@@ -636,7 +636,7 @@ matplot(0:100, dgamma(0:100, beta[1], beta[2]),
         type = "l", col = "orange",lty = 1,lwd = 2,ylab = "Density", xlab = "km/h")
 ```
 
-![](07-SGAT_files/figure-epub3/unnamed-chunk-39-1.png)<!-- -->
+<img src="07-SGAT_files/figure-html/unnamed-chunk-39-1.png" width="672" />
 
 
 ### Land mask for group model {-}
@@ -811,7 +811,7 @@ points(sm[,"Lon.50%"], sm[,"Lat.50%"], pch=as.character(sitenum),
        cex = ifelse(sitenum>0, 1, 0))
 ```
 
-![](07-SGAT_files/figure-epub3/unnamed-chunk-49-1.png)<!-- -->
+<img src="07-SGAT_files/figure-html/unnamed-chunk-49-1.png" width="624" />
 
 
 ### Saving the Results {-}

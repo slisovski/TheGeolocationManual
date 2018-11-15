@@ -28,7 +28,7 @@ lightImage( tagdata = raw,
             zlim = c(0, 10))
 ```
 
-![](08-FlightR_files/figure-epub3/unnamed-chunk-3-1.png)<!-- -->
+<img src="08-FlightR_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 
 We skip the twilight annotation that can be done using the discussed tools (e.g. `preprocessLight`). In this case we use a twiligth file that produced with the online platform _TAGS_. _FLightR_ works efficiently with the output of _TAGS_, which are CSV files containing the following fields: 
 
@@ -128,7 +128,7 @@ abline(v=as.POSIXct("2015-05-15")) # end of first calibration period
 abline(v=as.POSIXct("2014-07-15")) # start of the second calibration period
 ```
 
-![](08-FlightR_files/figure-epub3/unnamed-chunk-10-1.png)<!-- -->
+<img src="08-FlightR_files/figure-html/unnamed-chunk-10-1.png" width="576" />
 
 Looking at the plot, we can define the time periods, during which the tag resided in the calibration location (recall, that we assume that the tag remained in this location all the time). Because calibration slopes reflect the adequacy of the light level measured by the device, they vary little, in time and between sunsets and sunrises, as long as the tagged animal stays in the calibration location, but become apparently diverse, when it moves away from it. Both patterns are clearly distinguishable at the plot. 
 
@@ -246,7 +246,7 @@ After the results have been saved the first thing to do is to plot change of lon
 plot_lon_lat(Result)
 ```
 
-![](08-FlightR_files/figure-epub3/unnamed-chunk-22-1.png)<!-- -->
+<img src="08-FlightR_files/figure-html/unnamed-chunk-22-1.png" width="576" />
 
 With this graph, please, carefully check whether:
 1. Your track does not approach boundaries of the spatial grid you defined (you ave to keep those in mind assessing the graph). If this is the case, change spatial extend and rerun the analysis.
@@ -334,7 +334,7 @@ points(x=12.23, y=55.98, cex=6, pch=21 , bg=Seasonal_colors[6])
 # dev.off()
 ```
 
-![](08-FlightR_files/figure-epub3/unnamed-chunk-25-1.png)<!-- -->
+<img src="08-FlightR_files/figure-html/unnamed-chunk-25-1.png" width="576" />
 
 ## Getting specific output {-}
 
