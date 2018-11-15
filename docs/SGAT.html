@@ -125,7 +125,32 @@ code > span.in { color: #008000; } /* Information */
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#run-the-iterative-algorithm"><i class="fa fa-check"></i>Run the iterative algorithm</a></li>
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#plot-results"><i class="fa fa-check"></i>Plot results</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="SGAT.html"><a href="SGAT.html"><i class="fa fa-check"></i><b>7</b> SGAT</a></li>
+<li class="chapter" data-level="7" data-path="SGAT.html"><a href="SGAT.html"><i class="fa fa-check"></i><b>7</b> SGAT</a><ul>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#getting-started-2"><i class="fa fa-check"></i>Getting started</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#calibration-1"><i class="fa fa-check"></i>Calibration</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#alternative-calibration"><i class="fa fa-check"></i>Alternative calibration</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#movement-model"><i class="fa fa-check"></i>Movement Model</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#initial-path"><i class="fa fa-check"></i>Initial path</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#define-known-locations"><i class="fa fa-check"></i>Define known locations</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#land-mask"><i class="fa fa-check"></i>Land mask</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#the-estelle-model"><i class="fa fa-check"></i>The Estelle Model</a><ul>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#tuning-the-proposals"><i class="fa fa-check"></i>Tuning the proposals</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#final-run"><i class="fa fa-check"></i>Final run</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#summarize-the-results"><i class="fa fa-check"></i>Summarize the results</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#plotting-the-results"><i class="fa fa-check"></i>Plotting the results</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#saving-the-results"><i class="fa fa-check"></i>Saving the Results</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#the-groupe-model"><i class="fa fa-check"></i>The Groupe Model</a><ul>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#initiate-the-model"><i class="fa fa-check"></i>Initiate the model</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#land-mask-for-group-model"><i class="fa fa-check"></i>Land mask for group model</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#the-estelle-model-1"><i class="fa fa-check"></i>The Estelle Model</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#tuning"><i class="fa fa-check"></i>Tuning</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#final-run-1"><i class="fa fa-check"></i>Final run</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#summarize-the-results-1"><i class="fa fa-check"></i>Summarize the results</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#plotting-the-results-1"><i class="fa fa-check"></i>Plotting the results</a></li>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#saving-the-results-1"><i class="fa fa-check"></i>Saving the Results</a></li>
+</ul></li>
+</ul></li>
 <li class="chapter" data-level="8" data-path="FLightR.html"><a href="FLightR.html"><i class="fa fa-check"></i><b>8</b> FLightR</a></li>
 <li class="chapter" data-level="9" data-path="repositories.html"><a href="repositories.html"><i class="fa fa-check"></i><b>9</b> Data repositories</a></li>
 <li class="chapter" data-level="10" data-path="contribution.html"><a href="contribution.html"><i class="fa fa-check"></i><b>10</b> Your contribution</a></li>
@@ -152,8 +177,589 @@ code > span.in { color: #008000; } /* Information */
             <section class="normal" id="section-">
 <div id="SGAT" class="section level1">
 <h1><span class="header-section-number">Chapter 7</span> SGAT</h1>
-<p>…</p>
+<p>The package <em>SGAT</em> (TAGS backwards) is based in the principles that haven been developed for the <em>tripEstimation</em> package that has now been deprecated by <em>SGAT</em>. The biggest difference between these two packages is the possibility to use twilight events to run the mode. <em>tripEstimation</em> was based solely on the curve method. However, <em>SGAT</em> has additional capabilities that we will discuss in the workflow below. Here, we highlight the <em>groupModel</em>, and the <em>twilightFree</em> model as recent developments with great potential.</p>
+<p>In general, <em>SGAT</em> implements two models -  and . Both models can be setup using threshold based twilight events or twilight period (<em>curve method</em>), but impose different constraints on the movement of the tag. Stella estimates the locations <span class="math inline">\(x_{1},x_{2},\ldots,x_{n}\)</span> of the tag at the observed times of twilight <span class="math inline">\(t_{1},t_{2},\ldots,t_{n}\)</span> assuming the great circle distance between any two successive locations <span class="math inline">\(x_{i}\)</span> and <span class="math inline">\(x_{i+1}\)</span> follows a given distribution. Estelle also considers intermediate locations <span class="math inline">\(z_{1},z_{2},\ldots,z_{n-1}\)</span>, where <span class="math inline">\(z_{i}\)</span> is the location of the tag at an arbitrary time <span class="math inline">\(\tau_{i}\)</span> between twilights <span class="math inline">\(t_{i} &lt; \tau_{i} t_{i+1}\)</span>, and assumes the great circle distance along any dog-leg path <span class="math inline">\(x_{i},z_{i},x_{i+1}\)</span> follows a given distribution.</p>
+<p>Both models estimate location based on observed times of twilight. More precisely, let <span class="math inline">\(t=(t_{1},t_{2},\ldots,t_{n})\)</span> denote the observed times of twilight, let <span class="math inline">\(x=(x_{1},x_{2},\ldots,x_{n})\)</span> denote the corresponding locations of the tag at these times, and let <span class="math inline">\(r=(r_{1},r_{2},\ldots,r_{n})\)</span> be indicators of whether each twilight is a sunrise or sunset. Let <span class="math inline">\(\hat{t}_{i}(x)\)</span> denote the true time at which the twilight corresponding to <span class="math inline">\(t_{i}\)</span> occurs at location <span class="math inline">\(x\)</span>.</p>
+<p>Both models assume that</p>
+<p><span class="math display">\[t_{i} \sim F(\hat{t}_{i}(x_{i}); r_{i},\alpha)\]</span></p>
+<p>for some known distribution <span class="math inline">\(F\)</span> dependent upon a vector of (known) parameters <span class="math inline">\(\alpha\)</span>.</p>
+<p>The two models differ in the way they represent the motion of the tag between successive twilights.</p>
+<p>Let <span class="math inline">\(d = (d_{1},d_{2},\ldots,d_{n-1}) = D(x)\)</span> denote the vector of great circle distances <span class="math inline">\(d_{i}\)</span> between successive locations <span class="math inline">\(x_{i}\)</span> and <span class="math inline">\(x_{i+1}\)</span>. Stella assumes the joint distribution of these distances is</p>
+<p><span class="math display">\[d \sim G(\beta)\]</span></p>
+<p>for some known distribution <span class="math inline">\(G\)</span> dependent upon a vector of (known) parameters <span class="math inline">\(\beta\)</span>. This package implements a less general form of model in which it is assumed the <span class="math inline">\(d_{i}\)</span> are independently distributed</p>
+<p><span class="math display">\[d_{i} \sim G_{i}(\beta).\]</span></p>
+<p>Together, the twilight and behavioural models define the likelihood for the model. If <span class="math inline">\(p(x_{i})\)</span> denote independent priors for the locations then the posterior distribution for <span class="math inline">\(x\)</span> under the Stella model can be written</p>
+<p><span class="math display">\[
+  p( x \;|\; t,r,\alpha,\beta) \propto
+  \left (
+    \prod_{i=1}^{n} f(t_{i}\;|\; \hat{t}_{i}(x_{i}),r_{i},\alpha)
+  \right )
+  \times g(D(x)|\beta)
+  \times
+  \left(
+    \prod_{i=1}^{n} p(x_{i}).
+  \right )
+\]</span></p>
+<p>Similarly, if <span class="math inline">\(p(z_{i})\)</span> denote independent priors for the intermediate points <span class="math inline">\(z_{i}\)</span>, then the posterior under the Estelle model can be written</p>
+<p><span class="math display">\[
+  p( x,z \;|\; t,r,\alpha,\beta) \propto
+  \left (
+    \prod_{i=1}^{n} f(t_{i}\;|\; \hat{t}_{i}(x_{i}),r_{i},\alpha)
+  \right )
+  \times g(D(x,z)|\beta)
+  \times
+  \left (
+    \prod_{i=1}^{n} p(x_{i}) \right ) \times \left( \prod_{i=1}^{n-1} p(z_{i})
+  \right ).
+\]</span></p>
+<p>In both cases a sequence of samples from the posterior can be drawn by standard MCMC techniques.</p>
+<div id="getting-started-2" class="section level2 unnumbered">
+<h2>Getting started</h2>
+<p>To illustrate the <em>SGAT</em> analysis, we use the European bee-eater dataset. The light intensities were recorded by a geolocator from the Swiss Ornithological Institute, measuring light every minute writing the mean of every 5 measurements. Thus, we do not need ot adjust the sunset times.</p>
+<p>We first define the metadata and read in the raw recordings. We skip the twilight definition process but read in the twilight file that has been generated using <code>preprocessLight</code>. Note: it is required to retransform the Twilight column into the <code>POSIXc</code>format.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ID &lt;-<span class="st"> &quot;14SA&quot;</span>
+Species &lt;-<span class="st"> &quot;MerApi&quot;</span>
 
+lon.calib &lt;-<span class="st"> </span><span class="fl">11.96</span>
+lat.calib &lt;-<span class="st"> </span><span class="fl">51.32</span>
+
+wd &lt;-<span class="st"> &quot;data&quot;</span>
+
+raw &lt;-<span class="st"> </span><span class="kw">glfTrans</span>(<span class="kw">paste0</span>(wd, <span class="st">&quot;/RawData/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;.glf&quot;</span>))
+  <span class="kw">names</span>(raw) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Date&quot;</span>, <span class="st">&quot;Light&quot;</span>)
+  raw<span class="op">$</span>Light  &lt;-<span class="st"> </span><span class="kw">log</span>(raw<span class="op">$</span>Light<span class="op">+</span><span class="fl">0.0001</span>) <span class="op">+</span><span class="st"> </span><span class="kw">abs</span>(<span class="kw">min</span>(<span class="kw">log</span>(raw<span class="op">$</span>Light<span class="op">+</span><span class="fl">0.0001</span>)))
+  
+twl &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="kw">paste0</span>(wd, <span class="st">&quot;/Results/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;_twl.csv&quot;</span>))
+  twl<span class="op">$</span>Twilight &lt;-<span class="st"> </span><span class="kw">as.POSIXct</span>(twl<span class="op">$</span>Twilight, <span class="dt">tz =</span> <span class="st">&quot;UTC&quot;</span>)
+  twl &lt;-<span class="st"> </span>twl[<span class="op">!</span>twl<span class="op">$</span>Deleted,]
+  
+raw &lt;-<span class="st"> </span><span class="kw">subset</span>(raw, Date<span class="op">&gt;=</span><span class="kw">min</span>(twl<span class="op">$</span>Twilight) <span class="op">&amp;</span><span class="st"> </span>Date<span class="op">&lt;=</span><span class="kw">max</span>(twl<span class="op">$</span>Twilight)) <span class="co"># clipping raw data to relevant extent  </span></code></pre></div>
+<p>We can have a look into the data using the <code>lightImage</code> function from the <code>TwGeos</code> package:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">offset &lt;-<span class="st"> </span><span class="dv">12</span> <span class="co"># adjusts the y-axis to put night (dark shades) in the middle</span>
+
+<span class="kw">lightImage</span>( <span class="dt">tagdata =</span> raw,
+            <span class="dt">offset =</span> offset,     
+            <span class="dt">zlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">20</span>))
+
+<span class="kw">tsimagePoints</span>(twl<span class="op">$</span>Twilight, <span class="dt">offset =</span> offset, <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">cex =</span> <span class="fl">1.2</span>,
+              <span class="dt">col =</span> <span class="kw">ifelse</span>(twl<span class="op">$</span>Rise, <span class="st">&quot;firebrick&quot;</span>, <span class="st">&quot;cornflowerblue&quot;</span>))</code></pre></div>
+<p><img src="07-SGAT_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>There are some sunrises and sunsets that have been misclassified, so we can use the <code>twlightEdit</code> function to move these to where they should be.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">twl &lt;-<span class="st"> </span><span class="kw">twilightEdit</span>(<span class="dt">twilights =</span> twl,
+                    <span class="dt">offset =</span> offset,
+                    <span class="dt">window =</span> <span class="dv">4</span>,           <span class="co"># two days before and two days after</span>
+                    <span class="dt">outlier.mins =</span> <span class="dv">45</span>,    <span class="co"># difference in mins</span>
+                    <span class="dt">stationary.mins =</span> <span class="dv">25</span>, <span class="co"># are the other surrounding twilights within 25 mins of one another</span>
+                    <span class="dt">plot =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="07-SGAT_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/note.png" style="display: block; margin: auto;" /> It’s usually best to do this step manually. See the <a href="#TwilightAnnotation">Twilight annotation</a> page for more information.</p>
+</div>
+</div>
+<div id="calibration-1" class="section level2 unnumbered">
+<h2>Calibration</h2>
+<p>Calibration for the <em>SGAT</em> process is similar to the calibration performed in the <em>GeoLight</em> analysis. Both, the <em>zero</em> and the <em>median</em> sun elevation angles, as well as the parameters for the error distribution of the twilight times is crucial for the analysis. <strong>However</strong>, while we use sun elevation angles in <em>GeoLight</em> we need the <strong>zenith</strong> angle in <em>SGAT</em>. The difference is trivial; sun elevation angle refers to the deviation of the sun relative to the horizon, whereas the zenith angle refers to the deviation from the zenith. Thus, civil twilight is defined as the time when the sun elevation angle is -6 degrees which equals a zenith angle of 96 degrees.</p>
+<p>The simple conversion of sun elevation angle to zenith angle is:</p>
+<p><span class="math display">\[zenith = 90 - sun elevation angle\]</span></p>
+<p>There are multiple ways to define the time period for calibration. Best is to know when the individual left the deployment site and if there where a couple of weeks between deployment and departure. In many instances the departure date (or the arrival to the retrieval site) is unknown. The <code>lightImage</code> together with the <code>tsimageDeploymentLine</code> can help to define suitable period (the right time period can be optimized by changing the date in the <code>tm.calib</code> vector and plotting the lines over and over again until you are sure that you have selected the beginning and the end of the calibration period). Again, the longer the period the better, but periods that are influenced by e.g. breeding in nest boxes or by movements should be excluded.</p>
+<p>More specifically, <code>lightImage</code> visually presents night (in black) and day (white) throughout the year. This allows us to see when changes in night length occur and thus when the bird has moved. Based on this, we can identify when the bird left the deployment site and manually specify these for <code>tm.calib</code> .</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lightImage</span>( <span class="dt">tagdata =</span> raw,
+            <span class="dt">offset =</span> offset,     
+            <span class="dt">zlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">20</span>))
+
+<span class="kw">tsimageDeploymentLines</span>(twl<span class="op">$</span>Twilight, lon.calib, lat.calib, offset, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;orange&quot;</span>)
+
+tm.calib &lt;-<span class="st"> </span><span class="kw">as.POSIXct</span>(<span class="kw">c</span>(<span class="st">&quot;2015-07-20&quot;</span>, <span class="st">&quot;2015-08-29&quot;</span>), <span class="dt">tz =</span> <span class="st">&quot;UTC&quot;</span>)
+<span class="kw">abline</span>(<span class="dt">v =</span> tm.calib, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="st">&quot;orange&quot;</span>)
+
+d_calib &lt;-<span class="st"> </span><span class="kw">subset</span>(twl, Twilight<span class="op">&gt;=</span>tm.calib[<span class="dv">1</span>] <span class="op">&amp;</span><span class="st"> </span>Twilight<span class="op">&lt;=</span>tm.calib[<span class="dv">2</span>])</code></pre></div>
+<p><img src="07-SGAT_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Using the calibration subset of the <em>twl</em> table we can perform the calibration:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">calib &lt;-<span class="st"> </span><span class="kw">thresholdCalibration</span>(d_calib<span class="op">$</span>Twilight, d_calib<span class="op">$</span>Rise, lon.calib, lat.calib, <span class="dt">method =</span> <span class="st">&quot;gamma&quot;</span>)</code></pre></div>
+<p><img src="07-SGAT_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p>This is how a calibration time series should look like. Based in theory it should follow a gamma or a log-normal distribution (both can be used in <em>SGAT</em>). What we can see, is that the recorded twilight times most frequently deviation approx. 12 minutes. However, deviations of up to 50 minutes have been recorded. For the following analysis, we need the zenith angle for both the zero deviation (0, and second number in return vector e.g. <code>calib[2]</code>) and the most frequent <em>median</em> deviation (1, and the first number in the return vector e.g. <code>calib[1]</code>). Additionally we need the parameters of the error distribution (<code>alpha</code> parameters, e.g. <code>calib[3:4]</code>).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">zenith  &lt;-<span class="st"> </span>calib[<span class="dv">1</span>]
+zenith0 &lt;-<span class="st"> </span>calib[<span class="dv">2</span>]
+
+alpha &lt;-<span class="st"> </span>calib[<span class="dv">3</span><span class="op">:</span><span class="dv">4</span>]</code></pre></div>
+</div>
+<div id="alternative-calibration" class="section level2 unnumbered">
+<h2>Alternative calibration</h2>
+<p>For the bee-eaters and many other species, the breeding season is often also when the loggers are deployed but is a very special period because the birds use different habitats and show different behaviors compared to the rest of the annual cycle. For instance, bee-eaters use burrows during the breeding season, but not during the rest of the year. This is of course suboptimal for calibration since it would lead to good estimates for the breeding grounds when we know the exact location, and biased estimates of sunrise and sunset for the rest of the year. We can therefore try and estimate an alternative zenith angle based in the Hill-Ekstrom theory that the right zenith angle should lead to the lowest variance in latitude estimates (i.e. flattest) during stationary periods. And the latter is most pronounced around the equinox. The following bits of code draw a basic path and then compare different zeniths to find the one with the lowest variation. It then uses that new zenith with the least sd in the threshold model.</p>
+<p>In the <code>findHEZenith</code>function, the <code>tol</code> argument defines how many locations should be linearly interpolated around the equinox. Large values lead to larger periods with interpolated values. For this type of calibration, it makes sense to play with this value but in general it is recommended to set it to a low value (e.g. 0.08). If the tracked individual has been stationary during the time of the equinox this period provides the best data for the Hill-Ekstrom calibration.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">startDate &lt;-<span class="st"> &quot;2015-12-12&quot;</span>
+endDate   &lt;-<span class="st"> &quot;2016-04-15&quot;</span>
+  
+start =<span class="st"> </span><span class="kw">min</span>(<span class="kw">which</span>(<span class="kw">as.Date</span>(twl<span class="op">$</span>Twilight) <span class="op">==</span><span class="st"> </span>startDate))
+end =<span class="st"> </span><span class="kw">max</span>(<span class="kw">which</span>(<span class="kw">as.Date</span>(twl<span class="op">$</span>Twilight) <span class="op">==</span><span class="st"> </span>endDate))
+
+(zenith_sd &lt;-<span class="st"> </span><span class="kw">findHEZenith</span>(twl, <span class="dt">tol=</span><span class="fl">0.01</span>, <span class="dt">range=</span><span class="kw">c</span>(start,end)))</code></pre></div>
+<pre><code>[1] 93.5</code></pre>
+<p><img src="07-SGAT_files/figure-html/unnamed-chunk-10-1.png" width="576" /></p>
+<p>The top panel shows the entire path (latitude) using different zenith angles with the black line indicating the latitude estimates with the smallest variation within the specified range (in between the two blue dashed lines). One needs to be quite sure that the individual did not move during this period. The lower pane shows the actual variation in latitudes across a range of zenith angles. It is good if one can see a clear minimum in this curve.</p>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/important.png" style="display: block; margin: auto;" /> Play around with the range. For instance, look what happens when the <code>endDate</code> is changed to “2016-01-15”. This is not what you want - there is no clear u-shape in the bottom panel and the latitude during stationary non-breeding period in the top panel is very curved, not flat. In such cases, it’s important to increase the range to cover some of the equinox period which is the most noisy. In some cases it can even be worth using the <code>mergeSites</code> function from the <code>GeoLight</code> package to find stationary sites to use in the Hill-Ekstrom calibration. Here’s an example below of how this can be done.</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#convert to geolight format</span>
+geo_twl &lt;-<span class="st"> </span><span class="kw">export2GeoLight</span>(twl)
+
+<span class="co"># this is just to find places where birds have been for a long time, would not use these parameters for stopover identification, detailed can be found in grouped model section</span>
+cL &lt;-<span class="st"> </span><span class="kw">changeLight</span>(<span class="dt">twl=</span>geo_twl, <span class="dt">quantile=</span><span class="fl">0.8</span>, <span class="dt">summary =</span> F, <span class="dt">days =</span> <span class="dv">10</span>, <span class="dt">plot =</span> T)
+<span class="co"># merge site helps to put sites together that are separated by single outliers.</span>
+mS &lt;-<span class="st"> </span><span class="kw">mergeSites</span>(<span class="dt">twl =</span> geo_twl, <span class="dt">site =</span> cL<span class="op">$</span>site, <span class="dt">degElevation =</span> <span class="dv">90</span><span class="op">-</span>zenith0, <span class="dt">distThreshold =</span> <span class="dv">500</span>)
+
+<span class="co">#specify which site is the stationary one</span>
+site           &lt;-<span class="st"> </span>mS<span class="op">$</span>site[mS<span class="op">$</span>site<span class="op">&gt;</span><span class="dv">0</span>] <span class="co"># get rid of movement periods</span>
+stationarySite &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">table</span>(site) <span class="op">==</span><span class="st"> </span><span class="kw">max</span>(<span class="kw">table</span>(site))) <span class="co"># find the site where bird is the longest</span>
+
+<span class="co">#find the dates that the bird arrives and leaves this stationary site</span>
+start &lt;-<span class="st"> </span><span class="kw">min</span>(<span class="kw">which</span>(mS<span class="op">$</span>site <span class="op">==</span><span class="st"> </span>stationarySite))
+end   &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">which</span>(mS<span class="op">$</span>site <span class="op">==</span><span class="st"> </span>stationarySite))
+
+(zenith_sd &lt;-<span class="st"> </span><span class="kw">findHEZenith</span>(twl, <span class="dt">tol=</span><span class="fl">0.01</span>, <span class="dt">range=</span><span class="kw">c</span>(start,end)))</code></pre></div>
+<pre><code>[1] 93.5</code></pre>
+<p><img src="07-SGAT_files/figure-html/unnamed-chunk-12-1.png" width="576" /><img src="07-SGAT_files/figure-html/unnamed-chunk-12-2.png" width="576" /><img src="07-SGAT_files/figure-html/unnamed-chunk-12-3.png" width="576" /></p>
+<p>In this case, there is no real difference between the two calibrations. If a difference will be detected (&gt;0.5 degrees), one should consider adjusting the zenith angles calculated from the breeding site.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">zenith  &lt;-<span class="st"> </span>zenith <span class="op">+</span><span class="st"> </span><span class="kw">abs</span>(zenith0<span class="op">-</span>zenith_sd)
+zenith0 &lt;-<span class="st"> </span>zenith_sd</code></pre></div>
+</div>
+<div id="movement-model" class="section level2 unnumbered">
+<h2>Movement Model</h2>
+<p>We also have to generate some parameters for a basic movement model. We need to provide a mean and standard deviation for a gamma distribution of flight speeds that get applied to each day of the analysis period. We typically want short (near zero) distance flights to be common and long distance flights to be relatively rare. So both mean and distribution should be small.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">beta  &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">2.2</span>, <span class="fl">0.08</span>)
+<span class="kw">matplot</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">100</span>, <span class="kw">dgamma</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">100</span>, beta[<span class="dv">1</span>], beta[<span class="dv">2</span>]),
+        <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;orange&quot;</span>,<span class="dt">lty =</span> <span class="dv">1</span>,<span class="dt">lwd =</span> <span class="dv">2</span>,<span class="dt">ylab =</span> <span class="st">&quot;Density&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;km/h&quot;</span>)</code></pre></div>
+<p><img src="07-SGAT_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/important.png" style="display: block; margin: auto;" /> If you have a species which moves very slowly, you can have <code>beta = c(1,0.08)</code> whereas if you have a species which does moves quickly e.g. bar-tailed godwit, a larger distribution e.g. <code>beta = c(2.2,0.06)</code> might be more appropriate. Note that having a broader distribution is always better as it does not restrict the species movements. The best is to start large and then move to something narrower if the end model doesn’t fit the data</p>
+</div>
+</div>
+<div id="initial-path" class="section level2 unnumbered">
+<h2>Initial path</h2>
+<p>Now we need to get an initial path for the MCMC simulation as well as the midpoints between each consecutive location estimate.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">path &lt;-<span class="st"> </span><span class="kw">thresholdPath</span>(twl<span class="op">$</span>Twilight, twl<span class="op">$</span>Rise, <span class="dt">zenith =</span> zenith0, <span class="dt">tol=</span><span class="fl">0.01</span>)
+
+x0 &lt;-<span class="st"> </span>path<span class="op">$</span>x
+z0 &lt;-<span class="st"> </span><span class="kw">trackMidpts</span>(x0)
+
+<span class="kw">data</span>(wrld_simpl)
+<span class="kw">plot</span>(x0, <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>)
+<span class="kw">plot</span>(wrld_simpl, <span class="dt">col =</span> <span class="st">&quot;grey95&quot;</span>, <span class="dt">add =</span> T)
+
+<span class="kw">points</span>(path<span class="op">$</span>x, <span class="dt">pch=</span><span class="dv">19</span>, <span class="dt">col=</span><span class="st">&quot;cornflowerblue&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;o&quot;</span>)
+<span class="kw">points</span>(lon.calib, lat.calib, <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">cex =</span> <span class="fl">2.5</span>, <span class="dt">col =</span> <span class="st">&quot;firebrick&quot;</span>)
+<span class="kw">box</span>()</code></pre></div>
+<p><img src="07-SGAT_files/figure-html/unnamed-chunk-16-1.png" width="624" /></p>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/important.png" style="display: block; margin: auto;" /> Play around with <code>tol</code>. You’ll notice that with e.g. <code>tol=0.18</code> you start getting straight lines. This is because tol is used to interpolate over the equinox period. A smaller tol is always better as it reduces interpolation. For an anaylsis, always start with a low tol and only increase if the model cannot deal with the noise in the data (creates impossible solutions which do not allow convergence - for instance having a bird)</p>
+</div>
+</div>
+<div id="define-known-locations" class="section level2 unnumbered">
+<h2>Define known locations</h2>
+<p>For many tracks we know at least one location - the starting point at the deployment site. We can set this location and the sampler in the MCMC simulation will be instructed to keep these locations fixed. In this case we also know that the bird flew back to the same location, and that the geolocator was still measuring light when this happened, then we can also fix the last couple of twilight times. Theoretically, if a bird was observed during the year, any twilight time can be fixed to the location that is known.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fixedx &lt;-<span class="st"> </span><span class="kw">rep</span>(F, <span class="kw">nrow</span>(x0))
+fixedx[<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>] &lt;-<span class="st"> </span>T <span class="co"># first two location estimates</span>
+
+fixedx[(<span class="kw">nrow</span>(x0) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)<span class="op">:</span><span class="kw">nrow</span>(x0)] &lt;-<span class="st"> </span>T <span class="co"># last two location estimates</span>
+
+x0[fixedx, <span class="dv">1</span>] &lt;-<span class="st"> </span>lon.calib
+x0[fixedx, <span class="dv">2</span>] &lt;-<span class="st"> </span>lat.calib
+
+z0 &lt;-<span class="st"> </span><span class="kw">trackMidpts</span>(x0) <span class="co"># we need to update the z0 locations</span></code></pre></div>
+</div>
+<div id="land-mask" class="section level2 unnumbered">
+<h2>Land mask</h2>
+<p>A land mask can be quite simple, e.g. differences in the probability of occurance between land and ocean, or highly complex, e.g. including elevation and temperature etc. Here we use a simple land-sea mask that can be created using the function <code>earthseaMask</code> below. This is something that can be customised for purpose, but for the time being we assume that bee eaters are more likely to pend time flying on land than at sea.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">earthseaMask &lt;-<span class="st"> </span><span class="cf">function</span>(xlim, ylim, <span class="dt">n =</span> <span class="dv">2</span>, <span class="dt">pacific=</span><span class="ot">FALSE</span>) {
+  
+  <span class="cf">if</span> (pacific) { wrld_simpl &lt;-<span class="st"> </span><span class="kw">nowrapRecenter</span>(wrld_simpl, <span class="dt">avoidGEOS =</span> <span class="ot">TRUE</span>)}
+  
+  <span class="co"># create empty raster with desired resolution</span>
+  r =<span class="st"> </span><span class="kw">raster</span>(<span class="dt">nrows =</span> n <span class="op">*</span><span class="st"> </span><span class="kw">diff</span>(ylim), <span class="dt">ncols =</span> n <span class="op">*</span><span class="st"> </span><span class="kw">diff</span>(xlim), <span class="dt">xmn =</span> xlim[<span class="dv">1</span>],
+              <span class="dt">xmx =</span> xlim[<span class="dv">2</span>], <span class="dt">ymn =</span> ylim[<span class="dv">1</span>], <span class="dt">ymx =</span> ylim[<span class="dv">2</span>], <span class="dt">crs =</span> <span class="kw">proj4string</span>(wrld_simpl))
+  
+  <span class="co"># create a raster for the stationary period, in this case by giving land a value of 1 and sea NA</span>
+  mask =<span class="st"> </span><span class="kw">cover</span>(<span class="kw">rasterize</span>(<span class="kw">elide</span>(wrld_simpl, <span class="dt">shift =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">360</span>, <span class="dv">0</span>)), r, <span class="dv">1</span>, <span class="dt">silent =</span> <span class="ot">TRUE</span>),
+              <span class="kw">rasterize</span>(wrld_simpl, r, <span class="dv">1</span>, <span class="dt">silent =</span> <span class="ot">TRUE</span>), 
+              <span class="kw">rasterize</span>(<span class="kw">elide</span>(wrld_simpl,<span class="dt">shift =</span> <span class="kw">c</span>(<span class="dv">360</span>, <span class="dv">0</span>)), r, <span class="dv">1</span>, <span class="dt">silent =</span> <span class="ot">TRUE</span>))
+  
+  xbin =<span class="st"> </span><span class="kw">seq</span>(<span class="kw">xmin</span>(mask),<span class="kw">xmax</span>(mask),<span class="dt">length=</span><span class="kw">ncol</span>(mask)<span class="op">+</span><span class="dv">1</span>)
+  ybin =<span class="st"> </span><span class="kw">seq</span>(<span class="kw">ymin</span>(mask),<span class="kw">ymax</span>(mask),<span class="dt">length=</span><span class="kw">nrow</span>(mask)<span class="op">+</span><span class="dv">1</span>)
+
+  <span class="cf">function</span>(p) mask[<span class="kw">cbind</span>(<span class="kw">.bincode</span>(p[,<span class="dv">2</span>],ybin),<span class="kw">.bincode</span>(p[,<span class="dv">1</span>],xbin))]
+}</code></pre></div>
+<p>This function constructs a gridded representation of the world’s land masses for the region delimited by xlim and ylim with a resolution of n cells per degree and creates a look-up function that returns NA for locations that fall outside the extent of the grid, otherwise it returns TRUE or FALSE depending whether the point corresponds to land or sea.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xlim &lt;-<span class="st"> </span><span class="kw">range</span>(x0[,<span class="dv">1</span>]<span class="op">+</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>))
+ylim &lt;-<span class="st"> </span><span class="kw">range</span>(x0[,<span class="dv">2</span>]<span class="op">+</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>))
+
+mask &lt;-<span class="st"> </span><span class="kw">earthseaMask</span>(xlim, ylim, <span class="dt">n =</span> <span class="dv">1</span>)</code></pre></div>
+<p>The location estimates derived by the following Estelle model can effectively excluded from the land by imposing a prior on the x (and z) locations so that locations on the land have a vanishingly small probability of occurrence. The prior is defined on the log scale. Here, we don’t want to exclude them but give location estimates on land a higher prior.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Define the log prior for x and z
+log.prior &lt;-<span class="st"> </span><span class="cf">function</span>(p) {
+    f &lt;-<span class="st"> </span><span class="kw">mask</span>(p)
+    <span class="kw">ifelse</span>(f <span class="op">|</span><span class="st"> </span><span class="kw">is.na</span>(f), <span class="kw">log</span>(<span class="dv">2</span>), <span class="kw">log</span>(<span class="dv">1</span>))
+}</code></pre></div>
+</div>
+<div id="the-estelle-model" class="section level2 unnumbered">
+<h2>The Estelle Model</h2>
+<p>Now, we are ready to specify a model (we only use the Estelle) for the analysis. Below we specify a few key parameters.</p>
+<ol style="list-style-type: decimal">
+<li><code>twilight</code> = twilight times that we determined above.<br />
+</li>
+<li><code>rise</code> = a logical vector sunrise = TRUE - this is calculated at the same time when you define twilights.<br />
+</li>
+<li><code>twilight.model</code> = the distribution type for the difference between observed twilight and expected twilight.<br />
+</li>
+<li><code>alpha</code> = the shape of the twilight.model distribution<br />
+</li>
+<li><code>beta</code> = the movement model parameter<br />
+</li>
+<li><code>logp.x</code> and <code>logp.z</code> = constraints set on the x and z (intermediate) positions. This is where you set the constraints for land<br />
+</li>
+<li><code>x0</code> = initial values for the birds path (x positions)<br />
+</li>
+<li><code>z0</code> = initial values for the birds path (z positions)<br />
+</li>
+<li><code>zenith</code> = the zenith angle to be used. This can take a single value (no change in zenith throughout the year) or a vector of <code>nrow(twl)</code> if you want to use different zenith angles.<br />
+</li>
+<li><code>fixedx</code> = a vector telling the model which locations need to be estimated because positions are unknown.</li>
+</ol>
+<p>First, we define a model with a <code>ModifiedLogNormal</code>twilight model. This is a more relaxed model that helps to get better starting values for the tuning and the final run.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">thresholdModel</span>(<span class="dt">twilight =</span> twl<span class="op">$</span>Twilight,
+                        <span class="dt">rise =</span> twl<span class="op">$</span>Rise,
+                        <span class="dt">twilight.model =</span> <span class="st">&quot;ModifiedGamma&quot;</span>,
+                        <span class="dt">alpha =</span> alpha,
+                        <span class="dt">beta =</span> beta,
+                        <span class="dt">logp.x =</span> log.prior, <span class="dt">logp.z =</span> log.prior, 
+                        <span class="dt">x0 =</span> x0,
+                        <span class="dt">z0 =</span> z0,
+                        <span class="dt">zenith =</span> zenith,
+                        <span class="dt">fixedx =</span> fixedx)</code></pre></div>
+<p>We also need to define the error distribution around each location. We set that using a multivariate normal distribution. Then we can fit the model:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">proposal.x &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="dt">S=</span><span class="kw">diag</span>(<span class="kw">c</span>(<span class="fl">0.0025</span>,<span class="fl">0.0025</span>)),<span class="dt">n=</span><span class="kw">nlocation</span>(x0))
+proposal.z &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="dt">S=</span><span class="kw">diag</span>(<span class="kw">c</span>(<span class="fl">0.0025</span>,<span class="fl">0.0025</span>)),<span class="dt">n=</span><span class="kw">nlocation</span>(z0))
+
+fit &lt;-<span class="st"> </span><span class="kw">estelleMetropolis</span>(model, proposal.x, proposal.z, <span class="dt">iters =</span> <span class="dv">1000</span>, <span class="dt">thin =</span> <span class="dv">20</span>)</code></pre></div>
+<div id="tuning-the-proposals" class="section level3 unnumbered">
+<h3>Tuning the proposals</h3>
+<p>Once the chain meets the positivity constraint, the next step is to tune the proposal distributions. The model and proposals are redefined using the last set of locations from the previous run to initialize.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x0 &lt;-<span class="st"> </span><span class="kw">chainLast</span>(fit<span class="op">$</span>x)
+z0 &lt;-<span class="st"> </span><span class="kw">chainLast</span>(fit<span class="op">$</span>z)
+
+model &lt;-<span class="st"> </span><span class="kw">thresholdModel</span>(<span class="dt">twilight =</span> twl<span class="op">$</span>Twilight,
+                        <span class="dt">rise =</span> twl<span class="op">$</span>Rise,
+                        <span class="dt">twilight.model =</span> <span class="st">&quot;Gamma&quot;</span>,
+                        <span class="dt">alpha =</span> alpha,
+                        <span class="dt">beta =</span> beta,
+                        <span class="dt">logp.x =</span> log.prior, <span class="dt">logp.z =</span> log.prior, 
+                        <span class="dt">x0 =</span> x0,
+                        <span class="dt">z0 =</span> z0,
+                        <span class="dt">zenith =</span> zenith,
+                        <span class="dt">fixedx =</span> fixedx)
+
+x.proposal &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="dt">S =</span> <span class="kw">diag</span>(<span class="kw">c</span>(<span class="fl">0.005</span>, <span class="fl">0.005</span>)), <span class="dt">n =</span> <span class="kw">nrow</span>(twl))
+z.proposal &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="dt">S =</span> <span class="kw">diag</span>(<span class="kw">c</span>(<span class="fl">0.005</span>, <span class="fl">0.005</span>)), <span class="dt">n =</span> <span class="kw">nrow</span>(twl) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</code></pre></div>
+<p>A number of short runs are conducted to tune the proposals. At the end of each run, new proposal distributions are defined based on the dispersion observed in the previous run.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>) {
+    fit &lt;-<span class="st"> </span><span class="kw">estelleMetropolis</span>(model, x.proposal, z.proposal, <span class="dt">x0 =</span> <span class="kw">chainLast</span>(fit<span class="op">$</span>x), 
+        <span class="dt">z0 =</span> <span class="kw">chainLast</span>(fit<span class="op">$</span>z), <span class="dt">iters =</span> <span class="dv">300</span>, <span class="dt">thin =</span> <span class="dv">20</span>)
+    
+    x.proposal &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="kw">chainCov</span>(fit<span class="op">$</span>x), <span class="dt">s =</span> <span class="fl">0.2</span>)
+    z.proposal &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="kw">chainCov</span>(fit<span class="op">$</span>z), <span class="dt">s =</span> <span class="fl">0.2</span>)
+}</code></pre></div>
+<p>The samples drawn through this process need to be examined to ensure the chain mixes adequately</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">opar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>), <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.1</span>)
+<span class="kw">matplot</span>(<span class="kw">t</span>(fit<span class="op">$</span>x[[<span class="dv">1</span>]][<span class="op">!</span>fixedx, <span class="dv">1</span>, ]), <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;dodgerblue&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Lon&quot;</span>)
+<span class="kw">matplot</span>(<span class="kw">t</span>(fit<span class="op">$</span>x[[<span class="dv">1</span>]][<span class="op">!</span>fixedx, <span class="dv">2</span>, ]), <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;firebrick&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Lat&quot;</span>)
+<span class="kw">par</span>(opar)</code></pre></div>
+<p><img src="images/SGATmix.png" style="display: block; margin: auto;" /></p>
+</div>
+<div id="final-run" class="section level3 unnumbered">
+<h3>Final run</h3>
+<p>Once the proposals are tuned, a larger final sample is drawn.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x.proposal &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="kw">chainCov</span>(fit<span class="op">$</span>x), <span class="dt">s =</span> <span class="fl">0.25</span>)
+z.proposal &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="kw">chainCov</span>(fit<span class="op">$</span>z), <span class="dt">s =</span> <span class="fl">0.25</span>)
+
+fit &lt;-<span class="st"> </span><span class="kw">estelleMetropolis</span>(model, x.proposal, z.proposal, <span class="dt">x0 =</span> <span class="kw">chainLast</span>(fit<span class="op">$</span>x), 
+                         <span class="dt">z0 =</span> <span class="kw">chainLast</span>(fit<span class="op">$</span>z), <span class="dt">iters =</span> <span class="dv">1000</span>, <span class="dt">thin =</span> <span class="dv">20</span>)</code></pre></div>
+</div>
+</div>
+<div id="summarize-the-results" class="section level2 unnumbered">
+<h2>Summarize the results</h2>
+<p><code>locationSummary</code> provides the median tracks and percentiles based on the MCMC Chains from the final run.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sm &lt;-<span class="st"> </span><span class="kw">locationSummary</span>(fit<span class="op">$</span>z, <span class="dt">time=</span>fit<span class="op">$</span>model<span class="op">$</span>time)
+<span class="kw">head</span>(sm)</code></pre></div>
+<pre><code>                Time1               Time2 Lon.mean   Lon.sd  Lon.50%
+1 2015-07-15 19:34:02 2015-07-16 03:01:00 11.92681 1.842167 11.98949
+2 2015-07-16 03:01:00 2015-07-16 19:43:53 12.02179 4.388854 11.97274
+3 2015-07-16 19:43:53 2015-07-17 02:51:06 12.13850 3.103504 12.18128
+4 2015-07-17 02:51:06 2015-07-17 19:48:53 12.54457 4.906193 12.29718
+5 2015-07-17 19:48:53 2015-07-18 02:46:06 12.76144 2.948357 12.80829
+6 2015-07-18 02:46:06 2015-07-18 19:28:53 13.05053 4.467219 13.06342
+  Lon.2.5% Lon.97.5% Lat.mean   Lat.sd  Lat.50% Lat.2.5% Lat.97.5%
+1 8.273525  15.81978 51.36540 1.058634 51.42250 49.29978  53.30306
+2 3.303923  20.88697 51.33786 2.627901 51.42393 46.03879  56.50354
+3 5.785892  18.06353 51.25457 2.036834 51.24177 47.27354  55.53580
+4 3.134997  22.77443 51.55448 3.030207 51.51746 45.72056  57.66152
+5 7.077072  18.69472 51.79386 1.873417 51.79962 48.17154  55.36501
+6 4.242315  22.28707 50.73941 2.855003 50.77695 45.04796  56.31163</code></pre>
+</div>
+<div id="plotting-the-results" class="section level2 unnumbered">
+<h2>Plotting the results</h2>
+<p>The results can be presented in many ways, here`s just a quick one.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># empty raster of the extent</span>
+r &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="dt">nrows =</span> <span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">diff</span>(ylim), <span class="dt">ncols =</span> <span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">diff</span>(xlim), <span class="dt">xmn =</span> xlim[<span class="dv">1</span>]<span class="op">-</span><span class="dv">5</span>,
+            <span class="dt">xmx =</span> xlim[<span class="dv">2</span>]<span class="op">+</span><span class="dv">5</span>, <span class="dt">ymn =</span> ylim[<span class="dv">1</span>]<span class="op">-</span><span class="dv">5</span>, <span class="dt">ymx =</span> ylim[<span class="dv">2</span>]<span class="op">+</span><span class="dv">5</span>, <span class="dt">crs =</span> <span class="kw">proj4string</span>(wrld_simpl))
+
+s &lt;-<span class="st"> </span><span class="kw">slices</span>(<span class="dt">type =</span> <span class="st">&quot;intermediate&quot;</span>, <span class="dt">breaks =</span> <span class="st">&quot;week&quot;</span>, <span class="dt">mcmc =</span> fit, <span class="dt">grid =</span> r)
+sk &lt;-<span class="st"> </span><span class="kw">slice</span>(s, <span class="kw">sliceIndices</span>(s))
+
+<span class="kw">plot</span>(sk, <span class="dt">useRaster =</span> F,<span class="dt">col =</span> <span class="kw">rev</span>(viridis<span class="op">::</span><span class="kw">viridis</span>(<span class="dv">50</span>)))
+<span class="kw">plot</span>(wrld_simpl, <span class="dt">xlim=</span>xlim, <span class="dt">ylim=</span>ylim,<span class="dt">add =</span> T, <span class="dt">bg =</span> <span class="kw">adjustcolor</span>(<span class="st">&quot;black&quot;</span>,<span class="dt">alpha=</span><span class="fl">0.1</span>))
+
+<span class="kw">lines</span>(sm[,<span class="st">&quot;Lon.50%&quot;</span>], sm[,<span class="st">&quot;Lat.50%&quot;</span>], <span class="dt">col =</span> <span class="kw">adjustcolor</span>(<span class="st">&quot;firebrick&quot;</span>, <span class="dt">alpha.f =</span> <span class="fl">0.6</span>), <span class="dt">type =</span> <span class="st">&quot;o&quot;</span>, <span class="dt">pch =</span> <span class="dv">16</span>)</code></pre></div>
+<p><img src="07-SGAT_files/figure-html/unnamed-chunk-31-1.png" width="624" /></p>
+<p>Additionally, we can plot the Longitudes and Latitudes separately with their confidence intervals.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par</span>(<span class="dt">mfrow=</span><span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">1</span>),<span class="dt">mar=</span><span class="kw">c</span>(<span class="dv">4</span>,<span class="dv">4</span>,<span class="dv">1</span>,<span class="dv">1</span>))
+<span class="kw">plot</span>(sm<span class="op">$</span>Time1, sm<span class="op">$</span><span class="st">&quot;Lon.50%&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Longitude&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">yaxt =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>, <span class="dv">25</span>))
+<span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">las =</span> <span class="dv">2</span>)
+<span class="kw">polygon</span>(<span class="dt">x=</span><span class="kw">c</span>(sm<span class="op">$</span>Time1,<span class="kw">rev</span>(sm<span class="op">$</span>Time1)), <span class="dt">y=</span><span class="kw">c</span>(sm<span class="op">$</span><span class="st">`</span><span class="dt">Lon.2.5%</span><span class="st">`</span>,<span class="kw">rev</span>(sm<span class="op">$</span><span class="st">`</span><span class="dt">Lon.97.5%</span><span class="st">`</span>)), <span class="dt">border=</span><span class="st">&quot;gray&quot;</span>, <span class="dt">col=</span><span class="st">&quot;gray&quot;</span>)
+<span class="kw">lines</span>(sm<span class="op">$</span>Time1,sm<span class="op">$</span><span class="st">&quot;Lon.50%&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)
+
+<span class="kw">plot</span>(sm<span class="op">$</span>Time1,sm<span class="op">$</span><span class="st">&quot;Lat.50%&quot;</span>, <span class="dt">type=</span><span class="st">&quot;n&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Latitude&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">yaxt =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">20</span>,<span class="dv">60</span>))
+<span class="kw">axis</span>(<span class="dv">2</span>, <span class="dt">las =</span> <span class="dv">2</span>)
+<span class="kw">polygon</span>(<span class="dt">x=</span><span class="kw">c</span>(sm<span class="op">$</span>Time1,<span class="kw">rev</span>(sm<span class="op">$</span>Time1)), <span class="dt">y=</span><span class="kw">c</span>(sm<span class="op">$</span><span class="st">`</span><span class="dt">Lat.2.5%</span><span class="st">`</span>,<span class="kw">rev</span>(sm<span class="op">$</span><span class="st">`</span><span class="dt">Lat.97.5%</span><span class="st">`</span>)), <span class="dt">border=</span><span class="st">&quot;gray&quot;</span>, <span class="dt">col=</span><span class="st">&quot;gray&quot;</span>)
+<span class="kw">lines</span>(sm<span class="op">$</span>Time1,sm<span class="op">$</span><span class="st">&quot;Lat.50%&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="07-SGAT_files/figure-html/unnamed-chunk-32-1.png" width="768" /></p>
+</div>
+<div id="saving-the-results" class="section level2 unnumbered">
+<h2>Saving the Results</h2>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/important.png" style="display: block; margin: auto;" /> We want to save the summary file as well as the MCMC chains in case we want to summarize them differently in the future. We also need the chains to make maps with a density distribution or similar presentations of the results.</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.csv</span>(sm, 
+          <span class="kw">paste0</span>(wd, <span class="st">&quot;/Results/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;_SGATSummary.csv&quot;</span>), 
+          <span class="dt">row.names =</span> F)
+
+<span class="kw">save</span>(fit, 
+     <span class="dt">file =</span> <span class="kw">paste0</span>(wd, <span class="st">&quot;/Results/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;_SGATfit.Rdata&quot;</span>), 
+     <span class="dt">compress =</span> T)</code></pre></div>
+</div>
+<div id="the-groupe-model" class="section level2 unnumbered">
+<h2>The Groupe Model</h2>
+<p>The group model is a special case of the estelle model discussed above. It allows group twilight times together which are then treated as a set of twilight times recorded at one single location. The location is thus the best spatial representation of a group of sunrise and sunset times.</p>
+<p>To realise the grouping one could use the changepoint analyses from <code>GeoLight</code> that separates periods of residency from periods of movement based in changes in sunrise and sunset times.</p>
+<p>We start with the twl file that needs reformatting to match the <code>GeoLight</code> requirements.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">geo_twl &lt;-<span class="st"> </span><span class="kw">export2GeoLight</span>(twl)
+
+<span class="co"># Often it is necessary to play around with quantile and days</span>
+<span class="co"># quantile defines how many stopovers there are. the higher, the fewer there are</span>
+<span class="co"># days indicates the duration of the stopovers </span>
+cL &lt;-<span class="st"> </span><span class="kw">changeLight</span>(<span class="dt">twl=</span>geo_twl, <span class="dt">quantile=</span><span class="fl">0.86</span>, <span class="dt">summary =</span> F, <span class="dt">days =</span> <span class="dv">2</span>, <span class="dt">plot =</span> T)
+
+<span class="co"># merge site helps to put sites together that are separated by single outliers.</span>
+mS &lt;-<span class="st"> </span><span class="kw">mergeSites</span>(<span class="dt">twl =</span> geo_twl, <span class="dt">site =</span> cL<span class="op">$</span>site, <span class="dt">degElevation =</span> <span class="dv">90</span><span class="op">-</span>zenith0, <span class="dt">distThreshold =</span> <span class="dv">500</span>)</code></pre></div>
+<p><img src="07-SGAT_files/figure-html/unnamed-chunk-35-1.png" width="672" /><img src="07-SGAT_files/figure-html/unnamed-chunk-35-2.png" width="672" /></p>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/important.png" style="display: block; margin: auto;" /> Play around with <code>distThreshold</code> in <code>mergeSites</code>, and <code>quantile</code> and <code>days</code> in <code>changeLight</code> and see how results change. It can help to look at how latitudes are classed by <code>mergeSites</code>. If there are large changes in longitude within the same stationary site, then it is worth reducing the <code>quantile</code> to allow more movement or increasing the <code>distThreshold</code>. Overall, for a SGAT grouped model, it’s best to allow a lot of movement and only have stopovers that are certain classed as stopovers.</p>
+</div>
+<p>The plot shows the sites that have been identified and merged (red line in top panes represents the merged sites). See <a href="GeoLight.html#GeoLight">GeoLight</a> for more information on this analysis.</p>
+<p>We know have to back transfer the twilight table and create a group vector with TRUE and FALSE according to which twilights to merge.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">twl.rev &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Twilight =</span> <span class="kw">as.POSIXct</span>(geo_twl[,<span class="dv">1</span>], geo_twl[,<span class="dv">2</span>]), 
+                      <span class="dt">Rise     =</span> <span class="kw">c</span>(<span class="kw">ifelse</span>(geo_twl[,<span class="dv">3</span>]<span class="op">==</span><span class="dv">1</span>, <span class="ot">TRUE</span>, <span class="ot">FALSE</span>), <span class="kw">ifelse</span>(geo_twl[,<span class="dv">3</span>]<span class="op">==</span><span class="dv">1</span>, <span class="ot">FALSE</span>, <span class="ot">TRUE</span>)),
+                      <span class="dt">Site     =</span> <span class="kw">rep</span>(mS<span class="op">$</span>site,<span class="dv">2</span>))
+twl.rev &lt;-<span class="st"> </span><span class="kw">subset</span>(twl.rev, <span class="op">!</span><span class="kw">duplicated</span>(Twilight), <span class="dt">sort =</span> Twilight)
+
+grouped &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="ot">FALSE</span>, <span class="kw">nrow</span>(twl.rev))
+grouped[twl.rev<span class="op">$</span>Site<span class="op">&gt;</span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="ot">TRUE</span> 
+grouped[<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, (<span class="kw">length</span>(grouped)<span class="op">-</span><span class="dv">2</span>)<span class="op">:</span><span class="kw">length</span>(grouped))] &lt;-<span class="st"> </span><span class="ot">TRUE</span>
+
+<span class="co"># Create a vector which indicates which numbers sites as 111123444444567888889</span>
+g &lt;-<span class="st"> </span><span class="kw">makeGroups</span>(grouped)
+
+<span class="co"># Add data to twl file</span>
+twl<span class="op">$</span>group &lt;-<span class="st"> </span><span class="kw">c</span>(g, g[<span class="kw">length</span>(g)])
+
+
+<span class="co"># Add behavior vector</span>
+behaviour &lt;-<span class="st"> </span><span class="kw">c</span>()
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">max</span>(g)){
+  behaviour&lt;-<span class="st"> </span><span class="kw">c</span>(behaviour, <span class="kw">which</span>(g<span class="op">==</span>i)[<span class="dv">1</span>])
+}
+stationary &lt;-<span class="st"> </span>grouped[behaviour]
+sitenum &lt;-<span class="st"> </span><span class="kw">cumsum</span>(stationary<span class="op">==</span>T)
+sitenum[stationary<span class="op">==</span>F] &lt;-<span class="st"> </span><span class="dv">0</span></code></pre></div>
+<div id="initiate-the-model" class="section level3 unnumbered">
+<h3>Initiate the model</h3>
+<p>The initial path as well as the fixed vector needs to be slightly different, e.g. only one value for a group of twilights.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x0 &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">tapply</span>(path<span class="op">$</span>x[,<span class="dv">1</span>],twl<span class="op">$</span>group,median), 
+            <span class="kw">tapply</span>(path<span class="op">$</span>x[,<span class="dv">2</span>],twl<span class="op">$</span>group,median))
+
+
+fixedx &lt;-<span class="st"> </span><span class="kw">rep_len</span>(<span class="ot">FALSE</span>, <span class="dt">length.out =</span> <span class="kw">nrow</span>(x0))
+fixedx[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="ot">TRUE</span>
+fixedx[<span class="kw">c</span>(<span class="dv">1</span>, <span class="kw">length</span>(fixedx))] &lt;-<span class="st"> </span><span class="ot">TRUE</span>
+
+x0[fixedx,<span class="dv">1</span>] &lt;-<span class="st"> </span>lon.calib
+x0[fixedx,<span class="dv">2</span>] &lt;-<span class="st"> </span>lat.calib
+
+z0 &lt;-<span class="st"> </span><span class="kw">trackMidpts</span>(x0)</code></pre></div>
+<p>For the movement model we also use different parameters since those should now only reflect the speeds during active flight.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">beta  &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">2.2</span>, <span class="fl">0.08</span>)
+<span class="kw">matplot</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">100</span>, <span class="kw">dgamma</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">100</span>, beta[<span class="dv">1</span>], beta[<span class="dv">2</span>]),
+        <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">col =</span> <span class="st">&quot;orange&quot;</span>,<span class="dt">lty =</span> <span class="dv">1</span>,<span class="dt">lwd =</span> <span class="dv">2</span>,<span class="dt">ylab =</span> <span class="st">&quot;Density&quot;</span>, <span class="dt">xlab =</span> <span class="st">&quot;km/h&quot;</span>)</code></pre></div>
+<p><img src="07-SGAT_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+</div>
+<div id="land-mask-for-group-model" class="section level3 unnumbered">
+<h3>Land mask for group model</h3>
+<p>Now that we know when birds are stationary and when they are not, we can change the mask to ensure that when birds are stationary, they are on land, and that when they are moving/migrating, they can go anywhere. We can therefore create two rasters, one for movement and one for stationary periods which we can then access using an index derived from <code>stationary</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">earthseaMask &lt;-<span class="st"> </span><span class="cf">function</span>(xlim, ylim, <span class="dt">n =</span> <span class="dv">2</span>, <span class="dt">pacific=</span><span class="ot">FALSE</span>, index) {
+  
+  <span class="cf">if</span> (pacific) { wrld_simpl &lt;-<span class="st"> </span><span class="kw">nowrapRecenter</span>(wrld_simpl, <span class="dt">avoidGEOS =</span> <span class="ot">TRUE</span>)}
+  
+  <span class="co"># create empty raster with desired resolution</span>
+  r =<span class="st"> </span><span class="kw">raster</span>(<span class="dt">nrows =</span> n <span class="op">*</span><span class="st"> </span><span class="kw">diff</span>(ylim), <span class="dt">ncols =</span> n <span class="op">*</span><span class="st"> </span><span class="kw">diff</span>(xlim), <span class="dt">xmn =</span> xlim[<span class="dv">1</span>],
+              <span class="dt">xmx =</span> xlim[<span class="dv">2</span>], <span class="dt">ymn =</span> ylim[<span class="dv">1</span>], <span class="dt">ymx =</span> ylim[<span class="dv">2</span>], <span class="dt">crs =</span> <span class="kw">proj4string</span>(wrld_simpl))
+  
+  <span class="co"># create a raster for the stationary period, in this case by giving land a value of 1</span>
+  rs =<span class="st"> </span><span class="kw">cover</span>(<span class="kw">rasterize</span>(<span class="kw">elide</span>(wrld_simpl, <span class="dt">shift =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">360</span>, <span class="dv">0</span>)), r, <span class="dv">1</span>, <span class="dt">silent =</span> <span class="ot">TRUE</span>),
+              <span class="kw">rasterize</span>(wrld_simpl, r, <span class="dv">1</span>, <span class="dt">silent =</span> <span class="ot">TRUE</span>), 
+              <span class="kw">rasterize</span>(<span class="kw">elide</span>(wrld_simpl,<span class="dt">shift =</span> <span class="kw">c</span>(<span class="dv">360</span>, <span class="dv">0</span>)), r, <span class="dv">1</span>, <span class="dt">silent =</span> <span class="ot">TRUE</span>))
+  
+  <span class="co"># make the movement raster the same resolution as the stationary raster, but allow the bird to go anywhere by giving all cells a value of 1</span>
+  rm =<span class="st"> </span>rs; rm[] =<span class="st"> </span><span class="dv">1</span>
+  
+  <span class="co"># stack the movement and stationary rasters on top of each other</span>
+  mask =<span class="st"> </span><span class="kw">stack</span>(rs, rm)
+  
+  xbin =<span class="st"> </span><span class="kw">seq</span>(<span class="kw">xmin</span>(mask),<span class="kw">xmax</span>(mask),<span class="dt">length=</span><span class="kw">ncol</span>(mask)<span class="op">+</span><span class="dv">1</span>)
+  ybin =<span class="st"> </span><span class="kw">seq</span>(<span class="kw">ymin</span>(mask),<span class="kw">ymax</span>(mask),<span class="dt">length=</span><span class="kw">nrow</span>(mask)<span class="op">+</span><span class="dv">1</span>)
+  mask =<span class="st"> </span><span class="kw">as.array</span>(mask)[<span class="kw">nrow</span>(mask)<span class="op">:</span><span class="dv">1</span>,,<span class="kw">sort</span>(<span class="kw">unique</span>(index)),drop=<span class="ot">FALSE</span>]
+
+  <span class="cf">function</span>(p) mask[<span class="kw">cbind</span>(<span class="kw">.bincode</span>(p[,<span class="dv">2</span>],ybin),<span class="kw">.bincode</span>(p[,<span class="dv">1</span>],xbin), index)]
+}</code></pre></div>
+<p>We can then create the mask in a similar manner to before, but now with an index which we derive from <code>stationary</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xlim &lt;-<span class="st"> </span><span class="kw">range</span>(x0[,<span class="dv">1</span>]<span class="op">+</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>))
+ylim &lt;-<span class="st"> </span><span class="kw">range</span>(x0[,<span class="dv">2</span>]<span class="op">+</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>))
+
+index =<span class="st"> </span><span class="kw">ifelse</span>(stationary, <span class="dv">1</span>, <span class="dv">2</span>)
+
+mask &lt;-<span class="st"> </span><span class="kw">earthseaMask</span>(xlim, ylim, <span class="dt">n =</span> <span class="dv">1</span>, <span class="dt">index=</span>index)</code></pre></div>
+<p>The location estimates derived by the following Estelle model can effectively excluded from the land by imposing a prior on the x (and z) locations so that locations on sea are highly unlikely during the stationary period. The prior is defined on the log scale. Here, we do want to exclude them but give location estimates on land a higher prior.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Define the log prior for x and z
+logp &lt;-<span class="st"> </span><span class="cf">function</span>(p) {
+    f &lt;-<span class="st"> </span><span class="kw">mask</span>(p)
+    <span class="kw">ifelse</span>(f <span class="op">|</span><span class="st"> </span><span class="kw">is.na</span>(f), <span class="op">-</span><span class="dv">1000</span>, <span class="kw">log</span>(<span class="dv">1</span>))
+}</code></pre></div>
+</div>
+<div id="the-estelle-model-1" class="section level3 unnumbered">
+<h3>The Estelle Model</h3>
+<p>Now we can define the model (again a relaxed model first).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model &lt;-<span class="st"> </span><span class="kw">groupedThresholdModel</span>(twl<span class="op">$</span>Twilight,
+                               twl<span class="op">$</span>Rise,
+                               <span class="dt">group =</span> twl<span class="op">$</span>group, <span class="co">#This is the group vector for each time the bird was at a point</span>
+                               <span class="dt">twilight.model =</span> <span class="st">&quot;ModifiedGamma&quot;</span>,
+                               <span class="dt">alpha =</span> alpha,
+                               <span class="dt">beta =</span>  beta,
+                               <span class="dt">x0 =</span> x0, <span class="co"># meadian point for each greoup (defined by twl$group)</span>
+                               <span class="dt">z0 =</span> z0, <span class="co"># middle points between the x0 points</span>
+                               <span class="dt">zenith =</span> zenith,
+                               <span class="dt">logp.x =</span> logp, <span class="co"># land sea mask</span>
+                               <span class="dt">fixedx =</span> fixedx)
+
+
+<span class="co"># define the error shape</span>
+x.proposal &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="dt">S =</span> <span class="kw">diag</span>(<span class="kw">c</span>(<span class="fl">0.005</span>, <span class="fl">0.005</span>)), <span class="dt">n =</span> <span class="kw">nrow</span>(x0))
+z.proposal &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="dt">S =</span> <span class="kw">diag</span>(<span class="kw">c</span>(<span class="fl">0.005</span>, <span class="fl">0.005</span>)), <span class="dt">n =</span> <span class="kw">nrow</span>(z0))
+
+<span class="co"># Fit the model</span>
+fit &lt;-<span class="st"> </span><span class="kw">estelleMetropolis</span>(model, x.proposal, z.proposal, <span class="dt">iters =</span> <span class="dv">1000</span>, <span class="dt">thin =</span> <span class="dv">20</span>)</code></pre></div>
+</div>
+<div id="tuning" class="section level3 unnumbered">
+<h3>Tuning</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># use output from last run</span>
+x0 &lt;-<span class="st"> </span><span class="kw">chainLast</span>(fit<span class="op">$</span>x)
+z0 &lt;-<span class="st"> </span><span class="kw">chainLast</span>(fit<span class="op">$</span>z)
+
+model &lt;-<span class="st"> </span><span class="kw">groupedThresholdModel</span>(twl<span class="op">$</span>Twilight, 
+                               twl<span class="op">$</span>Rise, 
+                               <span class="dt">group =</span> twl<span class="op">$</span>group,
+                               <span class="dt">twilight.model =</span> <span class="st">&quot;Gamma&quot;</span>,
+                               <span class="dt">alpha =</span> alpha, 
+                               <span class="dt">beta =</span>  beta,
+                               <span class="dt">x0 =</span> x0, <span class="dt">z0 =</span> z0,
+                               <span class="dt">logp.x =</span> logp,
+                               <span class="dt">missing=</span>twl<span class="op">$</span>Missing,
+                               <span class="dt">zenith =</span> zenith,
+                               <span class="dt">fixedx =</span> fixedx)
+
+<span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>) {
+  x.proposal &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="kw">chainCov</span>(fit<span class="op">$</span>x), <span class="dt">s =</span> <span class="fl">0.3</span>)
+  z.proposal &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="kw">chainCov</span>(fit<span class="op">$</span>z), <span class="dt">s =</span> <span class="fl">0.3</span>)
+  fit &lt;-<span class="st"> </span><span class="kw">estelleMetropolis</span>(model, x.proposal, z.proposal, <span class="dt">x0 =</span> <span class="kw">chainLast</span>(fit<span class="op">$</span>x),
+                           <span class="dt">z0 =</span> <span class="kw">chainLast</span>(fit<span class="op">$</span>z), <span class="dt">iters =</span> <span class="dv">300</span>, <span class="dt">thin =</span> <span class="dv">20</span>)
+}
+
+## Check if chains mix
+opar &lt;-<span class="st"> </span><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">1</span>), <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>) <span class="op">+</span><span class="st"> </span><span class="fl">0.1</span>)
+<span class="kw">matplot</span>(<span class="kw">t</span>(fit<span class="op">$</span>x[[<span class="dv">1</span>]][<span class="op">!</span>fixedx, <span class="dv">1</span>, ]), <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;dodgerblue&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Lon&quot;</span>)
+<span class="kw">matplot</span>(<span class="kw">t</span>(fit<span class="op">$</span>x[[<span class="dv">1</span>]][<span class="op">!</span>fixedx, <span class="dv">2</span>, ]), <span class="dt">type =</span> <span class="st">&quot;l&quot;</span>, <span class="dt">lty =</span> <span class="dv">1</span>, <span class="dt">col =</span> <span class="st">&quot;firebrick&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;Lat&quot;</span>)
+<span class="kw">par</span>(opar)</code></pre></div>
+<p><img src="images/SGATMix2.png" style="display: block; margin: auto;" /></p>
+</div>
+<div id="final-run-1" class="section level3 unnumbered">
+<h3>Final run</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x.proposal &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="kw">chainCov</span>(fit<span class="op">$</span>x), <span class="dt">s =</span> <span class="fl">0.3</span>)
+z.proposal &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="kw">chainCov</span>(fit<span class="op">$</span>z), <span class="dt">s =</span> <span class="fl">0.3</span>)
+
+fit &lt;-<span class="st"> </span><span class="kw">estelleMetropolis</span>(model, x.proposal, z.proposal, <span class="dt">x0 =</span> <span class="kw">chainLast</span>(fit<span class="op">$</span>x),
+                         <span class="dt">z0 =</span> <span class="kw">chainLast</span>(fit<span class="op">$</span>z), <span class="dt">iters =</span> <span class="dv">2000</span>, <span class="dt">thin =</span> <span class="dv">20</span>, <span class="dt">chain =</span> <span class="dv">1</span>)</code></pre></div>
+</div>
+<div id="summarize-the-results-1" class="section level3 unnumbered">
+<h3>Summarize the results</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sm &lt;-<span class="st"> </span><span class="kw">locationSummary</span>(fit<span class="op">$</span>z, <span class="dt">time=</span>fit<span class="op">$</span>model<span class="op">$</span>time)</code></pre></div>
+</div>
+<div id="plotting-the-results-1" class="section level3 unnumbered">
+<h3>Plotting the results</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">colours &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>,<span class="kw">colorRampPalette</span>(<span class="kw">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;yellow&quot;</span>,<span class="st">&quot;red&quot;</span>))(<span class="kw">max</span>(twl.rev<span class="op">$</span>Site)))
+<span class="kw">data</span>(wrld_simpl)
+
+<span class="co"># empty raster of the extent</span>
+r &lt;-<span class="st"> </span><span class="kw">raster</span>(<span class="dt">nrows =</span> <span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">diff</span>(ylim), <span class="dt">ncols =</span> <span class="dv">2</span> <span class="op">*</span><span class="st"> </span><span class="kw">diff</span>(xlim), <span class="dt">xmn =</span> xlim[<span class="dv">1</span>]<span class="op">-</span><span class="dv">5</span>,
+            <span class="dt">xmx =</span> xlim[<span class="dv">2</span>]<span class="op">+</span><span class="dv">5</span>, <span class="dt">ymn =</span> ylim[<span class="dv">1</span>]<span class="op">-</span><span class="dv">5</span>, <span class="dt">ymx =</span> ylim[<span class="dv">2</span>]<span class="op">+</span><span class="dv">5</span>, <span class="dt">crs =</span> <span class="kw">proj4string</span>(wrld_simpl))
+
+s &lt;-<span class="st"> </span><span class="kw">slices</span>(<span class="dt">type =</span> <span class="st">&quot;intermediate&quot;</span>, <span class="dt">breaks =</span> <span class="st">&quot;week&quot;</span>, <span class="dt">mcmc =</span> fit, <span class="dt">grid =</span> r)
+sk &lt;-<span class="st"> </span><span class="kw">slice</span>(s, <span class="kw">sliceIndices</span>(s))
+
+<span class="kw">plot</span>(sk, <span class="dt">useRaster =</span> F,<span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;transparent&quot;</span>, <span class="kw">rev</span>(viridis<span class="op">::</span><span class="kw">viridis</span>(<span class="dv">50</span>))))
+<span class="kw">plot</span>(wrld_simpl, <span class="dt">xlim=</span>xlim, <span class="dt">ylim=</span>ylim,<span class="dt">add =</span> T, <span class="dt">bg =</span> <span class="kw">adjustcolor</span>(<span class="st">&quot;black&quot;</span>,<span class="dt">alpha=</span><span class="fl">0.1</span>))
+
+<span class="kw">with</span>(sm[sitenum<span class="op">&gt;</span><span class="dv">0</span>,], <span class="kw">arrows</span>(<span class="st">`</span><span class="dt">Lon.50%</span><span class="st">`</span>, <span class="st">`</span><span class="dt">Lat.50%</span><span class="st">`</span><span class="op">+</span><span class="st">`</span><span class="dt">Lat.sd</span><span class="st">`</span>, <span class="st">`</span><span class="dt">Lon.50%</span><span class="st">`</span>, <span class="st">`</span><span class="dt">Lat.50%</span><span class="st">`</span><span class="op">-</span><span class="st">`</span><span class="dt">Lat.sd</span><span class="st">`</span>, <span class="dt">length =</span> <span class="dv">0</span>, <span class="dt">lwd =</span> <span class="fl">2.5</span>, <span class="dt">col =</span> <span class="st">&quot;firebrick&quot;</span>))
+<span class="kw">with</span>(sm[sitenum<span class="op">&gt;</span><span class="dv">0</span>,], <span class="kw">arrows</span>(<span class="st">`</span><span class="dt">Lon.50%</span><span class="st">`</span><span class="op">+</span><span class="st">`</span><span class="dt">Lon.sd</span><span class="st">`</span>, <span class="st">`</span><span class="dt">Lat.50%</span><span class="st">`</span>, <span class="st">`</span><span class="dt">Lon.50%</span><span class="st">`</span><span class="op">-</span><span class="st">`</span><span class="dt">Lon.sd</span><span class="st">`</span>, <span class="st">`</span><span class="dt">Lat.50%</span><span class="st">`</span>, <span class="dt">length =</span> <span class="dv">0</span>, <span class="dt">lwd =</span> <span class="fl">2.5</span>, <span class="dt">col =</span> <span class="st">&quot;firebrick&quot;</span>))
+<span class="kw">lines</span>(sm[,<span class="st">&quot;Lon.50%&quot;</span>], sm[,<span class="st">&quot;Lat.50%&quot;</span>], <span class="dt">col =</span> <span class="st">&quot;darkorchid4&quot;</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)
+
+<span class="kw">points</span>(sm[,<span class="st">&quot;Lon.50%&quot;</span>], sm[,<span class="st">&quot;Lat.50%&quot;</span>], <span class="dt">pch=</span><span class="dv">21</span>, <span class="dt">bg=</span>colours[sitenum<span class="op">+</span><span class="dv">1</span>], 
+       <span class="dt">cex =</span> <span class="kw">ifelse</span>(sitenum<span class="op">&gt;</span><span class="dv">0</span>, <span class="dv">3</span>, <span class="dv">0</span>), <span class="dt">col =</span> <span class="st">&quot;firebrick&quot;</span>, <span class="dt">lwd =</span> <span class="fl">2.5</span>)
+
+<span class="kw">points</span>(sm[,<span class="st">&quot;Lon.50%&quot;</span>], sm[,<span class="st">&quot;Lat.50%&quot;</span>], <span class="dt">pch=</span><span class="kw">as.character</span>(sitenum),  
+       <span class="dt">cex =</span> <span class="kw">ifelse</span>(sitenum<span class="op">&gt;</span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>))</code></pre></div>
+<p><img src="07-SGAT_files/figure-html/unnamed-chunk-49-1.png" width="624" /></p>
+</div>
+<div id="saving-the-results-1" class="section level3 unnumbered">
+<h3>Saving the Results</h3>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/important.png" style="display: block; margin: auto;" /> We again want to save the summary file as well as the MCMC Chains in case we want to summarize them differently in the future. We also need the chains to make maps with a density distribution or similar presentations of the results.</span></p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.csv</span>(sm, 
+          <span class="kw">paste0</span>(wd, <span class="st">&quot;/Results/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;_SGATGroupSummary.csv&quot;</span>), 
+          <span class="dt">row.names =</span> F)
+
+<span class="kw">save</span>(fit, 
+     <span class="dt">file =</span> <span class="kw">paste0</span>(wd, <span class="st">&quot;/Results/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;_SGATGroupfit.RData&quot;</span>), 
+     <span class="dt">compress =</span> T)</code></pre></div>
+
+</div>
+</div>
 </div>
             </section>
 
@@ -205,6 +811,19 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
