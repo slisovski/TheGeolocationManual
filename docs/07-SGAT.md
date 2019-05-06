@@ -816,9 +816,9 @@ with(sm[sitenum>0,], arrows(`Lon.50%`+`Lon.sd`, `Lat.50%`, `Lon.50%`-`Lon.sd`, `
 lines(sm[,"Lon.50%"], sm[,"Lat.50%"], col = "darkorchid4", lwd = 2)
 
 points(sm[,"Lon.50%"], sm[,"Lat.50%"], pch=21, bg=colours[sitenum+1], 
-       cex = ifelse(sitenum>0, 3, 0), col = "firebrick", lwd = 2.5)
+      cex = ifelse(sitenum>0, 3, 0), col = "firebrick", lwd = 2.5)
 
-points(sm[,"Lon.50%"], sm[,"Lat.50%"], pch=as.character(sitenum),  
+points(sm[,"Lon.50%"], sm[,"Lat.50%"], pch=as.character(sitenum),
        cex = ifelse(sitenum>0, 1, 0))
 ```
 
