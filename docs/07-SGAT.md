@@ -1,4 +1,9 @@
 
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # SGAT {#SGAT}
 
 The package _SGAT_ (TAGS backwards) is based in the principles that haven been developed for the _tripEstimation_ package that has now been deprecated by _SGAT_. The biggest difference between these two packages is the possibility to use twilight events to run the mode. _tripEstimation_ was based solely on the curve method. However, _SGAT_ has additional capabilities that we will discuss in the workflow below. Here, we highlight the _groupModel_, and the _twilightFree_ model as recent developments with great potential.
@@ -128,7 +133,8 @@ The simple conversion of sun elevation angle to zenith angle is:
 
 $$zenith = 90 - sun elevation angle$$
 
-There are multiple ways to define the time period for calibration. Best is to know when the individual left the deployment site and if there where a couple of weeks between deployment and departure. In many instances the departure date (or the arrival to the retrieval site) is unknown. The `lightImage` together with the `tsimageDeploymentLine` can help to define suitable period (the right time period can be optimized by changing the date in the `tm.calib` vector and plotting the lines over and over again until you are sure that you have selected the beginning and the end of the calibration period). Again, the longer the period the better, but periods that are influenced by e.g. breeding in nest boxes or by movements should be excluded.
+There are multiple ways to define th
+e time period for calibration. Best is to know when the individual left the deployment site and if there where a couple of weeks between deployment and departure. In many instances the departure date (or the arrival to the retrieval site) is unknown. The `lightImage` together with the `tsimageDeploymentLine` can help to define suitable period (the right time period can be optimized by changing the date in the `tm.calib` vector and plotting the lines over and over again until you are sure that you have selected the beginning and the end of the calibration period). Again, the longer the period the better, but periods that are influenced by e.g. breeding in nest boxes or by movements should be excluded.
 
 More specifically, `lightImage` visually presents night (in black) and day (white) throughout the year. This allows us to see when changes in night length occur and thus when the bird has moved. Based on this, we can identify when the bird left the deployment site and manually specify these for `tm.calib` .
 
@@ -228,8 +234,8 @@ In this case, there is no real difference between the two calibrations. If a dif
 
 
 ```r
-zenith  <- zenith + abs(zenith0-zenith_sd)
-zenith0 <- zenith_sd
+zenith  <- zenith_sd
+zenith0 <- zenith0 + abs(zenith-zenith_sd)
 ```
 
 
@@ -257,7 +263,7 @@ Now we need to get an initial path for the MCMC simulation as well as the midpoi
 
 
 ```r
-path <- thresholdPath(twl$Twilight, twl$Rise, zenith = zenith0, tol=0.01)
+path <- thresholdPath(twl$Twilight, twl$Rise, zenith = zenith, tol=0.01)
 
 x0 <- path$x
 z0 <- trackMidpts(x0)
@@ -376,7 +382,7 @@ model <- thresholdModel(twilight = twl$Twilight,
                         logp.x = log.prior, logp.z = log.prior, 
                         x0 = x0,
                         z0 = z0,
-                        zenith = zenith,
+                        zenith = zenith0,
                         fixedx = fixedx)
 ```
 
@@ -409,7 +415,7 @@ model <- thresholdModel(twilight = twl$Twilight,
                         logp.x = log.prior, logp.z = log.prior, 
                         x0 = x0,
                         z0 = z0,
-                        zenith = zenith,
+                        zenith = zenith0,
                         fixedx = fixedx)
 
 x.proposal <- mvnorm(S = diag(c(0.005, 0.005)), n = nrow(twl))
@@ -677,8 +683,8 @@ We can then create the mask in a similar manner to before, but now with an index
 
 
 ```r
-xlim <- range(x0[,1]+c(-5,5))
-ylim <- range(x0[,2]+c(-5,5))
+xlim <- range(x0[,1])+c(-5,5)
+ylim <- range(x0[,2])+c(-5,5)
 
 index = ifelse(stationary, 1, 2)
 
@@ -711,7 +717,7 @@ model <- groupedThresholdModel(twl$Twilight,
                                beta =  beta,
                                x0 = x0, # meadian point for each greoup (defined by twl$group)
                                z0 = z0, # middle points between the x0 points
-                               zenith = zenith,
+                               zenith = zenith0,
                                logp.x = logp, # land sea mask
                                fixedx = fixedx)
 
@@ -741,7 +747,7 @@ model <- groupedThresholdModel(twl$Twilight,
                                x0 = x0, z0 = z0,
                                logp.x = logp,
                                missing=twl$Missing,
-                               zenith = zenith,
+                               zenith = zenith0,
                                fixedx = fixedx)
 
 for (k in 1:3) {
@@ -778,7 +784,7 @@ fit <- estelleMetropolis(model, x.proposal, z.proposal, x0 = chainLast(fit$x),
 
 
 ```r
-sm <- locationSummary(fit$z, time=fit$model$time)
+sm <- locationSummary(fit$x, time=fit$model$time)
 ```
 
 

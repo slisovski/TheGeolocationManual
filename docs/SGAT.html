@@ -282,7 +282,7 @@ raw &lt;-<span class="st"> </span><span class="kw">subset</span>(raw, Date<span 
 <p>Calibration for the <em>SGAT</em> process is similar to the calibration performed in the <em>GeoLight</em> analysis. Both, the <em>zero</em> and the <em>median</em> sun elevation angles, as well as the parameters for the error distribution of the twilight times is crucial for the analysis. <strong>However</strong>, while we use sun elevation angles in <em>GeoLight</em> we need the <strong>zenith</strong> angle in <em>SGAT</em>. The difference is trivial; sun elevation angle refers to the deviation of the sun relative to the horizon, whereas the zenith angle refers to the deviation from the zenith. Thus, civil twilight is defined as the time when the sun elevation angle is -6 degrees which equals a zenith angle of 96 degrees.</p>
 <p>The simple conversion of sun elevation angle to zenith angle is:</p>
 <p><span class="math display">\[zenith = 90 - sun elevation angle\]</span></p>
-<p>There are multiple ways to define the time period for calibration. Best is to know when the individual left the deployment site and if there where a couple of weeks between deployment and departure. In many instances the departure date (or the arrival to the retrieval site) is unknown. The <code>lightImage</code> together with the <code>tsimageDeploymentLine</code> can help to define suitable period (the right time period can be optimized by changing the date in the <code>tm.calib</code> vector and plotting the lines over and over again until you are sure that you have selected the beginning and the end of the calibration period). Again, the longer the period the better, but periods that are influenced by e.g. breeding in nest boxes or by movements should be excluded.</p>
+<p>There are multiple ways to define th e time period for calibration. Best is to know when the individual left the deployment site and if there where a couple of weeks between deployment and departure. In many instances the departure date (or the arrival to the retrieval site) is unknown. The <code>lightImage</code> together with the <code>tsimageDeploymentLine</code> can help to define suitable period (the right time period can be optimized by changing the date in the <code>tm.calib</code> vector and plotting the lines over and over again until you are sure that you have selected the beginning and the end of the calibration period). Again, the longer the period the better, but periods that are influenced by e.g. breeding in nest boxes or by movements should be excluded.</p>
 <p>More specifically, <code>lightImage</code> visually presents night (in black) and day (white) throughout the year. This allows us to see when changes in night length occur and thus when the bird has moved. Based on this, we can identify when the bird left the deployment site and manually specify these for <code>tm.calib</code> .</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lightImage</span>( <span class="dt">tagdata =</span> raw,
             <span class="dt">offset =</span> offset,     
@@ -341,8 +341,8 @@ end   &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw"
 <pre><code>[1] 93.5</code></pre>
 <p><img src="07-SGAT_files/figure-html/unnamed-chunk-12-1.png" width="576" /><img src="07-SGAT_files/figure-html/unnamed-chunk-12-2.png" width="576" /><img src="07-SGAT_files/figure-html/unnamed-chunk-12-3.png" width="576" /></p>
 <p>In this case, there is no real difference between the two calibrations. If a difference will be detected (&gt;0.5 degrees), one should consider adjusting the zenith angles calculated from the breeding site.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">zenith  &lt;-<span class="st"> </span>zenith <span class="op">+</span><span class="st"> </span><span class="kw">abs</span>(zenith0<span class="op">-</span>zenith_sd)
-zenith0 &lt;-<span class="st"> </span>zenith_sd</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">zenith  &lt;-<span class="st"> </span>zenith_sd
+zenith0 &lt;-<span class="st"> </span>zenith0 <span class="op">+</span><span class="st"> </span><span class="kw">abs</span>(zenith<span class="op">-</span>zenith_sd)</code></pre></div>
 </div>
 <div id="movement-model" class="section level2 unnumbered">
 <h2>Movement Model</h2>
@@ -358,7 +358,7 @@ zenith0 &lt;-<span class="st"> </span>zenith_sd</code></pre></div>
 <div id="initial-path" class="section level2 unnumbered">
 <h2>Initial path</h2>
 <p>Now we need to get an initial path for the MCMC simulation as well as the midpoints between each consecutive location estimate.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">path &lt;-<span class="st"> </span><span class="kw">thresholdPath</span>(twl<span class="op">$</span>Twilight, twl<span class="op">$</span>Rise, <span class="dt">zenith =</span> zenith0, <span class="dt">tol=</span><span class="fl">0.01</span>)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">path &lt;-<span class="st"> </span><span class="kw">thresholdPath</span>(twl<span class="op">$</span>Twilight, twl<span class="op">$</span>Rise, <span class="dt">zenith =</span> zenith, <span class="dt">tol=</span><span class="fl">0.01</span>)
 
 x0 &lt;-<span class="st"> </span>path<span class="op">$</span>x
 z0 &lt;-<span class="st"> </span><span class="kw">trackMidpts</span>(x0)
@@ -454,7 +454,7 @@ log.prior &lt;-<span class="st"> </span><span class="cf">function</span>(p) {
                         <span class="dt">logp.x =</span> log.prior, <span class="dt">logp.z =</span> log.prior, 
                         <span class="dt">x0 =</span> x0,
                         <span class="dt">z0 =</span> z0,
-                        <span class="dt">zenith =</span> zenith,
+                        <span class="dt">zenith =</span> zenith0,
                         <span class="dt">fixedx =</span> fixedx)</code></pre></div>
 <p>We also need to define the error distribution around each location. We set that using a multivariate normal distribution. Then we can fit the model:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">proposal.x &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="dt">S=</span><span class="kw">diag</span>(<span class="kw">c</span>(<span class="fl">0.0025</span>,<span class="fl">0.0025</span>)),<span class="dt">n=</span><span class="kw">nlocation</span>(x0))
@@ -475,7 +475,7 @@ model &lt;-<span class="st"> </span><span class="kw">thresholdModel</span>(<span
                         <span class="dt">logp.x =</span> log.prior, <span class="dt">logp.z =</span> log.prior, 
                         <span class="dt">x0 =</span> x0,
                         <span class="dt">z0 =</span> z0,
-                        <span class="dt">zenith =</span> zenith,
+                        <span class="dt">zenith =</span> zenith0,
                         <span class="dt">fixedx =</span> fixedx)
 
 x.proposal &lt;-<span class="st"> </span><span class="kw">mvnorm</span>(<span class="dt">S =</span> <span class="kw">diag</span>(<span class="kw">c</span>(<span class="fl">0.005</span>, <span class="fl">0.005</span>)), <span class="dt">n =</span> <span class="kw">nrow</span>(twl))
@@ -660,8 +660,8 @@ z0 &lt;-<span class="st"> </span><span class="kw">trackMidpts</span>(x0)</code><
   <span class="cf">function</span>(p) mask[<span class="kw">cbind</span>(<span class="kw">.bincode</span>(p[,<span class="dv">2</span>],ybin),<span class="kw">.bincode</span>(p[,<span class="dv">1</span>],xbin), index)]
 }</code></pre></div>
 <p>We can then create the mask in a similar manner to before, but now with an index which we derive from <code>stationary</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xlim &lt;-<span class="st"> </span><span class="kw">range</span>(x0[,<span class="dv">1</span>]<span class="op">+</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>))
-ylim &lt;-<span class="st"> </span><span class="kw">range</span>(x0[,<span class="dv">2</span>]<span class="op">+</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">xlim &lt;-<span class="st"> </span><span class="kw">range</span>(x0[,<span class="dv">1</span>])<span class="op">+</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>)
+ylim &lt;-<span class="st"> </span><span class="kw">range</span>(x0[,<span class="dv">2</span>])<span class="op">+</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">5</span>,<span class="dv">5</span>)
 
 index =<span class="st"> </span><span class="kw">ifelse</span>(stationary, <span class="dv">1</span>, <span class="dv">2</span>)
 
@@ -684,7 +684,7 @@ logp &lt;-<span class="st"> </span><span class="cf">function</span>(p) {
                                <span class="dt">beta =</span>  beta,
                                <span class="dt">x0 =</span> x0, <span class="co"># meadian point for each greoup (defined by twl$group)</span>
                                <span class="dt">z0 =</span> z0, <span class="co"># middle points between the x0 points</span>
-                               <span class="dt">zenith =</span> zenith,
+                               <span class="dt">zenith =</span> zenith0,
                                <span class="dt">logp.x =</span> logp, <span class="co"># land sea mask</span>
                                <span class="dt">fixedx =</span> fixedx)
 
@@ -711,7 +711,7 @@ model &lt;-<span class="st"> </span><span class="kw">groupedThresholdModel</span
                                <span class="dt">x0 =</span> x0, <span class="dt">z0 =</span> z0,
                                <span class="dt">logp.x =</span> logp,
                                <span class="dt">missing=</span>twl<span class="op">$</span>Missing,
-                               <span class="dt">zenith =</span> zenith,
+                               <span class="dt">zenith =</span> zenith0,
                                <span class="dt">fixedx =</span> fixedx)
 
 <span class="cf">for</span> (k <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>) {
@@ -738,7 +738,7 @@ fit &lt;-<span class="st"> </span><span class="kw">estelleMetropolis</span>(mode
 </div>
 <div id="summarize-the-results-1" class="section level3 unnumbered">
 <h3>Summarize the results</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sm &lt;-<span class="st"> </span><span class="kw">locationSummary</span>(fit<span class="op">$</span>z, <span class="dt">time=</span>fit<span class="op">$</span>model<span class="op">$</span>time)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sm &lt;-<span class="st"> </span><span class="kw">locationSummary</span>(fit<span class="op">$</span>x, <span class="dt">time=</span>fit<span class="op">$</span>model<span class="op">$</span>time)</code></pre></div>
 </div>
 <div id="plotting-the-results-1" class="section level3 unnumbered">
 <h3>Plotting the results</h3>
@@ -822,7 +822,7 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["Light-level geolocation analyses.pdf"],
+"download": null,
 "toc": {
 "collapse": "section",
 "scroll_highlight": true
