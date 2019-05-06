@@ -782,6 +782,11 @@ fit <- estelleMetropolis(model, x.proposal, z.proposal, x0 = chainLast(fit$x),
 
 ### Summarize the results {-}
 
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<img src="images/important.png" style="display: block; margin: auto;" />
+The mid-point estimates (z location) make no sense in the group model since they do not reflect any stationary locations. Use x locations instead.
+</div>
+
 
 ```r
 sm <- locationSummary(fit$x, time=fit$model$time)
@@ -817,7 +822,7 @@ points(sm[,"Lon.50%"], sm[,"Lat.50%"], pch=as.character(sitenum),
        cex = ifelse(sitenum>0, 1, 0))
 ```
 
-<img src="07-SGAT_files/figure-html/unnamed-chunk-49-1.png" width="624" />
+<img src="07-SGAT_files/figure-html/unnamed-chunk-50-1.png" width="624" />
 
 
 ### Saving the Results {-}

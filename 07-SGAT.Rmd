@@ -720,6 +720,13 @@ load(paste0(wd, "/Results/", Species, "/", ID, "_SGATGroupfit.RData"))
 
 ### Summarize the results {-}
 
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+```{r fig.align='center', echo=FALSE, size = "tiny"}
+knitr::include_graphics('images/important.png', dpi = NA)
+```
+The mid-point estimates (z location) make no sense in the group model since they do not reflect any stationary locations. Use x locations instead.
+</div>
+
 ```{r}
 sm <- locationSummary(fit$x, time=fit$model$time)
 ```

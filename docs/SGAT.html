@@ -738,6 +738,9 @@ fit &lt;-<span class="st"> </span><span class="kw">estelleMetropolis</span>(mode
 </div>
 <div id="summarize-the-results-1" class="section level3 unnumbered">
 <h3>Summarize the results</h3>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/important.png" style="display: block; margin: auto;" /> The mid-point estimates (z location) make no sense in the group model since they do not reflect any stationary locations. Use x locations instead.</p>
+</div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sm &lt;-<span class="st"> </span><span class="kw">locationSummary</span>(fit<span class="op">$</span>x, <span class="dt">time=</span>fit<span class="op">$</span>model<span class="op">$</span>time)</code></pre></div>
 </div>
 <div id="plotting-the-results-1" class="section level3 unnumbered">
@@ -764,7 +767,7 @@ sk &lt;-<span class="st"> </span><span class="kw">slice</span>(s, <span class="k
 
 <span class="kw">points</span>(sm[,<span class="st">&quot;Lon.50%&quot;</span>], sm[,<span class="st">&quot;Lat.50%&quot;</span>], <span class="dt">pch=</span><span class="kw">as.character</span>(sitenum),  
        <span class="dt">cex =</span> <span class="kw">ifelse</span>(sitenum<span class="op">&gt;</span><span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>))</code></pre></div>
-<p><img src="07-SGAT_files/figure-html/unnamed-chunk-49-1.png" width="624" /></p>
+<p><img src="07-SGAT_files/figure-html/unnamed-chunk-50-1.png" width="624" /></p>
 </div>
 <div id="saving-the-results-1" class="section level3 unnumbered">
 <h3>Saving the Results</h3>
