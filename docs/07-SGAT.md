@@ -787,9 +787,12 @@ fit <- estelleMetropolis(model, x.proposal, z.proposal, x0 = chainLast(fit$x),
 The mid-point estimates (z location) make no sense in the group model since they do not reflect any stationary locations. Use x locations instead.
 </div>
 
+However, the summary functions on the primary location estimates (the x locations) provides a single timestemp only which is the mean time of the grouped twilights. The function `SGAT2Movebank` uses the `group` vector to get start and end dates (see also \@ref(repositories)).
+
 
 ```r
-sm <- locationSummary(fit$x, time=fit$model$time)
+# sm <- locationSummary(fit$x, time=fit$model$time)
+sm <- SGAT2Movebank(fit$x, time = twl$Twilight, group = twl$group)
 ```
 
 
@@ -811,14 +814,14 @@ sk <- slice(s, sliceIndices(s))
 plot(sk, useRaster = F,col = c("transparent", rev(viridis::viridis(50))))
 plot(wrld_simpl, xlim=xlim, ylim=ylim,add = T, bg = adjustcolor("black",alpha=0.1))
 
-with(sm[sitenum>0,], arrows(`Lon.50%`, `Lat.50%`+`Lat.sd`, `Lon.50%`, `Lat.50%`-`Lat.sd`, length = 0, lwd = 2.5, col = "firebrick"))
-with(sm[sitenum>0,], arrows(`Lon.50%`+`Lon.sd`, `Lat.50%`, `Lon.50%`-`Lon.sd`, `Lat.50%`, length = 0, lwd = 2.5, col = "firebrick"))
-lines(sm[,"Lon.50%"], sm[,"Lat.50%"], col = "darkorchid4", lwd = 2)
+with(sm[sitenum>0,], arrows(`Lon.50.`, `Lat.2.5.`, `Lon.50.`, `Lat.97.5.`, length = 0, lwd = 2.5, col = "firebrick"))
+with(sm[sitenum>0,], arrows(`Lon.2.5.`, `Lat.50.`, `Lon.97.5.`, `Lat.50.`, length = 0, lwd = 2.5, col = "firebrick"))
+lines(sm[,"Lon.50."], sm[,"Lat.50."], col = "darkorchid4", lwd = 2)
 
-points(sm[,"Lon.50%"], sm[,"Lat.50%"], pch=21, bg=colours[sitenum+1], 
+points(sm[,"Lon.50."], sm[,"Lat.50."], pch=21, bg=colours[sitenum+1], 
       cex = ifelse(sitenum>0, 3, 0), col = "firebrick", lwd = 2.5)
 
-points(sm[,"Lon.50%"], sm[,"Lat.50%"], pch=as.character(sitenum),
+points(sm[,"Lon.50."], sm[,"Lat.50."], pch=as.character(sitenum),
        cex = ifelse(sitenum>0, 1, 0))
 ```
 
