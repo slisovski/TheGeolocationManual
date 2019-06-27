@@ -1,7 +1,7 @@
 
 --- 
 title: "Light-level geolocation analyses"
-date: "Last edited on 2019-06-12"
+date: "Last edited on 2019-06-27"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
@@ -18,7 +18,7 @@ description: "This is a compilation of lecture notes that accompany my Intro to 
 
 This manual is part of the following publication and has been written by the same group of authors. _The correct citation for this manual is_:
 
-**Lisovski, S., Bauer, S., Briedis, M., Davidson, S.C., Dhanjal-Adams, K.L., Hallworth, M.T., Karagicheva, J., Meier, C.M., Merkel, B., Ouwehand, J., Pedersen, L., Rakhimberdiev, E., Roberto-Charron, A., Seavy, N.E., Sumner, M.D., Taylor, C.M., Wotherspoon, S.J. & E.S. Bridge (2019) Light-Level Geolocator Analyses: A user's guide. _Journal of Animal Ecology_. DOI: 10.1111/1365-2656.13036**
+**Lisovski, S., Bauer, S., Briedis, M., Davidson, S.C., Dhanjal-Adams, K.L., Hallworth, M.T., Karagicheva, J., Meier, C.M., Merkel, B., Ouwehand, J., Pedersen, L., Rakhimberdiev, E., Roberto-Charron, A., Seavy, N.E., Sumner, M.D., Taylor, C.M., Wotherspoon, S.J. & E.S. Bridge (2019) Light-Level Geolocator Analyses: A user's guide. _Journal of Animal Ecology_. [DOI: 10.1111/1365-2656.13036](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/1365-2656.13036)**
 
 
 Geolocation by light is a method of animal tracking that uses small, light-detecting data loggers (referred to as geolocators) to determine the locations of animals based on the light environment they move through. Technological and fieldwork issues aside, effective use of light level geolocation requires translation of a time series of light levels into geographical locations. Geographical locations that are derived from light-level data are subject to error which directly arises from noise in the light-level data, i.e. unpredictable shading of the light sensor due to weather or the habitat (Lisovski et al. 2012). Although light-level geolocation has provided a wealth of new insights into the annual movements of hundreds of bird species and other taxa, researchers struggle with the analytical steps that are needed to obtain location estimates, interpret them, present their results, and document what they have done.

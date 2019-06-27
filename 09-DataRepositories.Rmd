@@ -1,3 +1,22 @@
 # Data repositories {#repositories}
 
-...
+Archiving geolocator data is not only good scientific practice, it is a precondition for publication in a growing number of journals. Proper archiving retains the value of the data for future (re‐)analyses, allowing for re‐analysis with new analytical methods or an overarching syntheses. As there are several tools that could potentially be used, and each requires specific values for a suite of parameters, it is crucial to archive both raw data and location estimates in conjunction with the code that led to the specific results.
+
+Although several databases exist for sharing and archiving animal movement data, the foremost as a general research platform for animal movement data is [Movebank](https://www.movebank.org/). _Movebank_ is particularly well suited for geolocator data as it includes features tailored to tracking based on ambient light levels, supporting storage of raw light recordings, twilight annotation tables, location estimates with credibility intervals and custom files such as R scripts or model output, along with deployment‐ and study‐level metadata. Researchers are encouraged to publish their data in the public domain, which can be done by publishing in the Movebank Data Repository, wherein a dataset can acquire a digital object identifier (DOI), persistent link, licence and citation after undergoing review. For in‐progress work, Movebank provides a range of sharing options, for example allowing owners to store and manage data privately, give access to specific researchers and allow the public to discover but not access the data or to download data after accepting owner‐defined terms of use. We recommend storing data in Movebank or similar repositories even during preliminary analysis stages when the results and analyses remain unpublished. In these situations, the online archive provides a secure backup and can be discovered by other researchers who can contact the owner about potential collaboration using the data.
+
+
+## Basic principles of storing data in _Movebank_
+
+Sarah, I am sure that you can copy past something into this section. I am thinking about the basic structure of setting up a project and define the metadata (copyright issues) etc.
+
+
+## What can (and should) be stored in _Movebank_
+
+Besides the results (location estimates), _Movebank_ enables users to store all relevant information and data to repeat the analysis. Three data table templates exist:
+
+1. Raw light recordings
+2. Annotated twilights
+3. Results
+
+In addition, relevant parameters and metadata information will be stored in the Metadata table of the _Movebank_ project.
+
