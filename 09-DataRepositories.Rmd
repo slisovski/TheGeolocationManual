@@ -19,4 +19,3 @@ Besides the results (location estimates), _Movebank_ enables users to store all 
 3. Results
 
 In addition, relevant parameters and metadata information will be stored in the Metadata table of the _Movebank_ project.
-
