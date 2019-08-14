@@ -39,7 +39,7 @@ This manual contains code that can be copy pasted into an R script and executed 
 You can download the folders with the raw data as well as the annotaded twilight files directly via R and extract into a _data_ folder.
 
 ```{r, eval = FALSE}
-url <- "https://github.com/slisovski/TheGeolocationManual/blob/master/download.zip"
+url <- "https://github.com/slisovski/TheGeolocationManual/raw/master/download.zip"
 
 temp <- tempfile()
 download.file(url, temp)

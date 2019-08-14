@@ -41,7 +41,7 @@ You can download the folders with the raw data as well as the annotaded twilight
 
 
 ```r
-url <- "https://github.com/slisovski/TheGeolocationManual/blob/master/download.zip"
+url <- "https://github.com/slisovski/TheGeolocationManual/raw/master/download.zip"
 
 temp <- tempfile()
 download.file(url, temp)

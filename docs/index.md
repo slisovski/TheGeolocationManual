@@ -1,7 +1,7 @@
 
 --- 
 title: "Light-level geolocation analyses"
-date: "Last edited on 2019-08-13"
+date: "Last edited on 2019-08-14"
 site: bookdown::bookdown_site
 output: bookdown::gitbook
 documentclass: book
