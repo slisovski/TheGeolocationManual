@@ -242,7 +242,7 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 <h2><span class="header-section-number">9.1</span> Basic principles of storing data in Movebank</h2>
 <p>Movebank (<a href="https://www.movebank.org">movebank.org</a>) is a free online database and research platform for animal movement and other animal-borne sensor data hosted by the Max Planck Institute of Animal Behavior. Researchers retain ownership of their data and choose whether and with whom to share their data. All data are stored within user-owned studies. You can access and analyze Movebank data directly within R using the <a href="https://cran.r-project.org/web/packages/move/index.html">move</a> package. These are the basic steps to archiving a dataset on Movebank:</p>
 <ol style="list-style-type: decimal">
-<li>[<strong>Log in to Movebank.</strong>] If you are not registered already, create an account at <a href="https://www.movebank.org/cms/webapp/register" class="uri">https://www.movebank.org/cms/webapp/register</a>.<br />
+<li><strong>Log in to Movebank.</strong> If you are not registered already, create an account at <a href="https://www.movebank.org/cms/webapp/register" class="uri">https://www.movebank.org/cms/webapp/register</a>.<br />
 </li>
 <li><a href="https://www.movebank.org/cms/movebank-content/creating-a-study"><strong>Create a study.</strong></a> Typically users create a study for each project, but for large projects you may want to create studies for each species, field season or deployment site. Consider this carefully because there is no automated way to move data between studies later. Provide sufficient detail in your study name, citations and objectives to inform others about your project. You can also set License Terms that must be accepted by collaborators with permission to download your data.<br />
 </li>
@@ -356,14 +356,14 @@ Once you are done mapping attributes, your preview should look something like th
 <h3><span class="header-section-number">9.2.4</span> Reference data</h3>
 <p>In Movebank, <a href="https://www.movebank.org/cms/movebank-content/mb-data-model#reference_data">“reference data”</a> includes information about animals, tags and deployments. This can be prepared as a table with one row per deployment, and allows you to document additional details about your geolocator analysis methods. The following reference data for bird 14SA in our example study <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study788381694">“Light-Level Geolocation Manual”</a> includes recommended reference data attributes to include for geolocation studies, with notes in italics.</p>
 <ul>
-<li><strong>tag-id</strong>: 14SA (tag, animal and deployment IDs can be the same or different)</li>
+<li><strong>tag-id</strong>: 14SA <em>(tag, animal and deployment IDs can be the same or different)</em></li>
 <li><strong>animal-id</strong>: 14SA</li>
 <li><strong>deployment-id</strong>: 14SA_2015</li>
-<li><strong>animal-taxon</strong>: Merops apiaster (use a taxon that is valid at itis.gov)</li>
+<li><strong>animal-taxon</strong>: Merops apiaster <em>(use a taxon that is valid at <a href="https://itis.gov/">itis.gov</a>)</em></li>
 <li><strong>deploy-on-date</strong>: 2015-07-13 00:00:00.000</li>
 <li><strong>deploy-off-date</strong>: 2016-07-15 00:00:00.000</li>
 <li><strong>animal-life-stage</strong>: adult</li>
-<li><strong>animal-mass</strong>: 108.0 (grams)</li>
+<li><strong>animal-mass</strong>: 108.0 <em>(grams)</em></li>
 <li><strong>animal-reproductive-condition</strong>: breeding</li>
 <li><strong>animal-ring-id</strong>: SA40838</li>
 <li><strong>animal-sex</strong>: f</li>
@@ -381,7 +381,7 @@ Once you are done mapping attributes, your preview should look something like th
 <li><strong>manipulation-type</strong>: none</li>
 <li><strong>study-site</strong>: Saxony Anhalt, Germany</li>
 <li><strong>tag-manufacturer-name</strong>: Swiss Ornithological Institute</li>
-<li><strong>tag-mass</strong>: 1.3 (grams)</li>
+<li><strong>tag-mass</strong>: 1.3 <em>(grams)</em></li>
 <li><strong>tag-model</strong>: PAM GDL3</li>
 <li><strong>tag-readout-method</strong>: tag-retrieval</li>
 </ul>

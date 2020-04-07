@@ -10,7 +10,7 @@ Although several databases exist for sharing and archiving animal movement data,
 Movebank ([movebank.org](https://www.movebank.org)) is a free online database and research platform for animal movement and other animal-borne sensor data hosted by the Max Planck Institute of Animal Behavior. Researchers retain ownership of their data and choose whether and with whom to share their data. All data are stored within user-owned studies. You can access and analyze Movebank data directly within R using the [move](https://cran.r-project.org/web/packages/move/index.html) package. These are the basic steps to archiving a dataset on Movebank:
 
 
-1. [**Log in to Movebank.**] If you are not registered already, create an account at https://www.movebank.org/cms/webapp/register.  
+1. **Log in to Movebank.** If you are not registered already, create an account at https://www.movebank.org/cms/webapp/register.  
 2. [**Create a study.**](https://www.movebank.org/cms/movebank-content/creating-a-study) Typically users create a study for each project, but for large projects you may want to create studies for each species, field season or deployment site. Consider this carefully because there is no automated way to move data between studies later. Provide sufficient detail in your study name, citations and objectives to inform others about your project. You can also set License Terms that must be accepted by collaborators with permission to download your data.  
 3. [**Set the access permissions.**](https://www.movebank.org/cms/movebank-content/permissions-and-sharing) Define what level of access to give to the public, and assign other users as collaborators (to whom you can give extra viewing and download access) or data managers (who can help upload and organize). You can update these settings at any time.  
 4. [**Add data.**](https://www.movebank.org/cms/movebank-content/create-study-overview) You can import tables of raw light recordings, annotated twilights, location estimates and deployment information, and upload and store other relevant files. More detailed instructions follow in [Section 9.2](https://geolocationmanual.vogelwarte.ch/repositories.html#what-can-and-should-be-stored-in-movebank).  
@@ -138,14 +138,14 @@ After finishing the import, if you mapped both Tag and Animal IDs, you might be 
 ### Reference data
 In Movebank, [“reference data”](https://www.movebank.org/cms/movebank-content/mb-data-model#reference_data) includes information about animals, tags and deployments. This can be prepared as a table with one row per deployment, and allows you to document additional details about your geolocator analysis methods. The following reference data for bird 14SA in our example study [“Light-Level Geolocation Manual”](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study788381694) includes recommended reference data attributes to include for geolocation studies, with notes in italics.
 	
-* **tag-id**: 14SA (tag, animal and deployment IDs can be the same or different)
+* **tag-id**: 14SA _(tag, animal and deployment IDs can be the same or different)_
 * **animal-id**: 14SA
 * **deployment-id**: 14SA_2015
-* **animal-taxon**: Merops apiaster (use a taxon that is valid at itis.gov)
+* **animal-taxon**: Merops apiaster _(use a taxon that is valid at [itis.gov](https://itis.gov/))_
 * **deploy-on-date**: 2015-07-13 00:00:00.000
 * **deploy-off-date**: 2016-07-15 00:00:00.000
 * **animal-life-stage**: adult
-* **animal-mass**: 108.0 (grams)
+* **animal-mass**: 108.0 _(grams)_
 * **animal-reproductive-condition**: breeding
 * **animal-ring-id**: SA40838
 * **animal-sex**: f
@@ -163,7 +163,7 @@ In Movebank, [“reference data”](https://www.movebank.org/cms/movebank-conten
 * **manipulation-type**: none
 * **study-site**: Saxony Anhalt, Germany
 * **tag-manufacturer-name**: Swiss Ornithological Institute
-* **tag-mass**: 1.3 (grams)
+* **tag-mass**: 1.3 _(grams)_
 * **tag-model**: PAM GDL3
 * **tag-readout-method**: tag-retrieval
 
