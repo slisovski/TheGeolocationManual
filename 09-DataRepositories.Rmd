@@ -1,8 +1,8 @@
 # Data repositories {#repositories}
 
-Archiving geolocator data is not only good scientific practice, it is a precondition for publication in a growing number of journals. Proper archiving retains the value of the data for future (re‐)analyses, allowing for re‐analysis with new analytical methods or an overarching syntheses. As future work might require a variety of tools and values for different suites of parameters, it is crucial to archive both raw data and location estimates in conjunction with the code that led to the specific results.
+Archiving geolocator data is not only good scientific practice, it is a precondition for publication in a growing number of journals and for receiving funding from many organizations. Proper archiving retains the value of the data for future work, allowing for (re‐)analysis with new analytical methods or overarching syntheses. To enable appropriate re-use of geolocation data, it is crucial to archive raw data and location estimates in conjunction with documentation needed to understand how the data were collected and what processing and analysis methods led to any reported results.
 	
-Although several databases exist for sharing and archiving animal movement data, the foremost as a general research platform for animal movement data is [Movebank](https://www.movebank.org/cms/movebank-content/about-movebank). Movebank is particularly well suited for geolocator data as it includes features tailored to tracking based on ambient light levels, supporting storage of raw light recordings, twilight annotation tables, location estimates with credibility intervals, and custom files such as R scripts or model output, along with deployment‐ and study‐level metadata. Researchers are encouraged to publish their data in the public domain, which can be done by publishing in the Movebank Data Repository, wherein a dataset is provided with a digital object identifier (DOI), persistent link, licence and citation after undergoing review. For in‐progress work, Movebank provides a range of [sharing options](https://www.movebank.org/cms/movebank-content/permissions-and-sharing): owners can give access to specific researchers, and allow the public to see a written summary, view the tracks on a map, or download the data. We recommend storing data in Movebank or similar repositories even during preliminary analysis stages when the results and analyses remain unpublished. In these situations, the online archive provides a secure backup and can be discovered by other researchers who can contact the owner about potential collaboration using the data.
+Although several databases exist for sharing and archiving animal movement data, the foremost as a general research platform for animal movement data is [Movebank](https://www.movebank.org/cms/movebank-content/about-movebank). Movebank is particularly well suited for geolocator data as it includes features tailored to tracking based on ambient light levels, supporting storage of raw light recordings, twilight annotation tables, location estimates with credibility intervals, and custom files such as R scripts or model output, along with deployment‐ and study‐level metadata. Researchers are encouraged to publish their data in the public domain, which can be done by publishing in the [Movebank Data Repository](https://www.movebank.org/cms/movebank-content/data-repository), wherein a dataset is provided with a digital object identifier (DOI), persistent link, licence and citation after undergoing review. For in‐progress work, Movebank provides a range of [sharing options](https://www.movebank.org/cms/movebank-content/permissions-and-sharing): owners can choose to give access to specific researchers, and allow the public to see a written summary only, view the tracks on a map, or download the data. We recommend storing data in Movebank or similar repositories even during preliminary analysis stages when the results and analyses remain unpublished. In these situations, the online archive provides a secure backup and can be discovered by other researchers who can contact the owner about potential collaboration using the data.
 
 
 ## Basic principles of storing data in Movebank
@@ -10,9 +10,9 @@ Although several databases exist for sharing and archiving animal movement data,
 Movebank ([movebank.org](https://www.movebank.org)) is a free online database and research platform for animal movement and other animal-borne sensor data hosted by the Max Planck Institute of Animal Behavior. Researchers retain ownership of their data and choose whether and with whom to share their data. All data are stored within user-owned studies. You can access and analyze Movebank data directly within R using the [move](https://cran.r-project.org/web/packages/move/index.html) package. These are the basic steps to archiving a dataset on Movebank:
 
 
-1. [**Register on Movebank.**](https://www.movebank.org/cms/webapp/register) If you are not registered already, create an account at https://www.movebank.org/cms/webapp/register.  
-2. [**Create a study.**](https://www.movebank.org/cms/movebank-content/creating-a-study) Typically users create a study for each project, but for large projects you may want to create studies for each species, field season or deployment site. Consider this carefully because there is no automated way to move data between studies later. Provide sufficient detail in your study name, citations and objectives to inform others about your project. You can also set License Terms that must be accepted by anyone with permission to download your data.  
-3. [**Set the access permissions.**](https://www.movebank.org/cms/movebank-content/permissions-and-sharing) Define what level of access to give to the public, and assign other users as collaborators (with additional rights to view and download) or data managers (who can help upload and organize). You can update these settings at any time.  
+1. [**Log in to Movebank.**] If you are not registered already, create an account at https://www.movebank.org/cms/webapp/register.  
+2. [**Create a study.**](https://www.movebank.org/cms/movebank-content/creating-a-study) Typically users create a study for each project, but for large projects you may want to create studies for each species, field season or deployment site. Consider this carefully because there is no automated way to move data between studies later. Provide sufficient detail in your study name, citations and objectives to inform others about your project. You can also set License Terms that must be accepted by collaborators with permission to download your data.  
+3. [**Set the access permissions.**](https://www.movebank.org/cms/movebank-content/permissions-and-sharing) Define what level of access to give to the public, and assign other users as collaborators (to whom you can give extra viewing and download access) or data managers (who can help upload and organize). You can update these settings at any time.  
 4. [**Add data.**](https://www.movebank.org/cms/movebank-content/create-study-overview) You can import tables of raw light recordings, annotated twilights, location estimates and deployment information, and upload and store other relevant files. More detailed instructions follow in [Section 9.2](https://geolocationmanual.vogelwarte.ch/repositories.html#what-can-and-should-be-stored-in-movebank).  
 5. [**Submit for publication.**](https://www.movebank.org/cms/movebank-content/data-repository) The Movebank Data Repository is a public archive of Movebank studies that provides authors with a DOI and research citation for their datasets. When you have completed your data analysis we recommend submitting your dataset for publication. Researchers typically submit when their related manuscripts are in review.  
 
@@ -21,7 +21,7 @@ Movebank ([movebank.org](https://www.movebank.org)) is a free online database an
 
 ## What can (and should) be stored in Movebank
 
-Besides the results (location estimates), Movebank enables users to store all relevant information and data to repeat the analysis or reanalyze the data using different methods. This is done by storing four data tables that contain (1) raw light recordings, (2) annotated twilights, (3) location estimates and (4) deployment-level information about the tags, animals, deployments and data processing steps. Movebank will relate these tables using a model that mimics typical tag deployments:
+Besides the results (location estimates), Movebank enables users to store all relevant information and data needed to repeat an analysis or reanalyze the data using different methods. This is done by storing four data tables that contain (1) raw light recordings, (2) annotated twilights, (3) location estimates and (4) deployment-level information about the tags, animals, deployments and data processing steps. Movebank relates these tables using a data model that mimics typical tag deployments: 
 
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
 ```{r fig.align='center', echo=FALSE, size = "tiny"}
@@ -64,13 +64,15 @@ knitr::include_graphics('images/Rep03.jpg', dpi = NA)
 
 Twilight selections made while processing your light-level data can be reported as a tabular file containing the twilight times and results of editing and filtering steps. For example, TAGS will provide a file that looks like
 
-```datetime,light,twilight,interp,excluded
+```
+datetime,light,twilight,interp,excluded
 2014-06-17T14:34:13.000Z,5.76547632856179,0,FALSE,FALSE
 ```
 
 and TwGeos will provide a file that looks like
 
-```"Twilight","Rise","Deleted","Marker","Inserted","Twilight3"
+```
+"Twilight","Rise","Deleted","Marker","Inserted","Twilight3"
 2015-07-16 19:43:53,FALSE,FALSE,0,FALSE,2015-07-16 19:43:53
 ```
 
@@ -83,9 +85,9 @@ If you have many files, it can be easier to merge the twilight data into one fil
 * **Timestamps**: For details on mapping timestamp values [read here](https://www.movebank.org/cms/movebank-content/import-custom-tabular-data#date_and_time). In the example from TwGeos above, the format is `yyyy-MM-dd HH:mm:ss`. _Please check your timestamp format carefully!_
 * **Rise**: Define whether the twilight represents sunrise or sunset using the attribute [geolocator rise](http://vocab.nerc.ac.uk/collection/MVB/current/MVB000215/), which accepts values TRUE (sunrise) and FALSE (sunset). If values are stored in a different format, use [geolocator fix type](http://vocab.nerc.ac.uk/collection/MVB/current/MVB000107/). Be sure that both TRUE and FALSE values are mapped as shown below—Movebank might not automatically "see" and map values that are not present toward the beginning of large files. 
 
-<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 450px; margin: auto:">
 ```{r fig.align='center', echo=FALSE, size = "tiny"}
-knitr::include_graphics('images/Rep05.png', dpi = NA)
+knitr::include_graphics('images/Rep05.jpg', dpi = NA)
 ```
 </div>
 
@@ -96,7 +98,7 @@ Once you are done mapping attributes, your preview should look something like th
 
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
 ```{r fig.align='center', echo=FALSE, size = "tiny"}
-knitr::include_graphics('images/Rep06.png', dpi = NA)
+knitr::include_graphics('images/Rep06.jpg', dpi = NA)
 ```
 </div>
 
@@ -116,11 +118,11 @@ The times and locations of deployment and recapture can be represented in two wa
 * **Sensor Type**: If this is not mapped already, check the box next to “Set fixed Sensor Type for all rows” and choose “Solar Geolocator”. 
 * **Animal/Tag IDs**: Each location must be associated with a Tag ID, and can then be associated with an Animal ID using this file [(Read more)](https://www.movebank.org/cms/movebank-content/import-custom-tabular-data#tags_and_animals) or by defining deployments in the reference data (see [9.2.4 Reference data](https://geolocationmanual.vogelwarte.ch/repositories.html#reference-data)). 
 * **Timestamps**: For your location estimates, you might have either a single timestamp or start and end timestamps associated with each record. If you have one timestamp per location, map this to the “Timestamp” field. If it represents the beginning of the period for which the estimate is valid, also map this to “Start Timestamp”. If you have start and end timestamps for each location, map the start timestamp to “Timestamp” and “Start Timestamp” and the end timestamp to “End Timestamp”. For details on mapping timestamp values [read here](https://www.movebank.org/cms/movebank-content/import-custom-tabular-data#date_and_time). _Please check your timestamp format carefully!_
-* **Location Lat and Location Long**: Select the columns that contain the latitude and longitude estimates. 
-* **Upper and lower coordinate bounds**: Where possible we recommend including the upper and lower location bounds. To do this, select Map other Attributes, Map Column or a column header under “What Movebank sees in your file”. The related Movebank attributes are listed as “Latitude Lower”, “Latitude Upper”, “Longitude Upper” and “Longitude Lower” under “Other attributes”. You can further define these bounds using “Location Accuracy Comments” in the reference data (see below).
+* **Location coordinates**: Select the columns that contain the latitude and longitude estimates, to be stored in the Movebank attributes “Location Lat” and “Location Long”.     
+* **Upper and lower coordinate bounds**: Where possible we recommend including the upper and lower location bounds. To do this, select **Map other Attributes**, **Map Column**, or the relevant column header under “What Movebank sees in your file”. The related Movebank attributes are listed as under “Other attributes” as “Latitude Lower”, “Latitude Upper”, “Longitude Upper” and “Longitude Lower”. You can further define these bounds using “Location Accuracy Comments” in the reference data (see below).  
 * **Geolocator Fix Type**: Provide the period of day (e.g. “sunrise”) used to estimate the location. 
 * **Comments**: As described above, here you can indicate high-accuracy records from known locations that were not derived from the geolocation analysis.
-* **Additional Attributes**: To map other attributes you might want to include, see the Movebank Attribute Dictionary for available attributes.
+* **Additional attributes**: To map other attributes you might want to include, see the [Movebank Attribute Dictionary](https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary) for available attributes.  
 Once you are done mapping attributes, your preview should look something like this:  
 
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">

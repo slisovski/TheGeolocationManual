@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Light-level geolocation analyses</title>
-  <meta name="description" content="This is a compilation of lecture notes that accompany my Intro to GIS and Spatial Analysis course.">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 9 Data repositories | Light-level geolocation analyses</title>
+  <meta name="description" content="This is a compilation of lecture notes that accompany my Intro to GIS and Spatial Analysis course." />
+  <meta name="generator" content="bookdown 0.18 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Light-level geolocation analyses" />
+  <meta property="og:title" content="Chapter 9 Data repositories | Light-level geolocation analyses" />
   <meta property="og:type" content="book" />
   
   
@@ -17,7 +16,7 @@
   <meta name="github-repo" content="slisovski/TheGeolocationManual" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Light-level geolocation analyses" />
+  <meta name="twitter:title" content="Chapter 9 Data repositories | Light-level geolocation analyses" />
   
   <meta name="twitter:description" content="This is a compilation of lecture notes that accompany my Intro to GIS and Spatial Analysis course." />
   
@@ -25,13 +24,13 @@
 
 
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="FLightR.html">
-<link rel="next" href="contribution.html">
+<link rel="prev" href="FLightR.html"/>
+<link rel="next" href="contribution.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -39,6 +38,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -49,36 +51,61 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #0000ff; } /* Keyword */
-code > span.ch { color: #008080; } /* Char */
-code > span.st { color: #008080; } /* String */
-code > span.co { color: #008000; } /* Comment */
-code > span.ot { color: #ff4000; } /* Other */
-code > span.al { color: #ff0000; } /* Alert */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #008000; font-weight: bold; } /* Warning */
-code > span.cn { } /* Constant */
-code > span.sc { color: #008080; } /* SpecialChar */
-code > span.vs { color: #008080; } /* VerbatimString */
-code > span.ss { color: #008080; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { } /* Variable */
-code > span.cf { color: #0000ff; } /* ControlFlow */
-code > span.op { } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #ff4000; } /* Preprocessor */
-code > span.do { color: #008000; } /* Documentation */
-code > span.an { color: #008000; } /* Annotation */
-code > span.cv { color: #008000; } /* CommentVar */
-code > span.at { } /* Attribute */
-code > span.in { color: #008000; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -174,7 +201,7 @@ code > span.in { color: #008000; } /* Information */
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="9" data-path="repositories.html"><a href="repositories.html"><i class="fa fa-check"></i><b>9</b> Data repositories</a><ul>
-<li class="chapter" data-level="9.1" data-path="repositories.html"><a href="repositories.html#basic-principles-of-storing-data-in-movebank"><i class="fa fa-check"></i><b>9.1</b> Basic principles of storing data in <em>Movebank</em></a></li>
+<li class="chapter" data-level="9.1" data-path="repositories.html"><a href="repositories.html#basic-principles-of-storing-data-in-movebank"><i class="fa fa-check"></i><b>9.1</b> Basic principles of storing data in Movebank</a></li>
 <li class="chapter" data-level="9.2" data-path="repositories.html"><a href="repositories.html#what-can-and-should-be-stored-in-movebank"><i class="fa fa-check"></i><b>9.2</b> What can (and should) be stored in Movebank</a><ul>
 <li class="chapter" data-level="9.2.1" data-path="repositories.html"><a href="repositories.html#raw-light-recordings"><i class="fa fa-check"></i><b>9.2.1</b> Raw light recordings</a></li>
 <li class="chapter" data-level="9.2.2" data-path="repositories.html"><a href="repositories.html#annotated-twilights"><i class="fa fa-check"></i><b>9.2.2</b> Annotated twilights</a></li>
@@ -209,69 +236,125 @@ code > span.in { color: #008000; } /* Information */
             <section class="normal" id="section-">
 <div id="repositories" class="section level1">
 <h1><span class="header-section-number">Chapter 9</span> Data repositories</h1>
-<p>Archiving geolocator data is not only good scientific practice, it is a precondition for publication in a growing number of journals. Proper archiving retains the value of the data for future (re‐)analyses, allowing for re‐analysis with new analytical methods or an overarching syntheses. As there are several tools that could potentially be used, and each requires specific values for a suite of parameters, it is crucial to archive both raw data and location estimates in conjunction with the code that led to the specific results.</p>
-<p>Although several databases exist for sharing and archiving animal movement data, the foremost as a general research platform for animal movement data is <a href="www.movebank.org/node/2">Movebank</a>. Movebank is particularly well suited for geolocator data as it includes features tailored to tracking based on ambient light levels, supporting storage of raw light recordings, twilight annotation tables, location estimates with credibility intervals and custom files such as R scripts or model output, along with deployment‐ and study‐level metadata. Researchers are encouraged to publish their data in the public domain, which can be done by publishing in the Movebank Data Repository, wherein a dataset can acquire a digital object identifier (DOI), persistent link, licence and citation after undergoing review. For in‐progress work, Movebank provides a range of sharing options, for example allowing owners to store and manage data privately, give access to specific researchers and allow the public to discover but not access the data or to download data after accepting owner‐defined terms of use. We recommend storing data in Movebank or similar repositories even during preliminary analysis stages when the results and analyses remain unpublished. In these situations, the online archive provides a secure backup and can be discovered by other researchers who can contact the owner about potential collaboration using the data.</p>
+<p>Archiving geolocator data is not only good scientific practice, it is a precondition for publication in a growing number of journals and for receiving funding from many organizations. Proper archiving retains the value of the data for future work, allowing for (re‐)analysis with new analytical methods or overarching syntheses. To enable appropriate re-use of geolocation data, it is crucial to archive raw data and location estimates in conjunction with documentation needed to understand how the data were collected and what processing and analysis methods led to any reported results.</p>
+<p>Although several databases exist for sharing and archiving animal movement data, the foremost as a general research platform for animal movement data is <a href="https://www.movebank.org/cms/movebank-content/about-movebank">Movebank</a>. Movebank is particularly well suited for geolocator data as it includes features tailored to tracking based on ambient light levels, supporting storage of raw light recordings, twilight annotation tables, location estimates with credibility intervals, and custom files such as R scripts or model output, along with deployment‐ and study‐level metadata. Researchers are encouraged to publish their data in the public domain, which can be done by publishing in the <a href="https://www.movebank.org/cms/movebank-content/data-repository">Movebank Data Repository</a>, wherein a dataset is provided with a digital object identifier (DOI), persistent link, licence and citation after undergoing review. For in‐progress work, Movebank provides a range of <a href="https://www.movebank.org/cms/movebank-content/permissions-and-sharing">sharing options</a>: owners can choose to give access to specific researchers, and allow the public to see a written summary only, view the tracks on a map, or download the data. We recommend storing data in Movebank or similar repositories even during preliminary analysis stages when the results and analyses remain unpublished. In these situations, the online archive provides a secure backup and can be discovered by other researchers who can contact the owner about potential collaboration using the data.</p>
 <div id="basic-principles-of-storing-data-in-movebank" class="section level2">
-<h2><span class="header-section-number">9.1</span> Basic principles of storing data in <em>Movebank</em></h2>
-<p>Movebank is a free online database and research platform for animal movement and other animal-borne sensor data hosted by the Max Planck Institute of Animal Behavior. Researchers retain ownership of their data and can choose whether and with whom to share their data. All data are stored within user-owned studies. You can access and analyze Movebank data directly within R using the <a href="https://cran.r-project.org/web/packages/move/index.html">move</a> package. The basic steps to archiving a dataset on Movebank are:</p>
+<h2><span class="header-section-number">9.1</span> Basic principles of storing data in Movebank</h2>
+<p>Movebank (<a href="https://www.movebank.org">movebank.org</a>) is a free online database and research platform for animal movement and other animal-borne sensor data hosted by the Max Planck Institute of Animal Behavior. Researchers retain ownership of their data and choose whether and with whom to share their data. All data are stored within user-owned studies. You can access and analyze Movebank data directly within R using the <a href="https://cran.r-project.org/web/packages/move/index.html">move</a> package. These are the basic steps to archiving a dataset on Movebank:</p>
 <ol style="list-style-type: decimal">
-<li><strong>Register on Movebank</strong> If you are not registered already, create an account at <a href="https://www.movebank.org/user/register" class="uri">https://www.movebank.org/user/register</a>.</li>
-<li><strong>Create a study</strong> Typically users create a study for each project, but for large projects you may want to create studies for each species or deployment site. Consider this carefully because there is no automated way to move data between studies later. We recommend that you provide sufficient detail in your study name, citations and objectives to inform others about your project. Also notice that you can set License Terms that must be accepted by anyone with permission to download your data.</li>
-<li><strong>Set the access and sharing permissions</strong> Set the permissions for your study to define whether the public or specific collaborators can view or download data, and assign other Movebank users as collaborators or data managers. You can update these settings at any time. We recommend that you make at least the study name and summary visible to the public so that your work can be discovered.</li>
-<li><strong>Import data</strong> You can import tables of raw light recordings, annotated twilights, location estimates and deployment information. More detailed instructions follow in Section 9.2. 5. <strong>Submit for publication</strong> The Movebank Data Repository is a long-term public archive of Movebank studies that provides authors with a DOI and research citation for their datasets. When you have completed your data analysis we recommend submitting your dataset for publication. Researchers typically submit when their related manuscripts are in review.</li>
+<li>[<strong>Log in to Movebank.</strong>] If you are not registered already, create an account at <a href="https://www.movebank.org/cms/webapp/register" class="uri">https://www.movebank.org/cms/webapp/register</a>.<br />
+</li>
+<li><a href="https://www.movebank.org/cms/movebank-content/creating-a-study"><strong>Create a study.</strong></a> Typically users create a study for each project, but for large projects you may want to create studies for each species, field season or deployment site. Consider this carefully because there is no automated way to move data between studies later. Provide sufficient detail in your study name, citations and objectives to inform others about your project. You can also set License Terms that must be accepted by collaborators with permission to download your data.<br />
+</li>
+<li><a href="https://www.movebank.org/cms/movebank-content/permissions-and-sharing"><strong>Set the access permissions.</strong></a> Define what level of access to give to the public, and assign other users as collaborators (to whom you can give extra viewing and download access) or data managers (who can help upload and organize). You can update these settings at any time.<br />
+</li>
+<li><a href="https://www.movebank.org/cms/movebank-content/create-study-overview"><strong>Add data.</strong></a> You can import tables of raw light recordings, annotated twilights, location estimates and deployment information, and upload and store other relevant files. More detailed instructions follow in <a href="https://geolocationmanual.vogelwarte.ch/repositories.html#what-can-and-should-be-stored-in-movebank">Section 9.2</a>.<br />
+</li>
+<li><a href="https://www.movebank.org/cms/movebank-content/data-repository"><strong>Submit for publication.</strong></a> The Movebank Data Repository is a public archive of Movebank studies that provides authors with a DOI and research citation for their datasets. When you have completed your data analysis we recommend submitting your dataset for publication. Researchers typically submit when their related manuscripts are in review.</li>
 </ol>
-<p>Section 9.3 provides examples of published geolocator studies. Movebank’s user manual provides more details about managing studies, accessing data and analysis tools. For help, contact <a href="mailto:support@movebank.org">support@movebank.org</a>.</p>
+<p><a href="https://geolocationmanual.vogelwarte.ch/repositories.html#examples-of-geolocator-studies-in-movebank">Section 9.3</a> provides examples of published geolocator studies. Movebank’s <a href="https://www.movebank.org/cms/movebank-content/manual">user manual</a> and <a href="https://www.movebank.org/cms/movebank-content/archiving-best-practices">archiving best practices</a> provide more instructions and guidance for organizing studies. For help, contact <a href="mailto:support@movebank.org" class="email">support@movebank.org</a>.</p>
 </div>
 <div id="what-can-and-should-be-stored-in-movebank" class="section level2">
 <h2><span class="header-section-number">9.2</span> What can (and should) be stored in Movebank</h2>
-<p>Besides the results (location estimates), Movebank enables users to store all relevant information and data to repeat the analysis or reanalyze the data using different methods. This is done by storing four data tables that contain (1) raw light recordings, (2) annotated twilights, (3) location estimates and (4) deployment-level information about the tags, animals, deployments and data processing steps. Movebank will relate these tables using a model that mimics typical tag deployments:</p>
+<p>Besides the results (location estimates), Movebank enables users to store all relevant information and data needed to repeat an analysis or reanalyze the data using different methods. This is done by storing four data tables that contain (1) raw light recordings, (2) annotated twilights, (3) location estimates and (4) deployment-level information about the tags, animals, deployments and data processing steps. Movebank relates these tables using a data model that mimics typical tag deployments:</p>
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
 <p><img src="images/Rep01.png" style="display: block; margin: auto;" /></p>
 </div>
-<p>After <a href="www.movebank.org/node/11">creating a study</a> and providing study details, you can begin importing files. With each file import you will map each column in the table to a Movebank data attribute. All attributes are defined in the <a href="www.movebank.org/node/2381">Movebank Attribute Dictionary</a> and a persistent, machine-readable version is published at <a href="http://vocab.nerc.ac.uk/collection/MVB/current" class="uri">http://vocab.nerc.ac.uk/collection/MVB/current</a>. While each study and set of files is a bit different, we will walk through the import steps in a recommended order below. Also see Movebank’s instructions for <a href="www.movebank.org/node/12">importing custom tabular data</a>. We are preparing a complete example of all steps in the study “Light-Level Geolocation Manual” (study ID <a href="https://www.movebank.org/panel_embedded_movebank_webapp?gwt_fragment=page=studies,path=study788381694">788381694</a>).</p>
+<p>After creating a study (steps 1 and 2 above), you can begin importing files. For each file import, you will map each column in the table to a Movebank data attribute. All attributes are defined in the <a href="https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary">Movebank Attribute Dictionary</a> and a persistent, machine-readable version is published at <a href="http://vocab.nerc.ac.uk/collection/MVB/current" class="uri">http://vocab.nerc.ac.uk/collection/MVB/current</a>. While each study and set of files is a bit different, we will walk through the import steps in a recommended order below. Also see Movebank’s instructions for <a href="https://www.movebank.org/cms/movebank-content/import-custom-tabular-data">importing custom tabular data</a>. We are preparing a complete example of all steps in the study “Light-Level Geolocation Manual” (study ID <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study788381694">788381694</a>).</p>
 <div id="raw-light-recordings" class="section level3">
 <h3><span class="header-section-number">9.2.1</span> Raw light recordings</h3>
-<p>These are the files you obtain from your geolocators. Movebank can accept most delimited tabular data files with or without a header row. Any rows in the header other than column names must be removed before importing. Information stored in the header can be integrated into the reference data, compiled and added as a file attachment to the study, and/or included in the readme if the data are published in the Movebank Data Repository. You can import one file per tag or one file with data from multiple tags. If you have many files, it can be easier to merge the light-level data into one or a few files that contain a tag ID column prior to importing to Movebank (see more below). To import a light-level file, * From your study select <strong>Upload Data &gt; Import Data &gt; Light-level data</strong>. * Browse to the file and select <strong>Upload</strong>. A window will open previewing “What Movebank sees in your file” and “How Movebank will save the data”. If nothing appears under “How Movebank will save the data”, or if the first row is not read correctly, select <strong>CSV Parameter</strong> to adjust how the file is read. * <strong>Set Reference to Animal/Tag</strong>: If the file contains data for a single tag and does not contain an ID column, check the box next to “All rows belong to the same Animal/Tag”. You can either select the IDs from a list (if you have already imported the reference data, see below) or create new ones. If the file contains an ID column, select the relevant column/s. You are only required to map a Tag ID—you can either map an Animal ID in this step or relate the tags to animals with your reference data table. When you are done select <strong>Save</strong>.</p>
+<p>These are the files you obtain from your geolocators. Movebank can accept most delimited tabular data files with or without a header row. Any rows in the header other than column names must be removed before importing. Information stored in the header can be integrated into the reference data, compiled and added as a file attachment to the study, and/or included in the readme if the data are published in the Movebank Data Repository (more below). You can import one file per tag or one file with data from multiple tags. If you have many files, it can be easier to merge the light-level data into one or a few files that contain a tag ID column prior to importing to Movebank (see <a href="https://geolocationmanual.vogelwarte.ch/repositories.html#merging-files">9.2.6 Merging files</a>). To import a light-level file,</p>
+<ul>
+<li>From your study select <strong>Upload Data &gt; Import Data &gt; Light-level data &gt; Raw light-level data</strong>.<br />
+</li>
+<li>Browse to the file and select <strong>Upload</strong>. A window will open previewing “What Movebank sees in your file” and “How Movebank will save the data”. If nothing appears under “How Movebank will save the data”, or if the first row is not read correctly, select <strong>CSV Parameter</strong> to adjust how the file is read.<br />
+</li>
+<li><strong>Set Reference to Animal/Tag</strong>: If the file contains data for a single tag and does not contain an ID column, check the box next to “All rows belong to the same Animal/Tag”. You can either select the IDs from a list (if you have already imported the reference data, see <a href="https://geolocationmanual.vogelwarte.ch/repositories.html#reference-data">9.2.4 Reference data</a>) or create a new ID. If the file contains an ID column, select the relevant column/s. You are only required to map a Tag ID—you can either map an Animal ID in this step or relate the tags to animals with your reference data table. <a href="https://www.movebank.org/cms/movebank-content/import-custom-tabular-data#tags_and_animals">Read more.</a> When you are done select <strong>Save</strong>.</li>
+</ul>
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
 <p><img src="images/Rep02.jpg" style="display: block; margin: auto;" /></p>
 </div>
 <ul>
-<li><strong>Map Timestamp</strong>: You can map one or more date-time columns to Movebank’s “Timestamp” attribute. Use “+” to add additional columns if needed. Provide the format string for each column based on <a href="https://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html">this key</a>. When you are done select <strong>Save</strong>. The format displayed under “How Movebank will save the data” is yyyy-MM-dd HH:mm:ss.SSS. <em>Please check your timestamp format carefully</em>! In particular, Movebank sometimes guesses months and days incorrectly if no days above 12 are in the top portion of the file. It can be easy to overlook this mistake with data from non-location sensors.</li>
-<li><strong>Map Light Level</strong>: Choose the column that contains the light values and select Save. Now your file should be ready to import.</li>
+<li><strong>Map Timestamp</strong>: You can map one or more date-time columns to Movebank’s “Timestamp” attribute. Use “+” to add additional columns if needed. Provide the format string for each column based on <a href="https://docs.oracle.com/javase/6/docs/api/java/text/SimpleDateFormat.html">this key</a>. <a href="https://www.movebank.org/cms/movebank-content/import-custom-tabular-data#date_and_time">Read more.</a> When you are done select <strong>Save</strong>. The format displayed under “How Movebank will save the data” is yyyy-MM-dd HH:mm:ss.SSS. <em>Please check your timestamp format carefully!</em> In particular, Movebank sometimes guesses months and days incorrectly if no days above 12 are in the top portion of the file. It can be easy to overlook this mistake with data from non-location sensors.<br />
+</li>
+<li><strong>Map Light Level</strong>: Choose the column that contains the light values and select <strong>Save</strong>. Now your file should be ready to import.<br />
+</li>
+<li><strong>Twilight</strong>: If twilight selections are noted in a column of your light-level data, you can map this to <a href="http://vocab.nerc.ac.uk/collection/MVB/current/MVB000113/">twilight</a>.</li>
 </ul>
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
 <p><img src="images/Rep03.jpg" style="display: block; margin: auto;" /></p>
 </div>
-<p>Select <strong>Finish</strong>. You will have the option to filter duplicate records (typically not present in light level files) and to save a copy of your file format. Save the format, giving it a name like “lig files” or “glf files”, so that you can import additional light-level files to the study without having to repeat these steps each time. Select <strong>Ok</strong>. Depending on the file size processing may take a few seconds or several minutes. Once the file is imported, you can import more light recording files or move on to annotated twilights (below).</p>
+<ul>
+<li><p>Select <strong>Finish</strong>. You will have the option to filter duplicate records (typically not present in light level files) and to save a copy of your file format. Save the format, giving it a name like “lig files” or “glf files”, so that you can import additional light-level files to the study without having to repeat these steps each time.</p></li>
+<li><p>Select <strong>Ok</strong>. Depending on the file size, processing may take a few seconds or several minutes. Once the file is imported, you can import more light recording files or move on to annotated twilights (below).</p></li>
+</ul>
 </div>
 <div id="annotated-twilights" class="section level3">
 <h3><span class="header-section-number">9.2.2</span> Annotated twilights</h3>
-<p>We are in the process of adding a new sensor type to Movebank to support storage of twilight files. Once this is done we will add instructions and examples. In the meantime, you can prepare these files using the following new functions: FLightR GeoLight SGAT - <code>SGAT2Movebank</code></p>
+<p>Twilight selections made while processing your light-level data can be reported as a tabular file containing the twilight times and results of editing and filtering steps. For example, TAGS will provide a file that looks like</p>
+<pre><code>datetime,light,twilight,interp,excluded
+2014-06-17T14:34:13.000Z,5.76547632856179,0,FALSE,FALSE</code></pre>
+<p>and TwGeos will provide a file that looks like</p>
+<pre><code>&quot;Twilight&quot;,&quot;Rise&quot;,&quot;Deleted&quot;,&quot;Marker&quot;,&quot;Inserted&quot;,&quot;Twilight3&quot;
+2015-07-16 19:43:53,FALSE,FALSE,0,FALSE,2015-07-16 19:43:53</code></pre>
+<p>If you have many files, it can be easier to merge the twilight data into one file containing a tag ID column prior to importing to Movebank (see <a href="https://geolocationmanual.vogelwarte.ch/repositories.html#merging-files">9.2.6 Merging files</a>). To import a twilight file,</p>
+<ul>
+<li>From your study select <strong>Upload Data &gt; Import Data &gt; Light-level data &gt; Twilight data</strong>.<br />
+</li>
+<li>Browse to the file and select <strong>Upload</strong>. If nothing appears under “How Movebank will save the data”, or if the first row is not read correctly, select <strong>CSV Parameter</strong> to adjust how the file is read. Map the following columns:<br />
+</li>
+<li><strong>Sensor Type</strong>: If this is not mapped already, check the box next to “Set fixed Sensor Type for all rows” and choose “Solar Geolocator Twilight”.<br />
+</li>
+<li><strong>Animal/Tag IDs</strong>: Each location must be associated with a Tag ID, and can then be associated with an Animal ID using this file <a href="https://www.movebank.org/cms/movebank-content/import-custom-tabular-data#tags_and_animals">(Read more)</a> or by defining deployments in the reference data (see <a href="https://geolocationmanual.vogelwarte.ch/repositories.html#reference-data">9.2.4 Reference data</a>).<br />
+</li>
+<li><strong>Timestamps</strong>: For details on mapping timestamp values <a href="https://www.movebank.org/cms/movebank-content/import-custom-tabular-data#date_and_time">read here</a>. In the example from TwGeos above, the format is <code>yyyy-MM-dd HH:mm:ss</code>. <em>Please check your timestamp format carefully!</em></li>
+<li><strong>Rise</strong>: Define whether the twilight represents sunrise or sunset using the attribute <a href="http://vocab.nerc.ac.uk/collection/MVB/current/MVB000215/">geolocator rise</a>, which accepts values TRUE (sunrise) and FALSE (sunset). If values are stored in a different format, use <a href="http://vocab.nerc.ac.uk/collection/MVB/current/MVB000107/">geolocator fix type</a>. Be sure that both TRUE and FALSE values are mapped as shown below—Movebank might not automatically “see” and map values that are not present toward the beginning of large files.</li>
+</ul>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 450px; margin: auto:">
+<p><img src="images/Rep05.jpg" style="display: block; margin: auto;" /></p>
+</div>
+<ul>
+<li><strong>Deleted</strong>: If available, map to the attribute <a href="http://vocab.nerc.ac.uk/collection/MVB/current/MVB000242/">twilight excluded</a>.</li>
+<li><strong>Inserted</strong>: If available, map to the attribute <a href="http://vocab.nerc.ac.uk/collection/MVB/current/MVB000243/">twilight inserted</a>.</li>
+<li><strong>Twilight3</strong>: If available, map to the attribute <a href="http://vocab.nerc.ac.uk/collection/MVB/current/MVB000216/">geolocator twilight3</a>. As described above, please define and check your timestamp format carefully. In the example from TwGeos above, the format is <code>yyyy-MM-dd HH:mm:ss</code>.<br />
+Once you are done mapping attributes, your preview should look something like this:</li>
+</ul>
+<div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
+<p><img src="images/Rep06.jpg" style="display: block; margin: auto;" /></p>
+</div>
+<ul>
+<li><p>Select <strong>Finish</strong>. You will have the option to filter duplicate records (typically not present in twilight files) and to save a copy of your file format. Save the format if you will import additional twilight files to the study so that you don’t have to repeat the mapping process each time.</p></li>
+<li><p>Select <strong>Ok</strong>. Depending on the file size, processing may take a few seconds or several minutes. Once the file is imported, you can import more twilight files or move on to location estimates (below).</p></li>
+</ul>
 </div>
 <div id="location-estimates" class="section level3">
 <h3><span class="header-section-number">9.2.3</span> Location estimates</h3>
-<p>The results of geolocator analysis are typically a file containing estimated location coordinates for each animal over the deployment period and which may include additional columns with information such as location accuracy or migration stage. When possible we recommend including upper and lower bounds for the location estimates that can be chosen using e.g. <code>SGAT2Movebank</code> packages. To import this file, follow the instructions for <a href="www.movebank.org/node/12">“importing custom tabular data”</a> in Movebank’s user manual. Below are details specific to geolocation-based location estimates.</p>
-<p>The times and locations of deployment and recapture can be represented in two ways in Movebank: (1) in this file with the location estimates and (2) in the reference data (more below). If you include these records in this file, be sure to indicate this because they are of course more accurate than the estimates from geolocation analysis. The easiest way to do this is to add a “comments” column to the file and a note “known deployment location”, or something similar, to those records.</p>
+<p>The results of geolocator analysis can be reported as a tabular file containing estimated location coordinates for each animal over the deployment period and which may include additional columns with information such as location accuracy or migration stage. When possible we recommend including upper and lower bounds for the location estimates. The functions <code>FLightR2Movebank</code> and <code>SGAT2Movebank</code> can be used to create location estimates ready to import to Movebank. To import this file, follow the instructions for <a href="https://www.movebank.org/cms/movebank-content/import-custom-tabular-data">importing custom tabular data</a> in Movebank’s data manual. The example below supplements these instructions with details specific to geolocation-based location estimates.</p>
+<p>The times and locations of deployment and recapture can be represented in two ways in Movebank: (1) in this file with the location estimates and (2) in the reference data (see <a href="https://geolocationmanual.vogelwarte.ch/repositories.html#reference-data">9.2.4 Reference data</a>). If you include these records in this file, be sure to indicate this because they are of course more accurate than the estimates from geolocation analysis. The easiest way to do this is to add a “comments” column to the file and a note “known deployment location”, or something similar, to those records.</p>
 <ul>
 <li>From your study select <strong>Upload Data &gt; Import Data &gt; Processed solar geolocator data &gt; other geolocator data</strong>.</li>
-<li>Browse to the file and select <strong>Upload</strong>. Map the following columns:</li>
+<li>Browse to the file and select <strong>Upload</strong>. If nothing appears under “How Movebank will save the data”, or if the first row is not read correctly, select <strong>CSV Parameter</strong> to adjust how the file is read. Map the following columns:<br />
+</li>
 <li><strong>Sensor Type</strong>: If this is not mapped already, check the box next to “Set fixed Sensor Type for all rows” and choose “Solar Geolocator”.</li>
-<li><strong>Animal/Tag IDs</strong>: Each location must be associated with a Tag ID, and can then be associated with an Animal ID using this file or by defining deployments in the reference data (see below).</li>
-<li><strong>Timestamps</strong>: For your location estimates, you might have either a single timestamp or start and end timestamps associated with each record. If you have one timestamp per location, map this to the “Timestamp” field. If it represents the beginning of the period for which the estimate is valid, also map this to “Start Timestamp”. If you have start and end timestamps for each location, map the start timestamp to “Timestamp” and “Start Timestamp” and the end timestamp to “End Timestamp”. Please check your timestamp format carefully!</li>
-<li><strong>Location Lat and Location Long</strong>: Select the columns that contain the latitude and longitude estimates.</li>
-<li><strong>Upper and lower coordinate bounds</strong>: Where possible we recommend including the upper and lower location bounds. To do this, select Map other Attributes, Map Column or a column header under “What Movebank sees in your file”. The related Movebank attributes are listed as “Latitude Lower”, “Latitude Upper”, “Longitude Upper” and “Longitude Lower” under “Other attributes”. You can further define these bounds using “Location Accuracy Comments” in the reference data (see below).</li>
+<li><strong>Animal/Tag IDs</strong>: Each location must be associated with a Tag ID, and can then be associated with an Animal ID using this file <a href="https://www.movebank.org/cms/movebank-content/import-custom-tabular-data#tags_and_animals">(Read more)</a> or by defining deployments in the reference data (see <a href="https://geolocationmanual.vogelwarte.ch/repositories.html#reference-data">9.2.4 Reference data</a>).</li>
+<li><strong>Timestamps</strong>: For your location estimates, you might have either a single timestamp or start and end timestamps associated with each record. If you have one timestamp per location, map this to the “Timestamp” field. If it represents the beginning of the period for which the estimate is valid, also map this to “Start Timestamp”. If you have start and end timestamps for each location, map the start timestamp to “Timestamp” and “Start Timestamp” and the end timestamp to “End Timestamp”. For details on mapping timestamp values <a href="https://www.movebank.org/cms/movebank-content/import-custom-tabular-data#date_and_time">read here</a>. <em>Please check your timestamp format carefully!</em></li>
+<li><strong>Location coordinates</strong>: Select the columns that contain the latitude and longitude estimates, to be stored in the Movebank attributes “Location Lat” and “Location Long”.<br />
+</li>
+<li><strong>Upper and lower coordinate bounds</strong>: Where possible we recommend including the upper and lower location bounds. To do this, select <strong>Map other Attributes</strong>, <strong>Map Column</strong>, or the relevant column header under “What Movebank sees in your file”. The related Movebank attributes are listed as under “Other attributes” as “Latitude Lower”, “Latitude Upper”, “Longitude Upper” and “Longitude Lower”. You can further define these bounds using “Location Accuracy Comments” in the reference data (see below).<br />
+</li>
 <li><strong>Geolocator Fix Type</strong>: Provide the period of day (e.g. “sunrise”) used to estimate the location.</li>
 <li><strong>Comments</strong>: As described above, here you can indicate high-accuracy records from known locations that were not derived from the geolocation analysis.</li>
-<li><strong>Additional Attributes</strong>: To map other attributes you might want to include, see the Movebank Attribute Dictionary for available attributes. Once you are done mapping columns your preview should look something like this.</li>
+<li><strong>Additional attributes</strong>: To map other attributes you might want to include, see the <a href="https://www.movebank.org/cms/movebank-content/movebank-attribute-dictionary">Movebank Attribute Dictionary</a> for available attributes.<br />
+Once you are done mapping attributes, your preview should look something like this:</li>
 </ul>
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
 <p><img src="images/Rep04.jpg" style="display: block; margin: auto;" /></p>
 </div>
-<p>After finishing the import, if you mapped both Tag and Animal IDs, you might be directed to the Deployment Manager to accept deployments created based on the data in your file. If you haven’t yet added deployments, it is fine to accept these, however for your final deployments, we recommend importing a reference data file that contains additional information important to understanding geolocation studies.</p>
+<p>After finishing the import, if you mapped both Tag and Animal IDs, you might be directed to the <a href="https://www.movebank.org/cms/movebank-content/deployment-manager">Deployment Manager</a> to accept deployments created based on the data in your file. If you haven’t yet added deployments, it is fine to accept these, however for your final deployments, we recommend importing a reference data file that contains additional information important to understanding geolocation studies.</p>
 </div>
 <div id="reference-data" class="section level3">
 <h3><span class="header-section-number">9.2.4</span> Reference data</h3>
-<p>In Movebank, “reference data” includes information about animals, tags and deployments. This can be prepared as a table with one row per deployment, and allows you to document additional details about your geolocator analysis methods. The following reference data for bird 14SA in our example study “Light-Level Geolocation Manual” includes recommended reference data attributes to include for geolocation studies, with notes in italics.</p>
+<p>In Movebank, <a href="https://www.movebank.org/cms/movebank-content/mb-data-model#reference_data">“reference data”</a> includes information about animals, tags and deployments. This can be prepared as a table with one row per deployment, and allows you to document additional details about your geolocator analysis methods. The following reference data for bird 14SA in our example study <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study788381694">“Light-Level Geolocation Manual”</a> includes recommended reference data attributes to include for geolocation studies, with notes in italics.</p>
 <ul>
 <li><strong>tag-id</strong>: 14SA (tag, animal and deployment IDs can be the same or different)</li>
 <li><strong>animal-id</strong>: 14SA</li>
@@ -302,48 +385,53 @@ code > span.in { color: #008000; } /* Information */
 <li><strong>tag-model</strong>: PAM GDL3</li>
 <li><strong>tag-readout-method</strong>: tag-retrieval</li>
 </ul>
-<p>To import this file, follow the instructions for <a href="www.movebank.org/node/27">“Importing reference data about animals, tags and deployments”</a> in Movebank’s user manual.</p>
+<p>Once you have prepared this file, follow the instructions for <a href="https://www.movebank.org/cms/movebank-content/import-reference-data">importing reference data</a> in Movebank’s user manual.</p>
 </div>
 <div id="additional-files" class="section level3">
 <h3><span class="header-section-number">9.2.5</span> Additional files</h3>
-<p><strong>Other data sensors</strong>: You can also include additional sensor data, e.g. from conductivity or temperature sensors on the tag. Follow the instructions above for importing raw light recordings, but select the appropriate sensor type, using “accessory measurements” if the sensor is not listed.</p>
-<p><strong>Other kinds of files: Movebank allows you to store additional files in your study that are not imported to the database. You can use this to store things like R scripts, a text file with the configuration details stored in the header of original light-level files, or more detailed capture data information. From your study select Upload Data &gt; Add </strong>Attachments** (see Movebank’s user manual for <a href="www.movebank.org/node/5791">instructions to upload file attachments</a>).</p>
+<p><strong>Other data sensors</strong>: You can import additional sensor data, e.g. from conductivity or temperature sensors on the tag. Follow the instructions in <a href="https://geolocationmanual.vogelwarte.ch/repositories.html#raw-light-recordings">Section 9.2.1</a>, but select the appropriate sensor type, using “accessory measurements” if the sensor is not listed.</p>
+<p><strong>Other kinds of files:</strong> Movebank allows you to store additional files in your study that are not imported to the database. You can use this to store things like R scripts, a text file with the configuration details stored in the header of original light-level files, or more detailed capture information. From your study select <strong>Upload Data &gt; Add Attachments</strong> and follow instructions to <a href="https://www.movebank.org/cms/movebank-content/upload-file-attachments">upload file attachments</a> from Movebank’s user manual.</p>
 </div>
 <div id="merging-files" class="section level3">
 <h3><span class="header-section-number">9.2.6</span> Merging files</h3>
 <p>Here is an example of how to merge files of light recordings or twilights prior to importing them to Movebank. This allows you to import just one file rather than one for each tag. With files exceeding ~500 MB the import process can become slow, so see these tips for importing large csv files. We have successfully imported files up to at least 3 GB.</p>
 <p>To merge multiple tabular files in the same format, first get a list of all files in the directory.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filenames &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">path =</span> <span class="st">&quot;.&quot;</span>, <span class="dt">pattern =</span> <span class="ot">NULL</span>, <span class="dt">all.files =</span> <span class="ot">FALSE</span>, 
-                        <span class="dt">full.names =</span> <span class="ot">FALSE</span>, <span class="dt">recursive =</span> <span class="ot">FALSE</span>, <span class="dt">ignore.case =</span> <span class="ot">FALSE</span>)</code></pre></div>
-<p>Make a function to read he files and add a column with the filename (where the tag identifiers are typically stored).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">read_txt_filename &lt;-<span class="st"> </span><span class="cf">function</span>(filename){
-ret &lt;-<span class="st"> </span><span class="kw">read.table</span>(filename, <span class="dt">header=</span><span class="ot">TRUE</span>, <span class="dt">sep=</span><span class="st">&quot;;&quot;</span>, <span class="dt">quote=</span><span class="st">&#39;&quot;&#39;</span>, <span class="dt">dec=</span><span class="st">&quot;.&quot;</span>, <span class="dt">na.strings=</span><span class="st">&quot;&quot;</span>, 
-                  <span class="dt">colClasses=</span><span class="st">&quot;character&quot;</span>, <span class="dt">fill=</span><span class="ot">TRUE</span>, <span class="dt">strip.white=</span><span class="ot">TRUE</span>, <span class="dt">blank.lines.skip=</span><span class="ot">TRUE</span>) 
-                  <span class="co">#, colClasses=c(rep(&quot;character&quot;, 7), rep(&quot;NULL&quot;, 6)), blank.lines.skip=TRUE)</span>
-                  ret<span class="op">$</span>Filename &lt;-<span class="st"> </span>filename
-                    ret}</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">filenames &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="dt">path =</span> <span class="st">&quot;.&quot;</span>, <span class="dt">pattern =</span> <span class="ot">NULL</span>, <span class="dt">all.files =</span> <span class="ot">FALSE</span>, </a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">                        <span class="dt">full.names =</span> <span class="ot">FALSE</span>, <span class="dt">recursive =</span> <span class="ot">FALSE</span>, <span class="dt">ignore.case =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p>Make a function to read the files and add a column with the filename (where the tag identifiers are typically stored).</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">read_txt_filename &lt;-<span class="st"> </span><span class="cf">function</span>(filename){</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">ret &lt;-<span class="st"> </span><span class="kw">read.table</span>(filename, <span class="dt">header=</span><span class="ot">TRUE</span>, <span class="dt">sep=</span><span class="st">&quot;;&quot;</span>, <span class="dt">quote=</span><span class="st">&#39;&quot;&#39;</span>, <span class="dt">dec=</span><span class="st">&quot;.&quot;</span>, <span class="dt">na.strings=</span><span class="st">&quot;&quot;</span>, </a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">                  <span class="dt">colClasses=</span><span class="st">&quot;character&quot;</span>, <span class="dt">fill=</span><span class="ot">TRUE</span>, <span class="dt">strip.white=</span><span class="ot">TRUE</span>, <span class="dt">blank.lines.skip=</span><span class="ot">TRUE</span>) </a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">                  <span class="co">#, colClasses=c(rep(&quot;character&quot;, 7), rep(&quot;NULL&quot;, 6)), blank.lines.skip=TRUE)</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">                  ret<span class="op">$</span>Filename &lt;-<span class="st"> </span>filename</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">                    ret}</a></code></pre></div>
 <p>Read in the contents of all files to a new data frame.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(plyr)
-dat &lt;-<span class="st"> </span><span class="kw">ldply</span>(filenames, read_txt_filename)</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">library</span>(plyr)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">dat &lt;-<span class="st"> </span><span class="kw">ldply</span>(filenames, read_txt_filename)</a></code></pre></div>
 <p>Remove extension from the filenames. Adjust as needed so that the filename values become the Tag IDs you want to use in Movebank.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dat &lt;-<span class="st"> </span><span class="kw">lapply</span>(dat, <span class="cf">function</span>(findreplace){
-      <span class="kw">gsub</span>(<span class="st">&quot;.csv&quot;</span>,<span class="st">&quot;&quot;</span>,findreplace)})</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">dat &lt;-<span class="st"> </span><span class="kw">lapply</span>(dat, <span class="cf">function</span>(findreplace){</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">      <span class="kw">gsub</span>(<span class="st">&quot;.csv&quot;</span>,<span class="st">&quot;&quot;</span>,findreplace)})</a></code></pre></div>
 <p>Save the file with settings that will minimize file size and leave NAs blank.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.csv</span>(dat, <span class="dt">file=</span><span class="st">&quot;merged_files.csv&quot;</span>, <span class="dt">quote=</span>F, <span class="dt">na=</span><span class="st">&quot;&quot;</span>, <span class="dt">row.names=</span>F)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">write.csv</span>(dat, <span class="dt">file=</span><span class="st">&quot;merged_files.csv&quot;</span>, <span class="dt">quote=</span>F, <span class="dt">na=</span><span class="st">&quot;&quot;</span>, <span class="dt">row.names=</span>F)</a></code></pre></div>
 </div>
 </div>
 <div id="examples-of-geolocator-studies-in-movebank" class="section level2">
 <h2><span class="header-section-number">9.3</span> Examples of geolocator studies in Movebank</h2>
-<p>The following Movebank studies follow many of the best practices described above and can be publicly downloaded, so you can use them to help organize your own datasets. To search Movebank for publicly visible geolocator studies that include location estimates, go to the Tracking Data Map select “All Sensor Types” and choose “Solar Geolocator”. Geolocator studies published in the Movebank Data Repository are listed at <a href="https://www.datarepository.movebank.org/discover?query=geolocator" class="uri">https://www.datarepository.movebank.org/discover?query=geolocator</a>.</p>
+<p>The following Movebank studies follow many of the best practices described above and can be publicly downloaded, so you can use them to help organize your own datasets. To search Movebank for publicly visible geolocator studies that include location estimates, go to the Tracking Data Map select “All Sensor Types” and choose “Solar Geolocator”. Geolocator studies published in the Movebank Data Repository are listed at <a href="https://www.datarepository.movebank.org/discover?query=geolocator" class="uri">https://www.datarepository.movebank.org/discover?query=geolocator</a>. For more on how to properly use and cite these examples, as well as other geolocator studies in Movebank, see Movebank’s <a href="https://www.movebank.org/cms/movebank-content/citation-guidelines">citation guidelines</a>, <a href="https://www.movebank.org/cms/movebank-content/general-movebank-terms-of-use">general terms of use</a> and <a href="https://www.movebank.org/cms/movebank-content/data-policy#user_agreement">user agreement</a>.</p>
 <ul>
-<li><p>*<strong>Light-Level Geolocation Manual</strong> (study <a href="https://www.movebank.org/panel_embedded_movebank_webapp?gwt_fragment=page=studies,path=study788381694">788381694</a>): We will add additional data to this study following the recommendations above and to share the sample data used in this manual.</p></li>
-<li><p><strong>Vermont Center for Ecostudies Grasshopper Sparrow Migration Project</strong> (study <a href="https://www.movebank.org/panel_embedded_movebank_webapp?gwt_fragment=page=studies,path=study348283339">348283339</a>, published with DOI <a href="https://www.datarepository.movebank.org/handle/10255/move.757">10.5441/001/1.c6b47s0r</a>: This study includes light recordings and location estimates following the recommendations above, and the published dataset also includes an R script and original .lux file to further document the analysis. See Hill and Renfrew (2019a, 2019b).</p></li>
-<li><p><strong>Red-necked Phalarope southern Chukotka</strong> (data from Mu et al. 2018) (study <a href="https://www.movebank.org/panel_embedded_movebank_webapp?gwt_fragment=page=studies,path=study411155573">411155573</a> published with DOI <a href="https://www.datarepository.movebank.org/handle/10255/move.762">10.5441/001/1.p41784h5</a>): This study includes measurements from conductivity and temperature sensors. Movebank could use input from more data owners with conductivity sensors to improve how we document these.</p></li>
+<li><p><strong>Light-Level Geolocation Manual</strong> (study <a href="https://www.movebank.org/panel_embedded_movebank_webapp?gwt_fragment=page=studies,path=study788381694">788381694</a>): This study contains sample data used in this manual, imported following the recommendations above. See Lisovski et al. (2019).</p></li>
+<li><p><strong>Red-necked Phalarope southern Chukotka (data from Mu et al. 2018)</strong> (study <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study411155573">411155573</a> published with DOI <a href="https://www.doi.org/10.5441/001/1.p41784h5">10.5441/001/1.p41784h5</a>): This study includes measurements from conductivity and temperature sensors. Movebank could use input from more data owners with conductivity sensors to improve how we document these. See Mu et al. (2018a, 2018b).</p></li>
+<li><p><strong>Migration of male and female red-backed shrikes from southern Scandinavia (data from Pedersen et al. 2019)</strong> (study [890556697] (<a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study890556697" class="uri">https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study890556697</a>)) published with DOI <a href="https://doi.org/10.5441/001/1.j71640kh">10.5441/001/1.j71640kh</a>: This study includes light recordings, annotated twilights, location estimates and reference data. See Pedersen et al. (2019a, 2019b).</p></li>
+<li><p><strong>Vermont Center for Ecostudies Grasshopper Sparrow Migration Project</strong> (study <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study348283339">348283339</a>, published with DOI <a href="https://doi.org/10.5441/001/1.c6b47s0r">10.5441/001/1.c6b47s0r</a>: This study includes light recordings and location estimates following the recommendations above, and the published dataset also includes an R script and original .lux file to further document the analysis. See Hill and Renfrew (2019a, 2019b).</p></li>
 </ul>
+<p><strong>References</strong></p>
 <p>Hill JM and Renfrew RB (2019a) Data from: Migratory patterns and connectivity of two North American grassland bird species [grasshopper sparrows]. Movebank Data Repository. <a href="https://doi.org/10.5441/001/1.c6b47s0r" class="uri">https://doi.org/10.5441/001/1.c6b47s0r</a></p>
 <p>Hill JM, Renfrew RB (2019b) Migratory patterns and connectivity of two North American grassland bird species. Ecology and Evolution 9(1): 680–692. <a href="https://doi.org/10.1002/ece3.4795" class="uri">https://doi.org/10.1002/ece3.4795</a></p>
+<p>Lisovski S, Bauer S, Briedis M, Davidson SC, Dhanjal-Adams KL, Hallworth MT, Karagicheva J, Meier CM, Merkel B, Ouwehand J, Pedersen L, Rakhimberdiev E, Roberto-Charron A, Seavy NE, Sumner MD, Taylor CM, Wotherspoon SJ, Bridge ES (2020) Light-level geolocator analyses: a user’s guide. Journal of Animal Ecology 89(1): 221-36. <a href="https://doi.org/10.1111/1365-2656.13036" class="uri">https://doi.org/10.1111/1365-2656.13036</a></p>
 <p>Mu T, Tomkovich PS, Loktionov EY, Syroechkovskiy EE, Wilcove DS (2018a) Data from: Migratory routes of red-necked phalaropes Phalaropus lobatus breeding in southern Chukotka revealed by geolocators. Movebank Data Repository. <a href="https://doi.org/10.5441/001/1.p41784h5" class="uri">https://doi.org/10.5441/001/1.p41784h5</a></p>
 <p>Mu T, Tomkovich PS, Loktionov EY, Syroechkovskiy EE, Wilcove DS (2018b) Migratory routes of red-necked phalaropes Phalaropus lobatus breeding in southern Chukotka revealed by geolocators. Journal of Avian Biology 49(7): e01853. <a href="https://doi.org/10.1111/jav.01853" class="uri">https://doi.org/10.1111/jav.01853</a></p>
+<p>Pedersen L, Jakobsen NM, Strandberg R, Thorup K, Tøttrup AP (2019a) Data from: Sex-specific difference in migration schedule as a precursor of protandry in a long-distance migratory bird. Movebank Data Repository. <a href="https://doi.org/10.5441/001/1.j71640kh" class="uri">https://doi.org/10.5441/001/1.j71640kh</a></p>
+<p>Pedersen L, Jakobsen NM, Strandberg R, Thorup K, Tøttrup AP (2019b) Sex-specific difference in migration schedule as a precursor of protandry in a long-distance migratory bird. The Science of Nature 106:45. <a href="https://doi.org/10.1007/s00114-019-1637-6" class="uri">https://doi.org/10.1007/s00114-019-1637-6</a></p>
 
 </div>
 </div>
@@ -358,11 +446,13 @@ dat &lt;-<span class="st"> </span><span class="kw">ldply</span>(filenames, read_
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -370,12 +460,12 @@ gitbook.start({
 "github": false,
 "facebook": false,
 "twitter": false,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
 "all": false,
+"google": false,
 "instapper": false
 },
 "fontsettings": {
@@ -384,6 +474,14 @@ gitbook.start({
 "size": 2
 },
 "edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
 "link": null,
 "text": null
 },
