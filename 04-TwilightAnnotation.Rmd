@@ -1,6 +1,6 @@
 # Twilight Annotation {#twilight}
 
-```{r, echo = FALSE, message=FALSE, warning=FALSE}
+```{r setup, echo = FALSE, message=FALSE, warning=FALSE}
 library(GeoLocTools)
 setupGeolocation()
 
@@ -26,7 +26,7 @@ knitr::include_graphics('images/important.png', dpi = NA)
 ```
 How do I choose the right threshold?
 
-How do I know which threshold to use: You should choose the lowest value that is consistently above any noise in the nighttime light levels. Here, we use a threshold of 2.5, that is above any nighttime noise. However, this value is tag and species specific. For forest interior, ground dwelling species a lower threshold may be helpful, especially if there isn’t much ‘noise’ during the night. A threshold of 1 may be appropriate for such species.
+You should choose the lowest value that is consistently above any noise in the nighttime light levels. Here, we use a threshold of 2.5, that is above any nighttime noise. However, this value is tag and species specific. For forest interior, ground dwelling species a lower threshold may be helpful, especially if there isn’t much ‘noise’ during the night. A threshold of 1 may be appropriate for such species.
 </div>
 
 It is a good idea to plot (parts) of the dataset and see how the threshold fits into the light recordings:

@@ -5,7 +5,7 @@ This manual should allow users with limited knowledge in R coding to perform a s
 
 ## The datasets {-}
 
-To illustrate the capabilities of the different packages, discuss the potential pitfalls, and provide some recommendations, we will use raw geolocator data from four individuals of different species. All used tag data and the results as well as the code for the analyses has been uploaded onto Movebank unter study: xxxx.
+To illustrate the capabilities of the different packages, discuss the potential pitfalls, and provide some recommendations, we will use raw geolocator data from four individuals of different species. All used tag data and the results as well as the code for the analyses has been uploaded onto Movebank unter study: Light-Level Geolocation Manual.
 
 
 TagID    |  Species             | Folder      |   Tag type                          
@@ -41,7 +41,7 @@ You can download the folders with the raw data as well as the annotaded twilight
 
 
 ```r
-url <- "https://github.com/slisovski/TheGeolocationManual/raw/master/download/data.zip"
+url <- "https://github.com/slisovski/TheGeolocationManual/raw/master/download.zip"
 
 temp <- tempfile()
 download.file(url, temp)

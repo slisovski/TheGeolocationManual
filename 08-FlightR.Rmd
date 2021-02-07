@@ -5,7 +5,7 @@
 
 We first define the metadata and read in the raw recordings. We then use the `ligthImage` to get a first look at the data.
 
-```{r, echo = FALSE, warning=FALSE, message=FALSE}
+```{r setup, echo = FALSE, warning=FALSE, message=FALSE}
 library(GeoLocTools)
 setupGeolocation()
 ```

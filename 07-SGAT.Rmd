@@ -7,7 +7,7 @@ editor_options:
 
 The package _SGAT_ (TAGS backwards) is based in the principles that haven been developed for the _tripEstimation_ package that has now been deprecated by _SGAT_. The biggest difference between these two packages is the possibility to use twilight events to run the mode. _tripEstimation_ was based solely on the curve method. However, _SGAT_ has additional capabilities that we will discuss in the workflow below. Here, we highlight the _groupModel_, and the _twilightFree_ model as recent developments with great potential.
 
-In general, _SGAT_ implements two models - \textbf{Estelle} and \textbf{Stella}. Both models can be setup using threshold based twilight events or twilight period (_curve method_), but impose different constraints on the movement of the tag.  Stella estimates the locations $x_{1},x_{2},\ldots,x_{n}$ of the tag at the observed times of twilight $t_{1},t_{2},\ldots,t_{n}$ assuming the great circle distance between any two successive locations $x_{i}$ and $x_{i+1}$ follows a given distribution.  Estelle also considers intermediate locations $z_{1},z_{2},\ldots,z_{n-1}$, where $z_{i}$ is the location of the tag at an arbitrary time $\tau_{i}$ between twilights $t_{i} < \tau_{i} t_{i+1}$, and assumes the great circle distance along any dog-leg path $x_{i},z_{i},x_{i+1}$ follows a given distribution.
+In general, _SGAT_ implements two models - **Estelle** and **Stella**. Both models can be setup using threshold based twilight events or twilight period (_curve method_), but impose different constraints on the movement of the tag.  Stella estimates the locations $x_{1},x_{2},\ldots,x_{n}$ of the tag at the observed times of twilight $t_{1},t_{2},\ldots,t_{n}$ assuming the great circle distance between any two successive locations $x_{i}$ and $x_{i+1}$ follows a given distribution.  Estelle also considers intermediate locations $z_{1},z_{2},\ldots,z_{n-1}$, where $z_{i}$ is the location of the tag at an arbitrary time $\tau_{i}$ between twilights $t_{i} < \tau_{i} t_{i+1}$, and assumes the great circle distance along any dog-leg path $x_{i},z_{i},x_{i+1}$ follows a given distribution.
 
 Both models estimate location based on observed times of twilight. More precisely, let $t=(t_{1},t_{2},\ldots,t_{n})$ denote the observed times of twilight, let $x=(x_{1},x_{2},\ldots,x_{n})$ denote the corresponding locations of the tag at these times, and let $r=(r_{1},r_{2},\ldots,r_{n})$ be indicators of whether each twilight is a sunrise or sunset. Let $\hat{t}_{i}(x)$ denote the true time at which the twilight corresponding to $t_{i}$ occurs at location $x$.
 
@@ -65,7 +65,7 @@ To illustrate the _SGAT_ analysis, we use the European bee-eater dataset. The li
 
 We first define the metadata and read in the raw recordings. We skip the twilight definition process but read in the twilight file that has been generated using `preprocessLight`. Note: it is required to retransform the Twilight column into the `POSIXc`format.
 
-```{r, echo = FALSE, warning=FALSE, message=FALSE}
+```{r setup, echo = FALSE, warning=FALSE, message=FALSE}
 library(GeoLocTools)
 setupGeolocation()
 ```
@@ -118,7 +118,7 @@ twl <- twilightEdit(twilights = twl,
 ```{r fig.align='center', echo=FALSE, size = "tiny"}
 knitr::include_graphics('images/note.png', dpi = NA)
 ```
-It's usually best to do this step manually. See the [Twilight annotation](#TwilightAnnotation) page for more information.
+It's usually best to do this step manually. See the [Twilight annotation](twilight.html) page for more information.
 </div>
 
 
@@ -130,8 +130,7 @@ The simple conversion of sun elevation angle to zenith angle is:
 
 $$zenith = 90 - sun elevation angle$$
 
-There are multiple ways to define th
-e time period for calibration. Best is to know when the individual left the deployment site and if there where a couple of weeks between deployment and departure. In many instances the departure date (or the arrival to the retrieval site) is unknown. The `lightImage` together with the `tsimageDeploymentLine` can help to define suitable period (the right time period can be optimized by changing the date in the `tm.calib` vector and plotting the lines over and over again until you are sure that you have selected the beginning and the end of the calibration period). Again, the longer the period the better, but periods that are influenced by e.g. breeding in nest boxes or by movements should be excluded.
+There are multiple ways to define the time period for calibration. Best is to know when the individual left the deployment site and if there where a couple of weeks between deployment and departure. In many instances the departure date (or the arrival to the retrieval site) is unknown. The `lightImage` together with the `tsimageDeploymentLine` can help to define suitable period (the right time period can be optimized by changing the date in the `tm.calib` vector and plotting the lines over and over again until you are sure that you have selected the beginning and the end of the calibration period). Again, the longer the period the better, but periods that are influenced by e.g. breeding in nest boxes or by movements should be excluded.
 
 More specifically, `lightImage` visually presents night (in black) and day (white) throughout the year. This allows us to see when changes in night length occur and thus when the bird has moved. Based on this, we can identify when the bird left the deployment site and manually specify these for `tm.calib` .
 
@@ -256,7 +255,7 @@ box()
 ```{r fig.align='center', echo=FALSE, size = "tiny"}
 knitr::include_graphics('images/important.png', dpi = NA)
 ```
-Play around with `tol`. You'll notice that with e.g. `tol=0.18` you start getting straight lines. This is because tol is used to interpolate over the equinox period. A smaller tol is always better as it reduces interpolation. For an anaylsis, always start with a low tol and only increase if the model cannot deal with the noise in the data (creates impossible solutions which do not allow convergence - for instance having a bird)
+Play around with `tol`. You'll notice that with e.g. `tol=0.18` you start getting straight lines. This is because tol is used to interpolate over the equinox period. A smaller tol is always better as it reduces interpolation. For an analysis, always start with a low tol and only increase if the model cannot deal with the noise in the data (creates impossible solutions which do not allow convergence - for instance having a bird)
 </div>
 
 ## Define known locations {-}
@@ -279,7 +278,7 @@ z0 <- trackMidpts(x0) # we need to update the z0 locations
 
 ## Land mask {-}
 
-A land mask can be quite simple, e.g. differences in the probability of occurance between land and ocean, or highly complex, e.g. including elevation and temperature etc. Here we use a simple land-sea mask that can be created using the function `earthseaMask` below. This is something that can be customised for purpose, but for the time being we assume that bee eaters are more likely to pend time flying on land than at sea.
+A land mask can be quite simple, e.g. differences in the probability of occurrence between land and ocean, or highly complex, e.g. including elevation and temperature etc. Here we use a simple land-sea mask that can be created using the function `earthseaMask` below. This is something that can be customised for purpose, but for the time being we assume that bee eaters are more likely to spend time flying on land than at sea.
 
 
 ```{r}
@@ -334,8 +333,8 @@ Now, we are ready to specify a model (we only use the Estelle) for the analysis.
 1. `alpha` = the shape of the twilight.model distribution    
 1. `beta` = the movement model parameter      
 1. `logp.x` and `logp.z` = constraints set on the x and z (intermediate) positions. This is where you set the constraints for land        
-1. `x0` = initial values for the birds path (x positions)        
-1. `z0` = initial values for the birds path (z positions)    
+1. `x0` = initial values for the birds path (twilight locations)        
+1. `z0` = initial values for the birds path (intermediate locations)    
 1.  `zenith` = the zenith angle to be used. This can take a single value (no change in zenith throughout the year) or a vector of `nrow(twl)` if you want to use different zenith angles.    
 1. `fixedx` = a vector telling the model which locations need to be estimated because positions are unknown.  
 
@@ -498,7 +497,7 @@ save(fit,
 ```
 
 
-## The Groupe Model {-}
+## The Group Model {-}
 
 The group model is a special case of the estelle model discussed above. It allows group twilight times together which are then treated as a set of twilight times recorded at one single location. The location is thus the best spatial representation of a group of sunrise and sunset times.
 
@@ -727,8 +726,11 @@ knitr::include_graphics('images/important.png', dpi = NA)
 The mid-point estimates (z location) make no sense in the group model since they do not reflect any stationary locations. Use x locations instead.
 </div>
 
+However, the summary functions on the primary location estimates (the x locations) provides a single timestemp only which is the mean time of the grouped twilights. The function `SGAT2Movebank` uses the `group` vector to get start and end dates (see also \@ref(repositories)).
+
 ```{r}
-sm <- locationSummary(fit$x, time=fit$model$time)
+# sm <- locationSummary(fit$x, time=fit$model$time)
+sm <- SGAT2Movebank(fit$x, time = twl$Twilight, group = twl$group)
 ```
 
 
@@ -749,14 +751,14 @@ sk <- slice(s, sliceIndices(s))
 plot(sk, useRaster = F,col = c("transparent", rev(viridis::viridis(50))))
 plot(wrld_simpl, xlim=xlim, ylim=ylim,add = T, bg = adjustcolor("black",alpha=0.1))
 
-with(sm[sitenum>0,], arrows(`Lon.50%`, `Lat.50%`+`Lat.sd`, `Lon.50%`, `Lat.50%`-`Lat.sd`, length = 0, lwd = 2.5, col = "firebrick"))
-with(sm[sitenum>0,], arrows(`Lon.50%`+`Lon.sd`, `Lat.50%`, `Lon.50%`-`Lon.sd`, `Lat.50%`, length = 0, lwd = 2.5, col = "firebrick"))
-lines(sm[,"Lon.50%"], sm[,"Lat.50%"], col = "darkorchid4", lwd = 2)
+with(sm[sitenum>0,], arrows(`Lon.50.`, `Lat.2.5.`, `Lon.50.`, `Lat.97.5.`, length = 0, lwd = 2.5, col = "firebrick"))
+with(sm[sitenum>0,], arrows(`Lon.2.5.`, `Lat.50.`, `Lon.97.5.`, `Lat.50.`, length = 0, lwd = 2.5, col = "firebrick"))
+lines(sm[,"Lon.50."], sm[,"Lat.50."], col = "darkorchid4", lwd = 2)
 
-points(sm[,"Lon.50%"], sm[,"Lat.50%"], pch=21, bg=colours[sitenum+1], 
+points(sm[,"Lon.50."], sm[,"Lat.50."], pch=21, bg=colours[sitenum+1], 
       cex = ifelse(sitenum>0, 3, 0), col = "firebrick", lwd = 2.5)
 
-points(sm[,"Lon.50%"], sm[,"Lat.50%"], pch=as.character(sitenum),
+points(sm[,"Lon.50."], sm[,"Lat.50."], pch=as.character(sitenum),
        cex = ifelse(sitenum>0, 1, 0))
 ```
 

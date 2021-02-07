@@ -50,7 +50,7 @@ To analyse light-level geolocator data in R we need a couple of R packages as we
 
 The package requires _devtools_ (install if nessesary using the _install.packages()_ function). With _devtools_ on your system, you are able to download and built as well as install R packages directly from GitHub (e.g. _GeoLocTools_).
 
-```{r eval = FALSE}
+```{r setup, eval = FALSE}
 library(devtools)
 install_github("SLisovski/GeoLocTools")
 ```
