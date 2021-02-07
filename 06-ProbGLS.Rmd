@@ -38,7 +38,7 @@ The tag used here has been developed by _Lotek_. No raw light intensities are st
 </div>
 
 
-```{r, echo = FALSE, warning=FALSE, message=FALSE}
+```{r setup, echo = FALSE, warning=FALSE, message=FALSE}
 library(GeoLocTools)
 setupGeolocation()
 ```
@@ -178,7 +178,7 @@ sst           <- sst_deduction(datetime = td$dtime, temp = td$IntTemp, temp.rang
 abline(h=c(-2,19),lty=2,col="orange")
 ```
 
-In grey you can see the temperature values recorded by the tag. In black is the estimated daily sea surface temperature (SST) values determined from the algorithm. All red data points are labeled as "remove". Here, data is conservativly removed rather than smoothed out or interpolated as temperature can often shift rather dramatically, especially when an individual is utilizing an oceanographic front. For removed values no SST data will be used to improve the location estimation algorithm.
+In grey you can see the temperature values recorded by the tag. In black is the estimated daily sea surface temperature (SST) values determined from the algorithm. All red data points are labelled as "remove". Here, data is conservatively removed rather than smoothed out or interpolated as temperature can often shift rather dramatically, especially when an individual is utilizing an oceanographic front. For removed values no SST data will be used to improve the location estimation algorithm.
 
 ```{r,echo=T}
 head(sst)
