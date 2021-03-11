@@ -2,7 +2,7 @@
 
 Archiving geolocator data is not only good scientific practice, it is a precondition for publication in a growing number of journals and for receiving funding from many organizations. Proper archiving retains the value of the data for future work, allowing for (re‐)analysis with new analytical methods or overarching syntheses. To enable appropriate re-use of geolocation data, it is crucial to archive raw data and location estimates in conjunction with documentation needed to understand how the data were collected and what processing and analysis methods led to any reported results.
 	
-Although several databases exist for sharing and archiving animal movement data, the foremost as a general research platform for animal movement data is [Movebank](https://www.movebank.org/cms/movebank-content/about-movebank). Movebank is particularly well suited for geolocator data as it includes features tailored to tracking based on ambient light levels, supporting storage of raw light recordings, twilight annotation tables, location estimates with credibility intervals, and custom files such as R scripts or model output, along with deployment‐ and study‐level metadata. Researchers are encouraged to publish their data in the public domain, which can be done by publishing in the [Movebank Data Repository](https://www.movebank.org/cms/movebank-content/data-repository), wherein a dataset is provided with a digital object identifier (DOI), persistent link, licence and citation after undergoing review. For in‐progress work, Movebank provides a range of [sharing options](https://www.movebank.org/cms/movebank-content/permissions-and-sharing): owners can choose to give access to specific researchers, and allow the public to see a written summary only, view the tracks on a map, or download the data. We recommend storing data in Movebank or similar repositories even during preliminary analysis stages when the results and analyses remain unpublished. In these situations, the online archive provides a secure backup and can be discovered by other researchers who can contact the owner about potential collaboration using the data.
+Although several databases exist for sharing and archiving animal movement data, the foremost as a general research platform for animal movement data is [Movebank](https://www.movebank.org/cms/movebank-content/about-movebank). Movebank is particularly well suited for geolocator data as it includes features tailored to tracking based on ambient light levels, supporting storage of raw light recordings, twilight annotation tables, location estimates with credibility intervals, and custom files such as R scripts or model output, along with deployment‐ and study‐level metadata. Researchers are encouraged to publish their data in the public domain, which can be done by publishing in the [Movebank Data Repository](https://www.movebank.org/cms/movebank-content/data-repository), wherein a dataset is provided with a digital object identifier (DOI), persistent link, license and citation after undergoing review. For in‐progress work, Movebank provides a range of [sharing options](https://www.movebank.org/cms/movebank-content/permissions-and-sharing): owners can choose to give access to specific researchers, and allow the public to see a written summary only, view the tracks on a map, or download the data. We recommend storing data in Movebank or similar repositories even during preliminary analysis stages when the results and analyses remain unpublished. In these situations, the online archive provides a secure backup and can be discovered by other researchers who can contact the owner about potential collaboration using the data.
 
 
 ## Basic principles of storing data in Movebank
@@ -193,8 +193,7 @@ Make a function to read the files and add a column with the filename (where the 
 ```{r, eval = FALSE}
 read_txt_filename <- function(filename){
 ret <- read.table(filename, header=TRUE, sep=";", quote='"', dec=".", na.strings="", 
-                  colClasses="character", fill=TRUE, strip.white=TRUE, blank.lines.skip=TRUE) 
-                  #, colClasses=c(rep("character", 7), rep("NULL", 6)), blank.lines.skip=TRUE)
+                  colClasses="character", fill=TRUE, strip.white=TRUE, blank.lines.skip=TRUE)
                   ret$Filename <- filename
 	                ret}
 ```
@@ -206,11 +205,10 @@ library(plyr)
 dat <- ldply(filenames, read_txt_filename)
 ```
 	
-Remove extension from the filenames. Adjust as needed so that the filename values become the Tag IDs you want to use in Movebank.
+Remove the extension from the filenames. Adjust as needed so that the filename values become the Tag IDs you want to use in Movebank.
 
 ```{r,  eval = FALSE}	
-dat <- lapply(dat, function(findreplace){
-	  gsub(".csv","",findreplace)})
+dat <- dat$Filename <- gsub(".csv", "", dat$Filename)
 ```
 
 Save the file with settings that will minimize file size and leave NAs blank.
@@ -226,24 +224,24 @@ The following Movebank studies follow many of the best practices described above
 	
 * **Light-Level Geolocation Manual** (study [788381694](https://www.movebank.org/panel_embedded_movebank_webapp?gwt_fragment=page=studies,path=study788381694)): This study contains sample data used in this manual, imported following the recommendations above. See Lisovski et al. (2019).
 
-* **Red-necked Phalarope southern Chukotka (data from Mu et al. 2018)** (study [411155573](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study411155573) published with DOI [10.5441/001/1.p41784h5](https://www.doi.org/10.5441/001/1.p41784h5)): This study includes measurements from conductivity and temperature sensors. Movebank could use input from more data owners with conductivity sensors to improve how we document these. See Mu et al. (2018a, 2018b).
+* **Migration of red-backed shrike populations (data from Pedersen et al. 2020)** (study [1263827241] (https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1263827241)) published with DOI [10.5441/001/1.4bt7365c](https://doi.org/10.5441/001/1.4bt7365c): This study includes light recordings, annotated twilights, location estimates and reference data. See Pedersen et al. (2020a, 2020b).
 
-* **Migration of male and female red-backed shrikes from southern Scandinavia (data from Pedersen et al. 2019)** (study [890556697] (https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study890556697)) published with DOI [10.5441/001/1.j71640kh](https://doi.org/10.5441/001/1.j71640kh): This study includes light recordings, annotated twilights, location estimates and reference data. See Pedersen et al. (2019a, 2019b).
+* **Red-necked Phalarope southern Chukotka (data from Mu et al. 2018)** (study [411155573](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study411155573) published with DOI [10.5441/001/1.p41784h5](https://www.doi.org/10.5441/001/1.p41784h5)): This study includes measurements from conductivity and temperature sensors. See Mu et al. (2018a, 2018b).
 
-* **Vermont Center for Ecostudies Grasshopper Sparrow Migration Project** (study  [348283339](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study348283339), published with DOI [10.5441/001/1.c6b47s0r](https://doi.org/10.5441/001/1.c6b47s0r): This study includes light recordings and location estimates following the recommendations above, and the published dataset also includes an R script and original .lux file to further document the analysis. See Hill and Renfrew (2019a, 2019b).
+* **Tracking Red-necked stints along the EAAF** (study [1300780234](https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1300780234)) published with DOI [10.5441/001/1.s07tk38d](https://doi.org/10.5441/001/1.s07tk38d): This study includes light recordings, annotated twillights, location estimates and reference data, along with R scripts used to derive location estimates. See Lisovski et al. (2020a, 2020b).
 
 **References**
 
-Hill JM and Renfrew RB (2019a) Data from: Migratory patterns and connectivity of two North American grassland bird species [grasshopper sparrows]. Movebank Data Repository. https://doi.org/10.5441/001/1.c6b47s0r
-
-Hill JM, Renfrew RB (2019b) Migratory patterns and connectivity of two North American grassland bird species. Ecology and Evolution 9(1): 680–692. https://doi.org/10.1002/ece3.4795
-
 Lisovski S, Bauer S, Briedis M, Davidson SC, Dhanjal-Adams KL, Hallworth MT, Karagicheva J, Meier CM, Merkel B, Ouwehand J, Pedersen L, Rakhimberdiev E, Roberto-Charron A, Seavy NE, Sumner MD, Taylor CM, Wotherspoon SJ, Bridge ES (2020) Light-level geolocator analyses: a user’s guide. Journal of Animal Ecology 89(1): 221-36. https://doi.org/10.1111/1365-2656.13036
+
+Lisovski S, Gosbell K, Minton C, Klaassen M (2020a) Data from: Migration strategy as an indicator of resilience to change in two shorebird species with contrasting population trajectories [red-necked stints]. Movebank Data Repository. https://doi.org/10.5441/001/1.s07tk38d
+
+Lisovski S, Gosbell K, Minton C, Klaassen M (2020b) Migration strategy as an indicator of resilience to change in two shorebird species with contrasting population trajectories. Journal of Animal Ecology. https://doi.org/10.1111/1365-2656.13393
 
 Mu T, Tomkovich PS, Loktionov EY, Syroechkovskiy EE, Wilcove DS (2018a) Data from: Migratory routes of red-necked phalaropes Phalaropus lobatus breeding in southern Chukotka revealed by geolocators. Movebank Data Repository. https://doi.org/10.5441/001/1.p41784h5
 	
 Mu T, Tomkovich PS, Loktionov EY, Syroechkovskiy EE, Wilcove DS (2018b) Migratory routes of red-necked phalaropes Phalaropus lobatus breeding in southern Chukotka revealed by geolocators. Journal of Avian Biology 49(7): e01853. https://doi.org/10.1111/jav.01853 
 
-Pedersen L, Jakobsen NM, Strandberg R, Thorup K, Tøttrup AP (2019a) Data from: Sex-specific difference in migration schedule as a precursor of protandry in a long-distance migratory bird. Movebank Data Repository. https://doi.org/10.5441/001/1.j71640kh
+Pedersen L, Onrubia A, Vardanis Y, Barboutis C, Waasdorp S, van Helvert M, Geertsma M, Ekberg P, Willemoes M, Strandberg R, Matsyna E, Matsyna A, Klaassen RHG, Alerstam T, Thorup K, Tøttrup AP (2020a) Data from: Remarkably similar migration patterns between different red-backed shrike populations suggest that migration rather than breeding area phenology determines the annual cycle. Movebank Data Repository. https://doi.org/10.5441/001/1.4bt7365c
 
-Pedersen L, Jakobsen NM, Strandberg R, Thorup K, Tøttrup AP (2019b) Sex-specific difference in migration schedule as a precursor of protandry in a long-distance migratory bird. The Science of Nature 106:45. https://doi.org/10.1007/s00114-019-1637-6
+Pedersen L, Onrubia A, Vardanis Y, Barboutis C, Waasdorp S, van Helvert M, Geertsma M, Ekberg P, Willemoes M, Strandberg R, Matsyna E, Matsyna A, Klaassen RHG, Alerstam T, Thorup K, Tøttrup AP (2020b) Remarkably similar migration patterns between different red-backed shrike populations suggest that migration rather than breeding area phenology determines the annual cycle. J Avian Biol 51(10). https://doi.org/10.1111/jav.02475
