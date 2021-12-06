@@ -9,7 +9,7 @@ To illustrate the _GeoLight_ analysis, we use the Purple martin dataset.
 
 We first define the metadata and read in the raw recordings. We skip the twilight definition process but read in the file that has been generated using `preprocessLight`.
 
-```{r, echo = FALSE, warning=FALSE, message=FALSE}
+```{r setup, echo = FALSE, warning=FALSE, message=FALSE}
 library(GeoLocTools)
 setupGeolocation()
 ```
@@ -135,7 +135,7 @@ ven the crude location estimates of the simple threshold method provide useful i
 
 ## Hill-Ekstrom calibration {-}
 
-_GeoLight_ has tools to make simple adjustments and refine the location estimates. First, we can use alternative calibration methods to see if the calibration at the known site is actually representative for the twilight error during the entire year. Assuming a fixed sun elevation angle is often not correct. Birds may behave very different during the breeding season and my use different habitat (more open or more in the vegetation). There is a good chance that this is unknown and that we cannot investigate if that is indeed the case and we have therefore make the assumption that it is the same as during the calibration period (simply assuming that is different without evidence from data is not recommended). However, in some cases we can use the s called _Hill-Ekstrom calibration_ to estimate a reference sun elevation angle from stationary periods at unknown location. The _Hill-Ekstrom calibration_, is based on the theory that the precision in latitude estimates of a stationary period is highest (lowest variation) if the correct sun elevation angle has been chosen (see Lisovski et al. 2012 for more details). We can thus define stationary periods and estimate latitude using a range of sun elevation angles and see which one result in the lowest variation in latitudes.
+_GeoLight_ has tools to make simple adjustments and refine the location estimates. First, we can use alternative calibration methods to see if the calibration at the known site is actually representative for the twilight error during the entire year. Assuming a fixed sun elevation angle is often not correct. Birds may behave very different during the breeding season and my use different habitat (more open or more in the vegetation). There is a good chance that this is unknown and that we cannot investigate if that is indeed the case and we have therefore make the assumption that it is the same as during the calibration period (simply assuming that is different without evidence from data is not recommended). However, in some cases we can use the so called _Hill-Ekstrom calibration_ to estimate a reference sun elevation angle from stationary periods at unknown location. The _Hill-Ekstrom calibration_, is based on the theory that the precision in latitude estimates of a stationary period is highest (lowest variation) if the correct sun elevation angle has been chosen (see Lisovski et al. 2012 for more details). We can thus define stationary periods and estimate latitude using a range of sun elevation angles and see which one result in the lowest variation in latitudes.
 
 _GeoLight_ offers a tool to distinguish between periods of movement and periods of residency. The `changeLight` function uses the twilight times (not the location estimates) that are unaffected by e.g. the equinox and searches for sudden changes that indicate changes in the location of the animal.
 
@@ -151,12 +151,12 @@ Besides other information, the `changeLight` function returns a vector with the 
 
 ```{r, fig.width=6, fig.height=6}
 StartEnd <- range(which(twl$Twilight>=(min(twl.gl$tFirst[cL$site==5])+5*24*60*60) &
-                        twl$Twilight<=(max(twl.gl$tFirst[cL$site==5])+5*24*60*60)))
+                        twl$Twilight<=(max(twl.gl$tFirst[cL$site==5])-5*24*60*60)))
 
 HE <- findHEZenith(twl, range = StartEnd)
 ```
 
-In the plots above, you see the calculated latitudes of the entire tracking period. The latitudes have been calculated using a while range of sun elevation angels. The lower graph has the most important information; the standard deviation of the latitudes from the selected stationary period over the used zenith angle. In this case there is a clear minima (a sign that the _Hill-Ekstrom calibration_ is working) at 94.25 degrees. We will discuss the issue of having different references for the sun elevation angle (e.g. sun elevation angle vs. zenith angle) in the [SGAT](#SGAT) section. Here, we simply transfer the zenith to sun elevation angle: 94.25 = -4.25. That means, that the optimal sun elevation angle for this period is 0.5 degrees higher than the one we estimated for the calibration period. This is not massive but still a significant difference probably explained by the non-breeding site being close to the equator with higher likelihood of clouds than in e.g. south of the US.
+In the plots above, you see the calculated latitudes of the entire tracking period. The latitudes have been calculated using a while range of sun elevation angles. The lower graph has the most important information; the standard deviation of the latitudes from the selected stationary period over the used zenith angle. In this case there is a clear minima (a sign that the _Hill-Ekstrom calibration_ is working) at 94.25 degrees. We will discuss the issue of having different references for the sun elevation angle (e.g. sun elevation angle vs. zenith angle) in the [SGAT](#SGAT) section. Here, we simply transfer the zenith to sun elevation angle: 94.25 = -4.25. That means, that the optimal sun elevation angle for this period is 0.5 degrees higher than the one we estimated for the calibration period. This is not massive but still a significant difference probably explained by the non-breeding site being close to the equator with higher likelihood of clouds than in e.g. south of the US.
 
 So, let's use this reference sun elevation angle to calculate the locations.
 

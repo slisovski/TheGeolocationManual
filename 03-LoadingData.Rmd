@@ -1,6 +1,6 @@
 # Loading data {#loadingData}
 
-```{r, echo = FALSE, message=FALSE, warning=FALSE}
+```{r setup, echo = FALSE, message=FALSE, warning=FALSE}
 library(GeoLocTools)
 setupGeolocation()
 ```
