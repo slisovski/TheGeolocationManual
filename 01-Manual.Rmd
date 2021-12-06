@@ -7,12 +7,12 @@ This manual should allow users with limited knowledge in R coding to perform a s
 To illustrate the capabilities of the different packages, discuss the potential pitfalls, and provide some recommendations, we will use raw geolocator data from four individuals of different species. All used tag data and the results as well as the code for the analyses has been uploaded onto Movebank unter study: Light-Level Geolocation Manual.
 
 
-TagID    |  Species             | Folder      |   Tag type                          
--------  | -------------        | ----------- | ----------------------------------- 
-M034     | Red-backed Shrike    | LanCol      | Integio (Migrate Technology Ltd.)
-14SA     | European bee-eater   | MerApi      | PAM (Swiss Ornithological Institute)
-PasCir01 | Purple martin        | PasCir      | Custom (by Eli Bridge)
-2655     | Brünnich’s guillemot | UriLom      | Lotek
+TagID    |  Species             | Folder      |   Lon/Lat   | Tag type                          
+-------  | -------------        | ----------- | ----------- | ---------------------- 
+M034     | Red-backed Shrike    | LanCol      | 12.33/55.98 | Integio (Migrate Technology Ltd.)
+14SA     | European bee-eater   | MerApi      | 11.96/51.32 | PAM (Swiss Ornithological Institute)
+PasCir01 | Purple martin        | PasCir      | 33.9/-96.80 | Custom (by Eli Bridge)
+2655     | Brünnich’s guillemot | UriLom      | 15.15/78.17 | Lotek
 
 
 Although all of these tag types record light values over time, they differ in some key details. First, tags often differ in the frequency at which they write/log data. Many tags collect a reading every minute and store the maximal light value every 5 or 10 minutes. Other may store a maximum every 2 minutes. The tag that yielded the Purple martin data set, averaged 1min readings every 10min instead of taking a maximum. These four tags also differ in their sensitivity and how they record light levels. Some tags are sensitive only at low light levels and quickly “max out” when they experience a lot of light. As such, their light-levels do not have units and are simply an index of light intensity. The Integio tags can record unique light values for all natural light levels on earth, and they store lux values that range from 0 to ~70,000. Depending on the tag type, you may have to perform some preliminary steps such as log-transforming your data or time shifting light values for sunsets (we will provide details while working on the specific datasets).
