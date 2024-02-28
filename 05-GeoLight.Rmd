@@ -24,10 +24,10 @@ lon.calib <- -96.8
 wd <- "data"
 
 raw <- readLig(paste0(wd, "/RawData/", Species, "/", ID, ".lig"))
-  raw$Light <- log(raw$Light)
+raw$Light <- log(raw$Light)
 
 twl <- read.csv(paste0(wd, "/Results/", Species, "/", ID, "_twl.csv"))
-  twl$Twilight <- as.POSIXct(twl$Twilight, tz = "GMT")
+twl$Twilight <- as.POSIXct(twl$Twilight, tz = "GMT")
 ```
 
 Let's have a look at the dataset using the `lightImage` function from _TwGeos_.
@@ -53,7 +53,7 @@ twl <- subset(twl, !Deleted) # only rows that are not marked as deleted.
 ```{r fig.align='center', echo=FALSE, size = "tiny"}
 knitr::include_graphics('images/important.png', dpi = NA)
 ```
- _GeoLight_ requires a certain input format of the twilight table that differs from the ouput of e.g. `preprocessLight` or _TAGS_. We need to have rows that always have a set of twilight times, e.g. sunrise and sunset of a day or sunset and sunrise of a night. The first columns (and the first twilight) is called *tFirst*, the second *tSecond* and the third column *type* defines whether it is a day (1) or a night (2). The function `export2GeoLight` can transform the table from above (twl) into the required format.
+_GeoLight_ requires a certain input format of the twilight table that differs from the ouput of e.g. `preprocessLight` or _TAGS_. We need to have rows that always have a set of twilight times, e.g. sunrise and sunset of a day or sunset and sunrise of a night. The first columns (and the first twilight) is called *tFirst*, the second *tSecond* and the third column *type* defines whether it is a day (1) or a night (2). The function `export2GeoLight` can transform the table from above (twl) into the required format.
 </div>
 
 ```{r}
@@ -93,7 +93,7 @@ We can now subset the twilight table `twl.gl`.
 
 ```{r}
 d.calib <- subset(twl.gl, (tFirst>=tm1[1] & tSecond<=tm1[2]) | 
-                          (tFirst>=tm2[1] & tSecond<=tm2[2]))
+                    (tFirst>=tm2[1] & tSecond<=tm2[2]))
 ```
 
 The method behind the calibration function `getElevation` in _GeoLight_ has changed over time and is now based in the error distribution (the variation) of the detected twilight times during the calibration period. 
@@ -120,15 +120,13 @@ We can now calculate the locations and have a fist look at a map by either using
 ```{r, fig.width = 7, fig.height=10}
 crds <- coord(twl.gl, degElevation = 90-gE[1], note = FALSE)
 
-## using tripMap
-tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50))
-points(lon.calib, lat.calib, pch = 21, cex = 1.5, bg = "white") # adding the release location
+point_sf <- dplyr::tibble(lon = lon.calib, lat = lat.calib) %>% 
+  st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% st_as_sfc()
 
-## using the plot option (you need to remove the hash in front of the code)
-# plot(crds, type = "n") # sets the extent
-# plot(wrld_simpl, col = "grey90", border = "grey50", add = T) # adds the map from maptools
-# points(crds, pch = 21, cex = 0.5, bg = "white", type = "o")
-# points(lon.calib, lat.calib, pch = 21, cex = 1.5, bg = "firebrick") # adding the release location
+## using tripMap
+tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50)) + 
+  geom_sf(data = point_sf, mapping = aes(geometry = geometry),
+          color = "white")
 ```
 
 ven the crude location estimates of the simple threshold method provide useful information and we get a feeling of the track, the major non-breeding sites and potentially the stopover locations. We also the huge jumps, notably during migration that is most likely influenced by the equinox. However, large north-south jumps are also an indication of rapid east-west movements.
@@ -151,7 +149,7 @@ Besides other information, the `changeLight` function returns a vector with the 
 
 ```{r, fig.width=6, fig.height=6}
 StartEnd <- range(which(twl$Twilight>=(min(twl.gl$tFirst[cL$site==5])+5*24*60*60) &
-                        twl$Twilight<=(max(twl.gl$tFirst[cL$site==5])+5*24*60*60)))
+                          twl$Twilight<=(max(twl.gl$tFirst[cL$site==5])+5*24*60*60)))
 
 HE <- findHEZenith(twl, range = StartEnd)
 ```
@@ -163,9 +161,13 @@ So, let's use this reference sun elevation angle to calculate the locations.
 ```{r, fig.width = 7, fig.height=10}
 crds <- coord(twl.gl, degElevation = 90-HE)
 
+point_sf <- dplyr::tibble(lon = lon.calib, lat = lat.calib) %>% 
+  st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% st_as_sfc()
+
 ## using tripMap
-tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50))
-points(lon.calib, lat.calib, pch = 21, cex = 1.5, bg = "white") # adding the release location
+tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50)) +
+  geom_sf(data = point_sf, mapping = aes(geometry = geometry),
+          color = "white")
 ```
 
 ## Movement analysis {-}
@@ -193,7 +195,7 @@ mS <- mergeSites2(twl = twl.gl, site = cL$site,
 
 ```{r, echo = FALSE, warning=FALSE, message=FALSE}
 require(mapplots)
-load(paste0(wd, "/Results/", Species, "/", ID, "_MergeSites.RData"))
+load(paste0(wd, "/Results/", Species, "/", ID, "_MergeSites_Updated.RData"))
 ```
 
 
@@ -208,16 +210,21 @@ We can now plot the results, using the longitude and latitude estimates of `merg
 
 
 ```{r, fig.height=9, fig.width=8}
-data(wrld_simpl)
+
+world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+
+world <- world %>% 
+  st_as_sfc()
+
 ## create a color scale for stationary sites dependent on data
 Seasonal_palette <- grDevices::colorRampPalette(grDevices::hsv(1 - ((1:365) + (365/4))%%365/365, s = 0.8, v = 0.8), 
                                                 space = "Lab")
 
-
 ### replace first and last estimate with the deployment/retrieval location
 sm <- mS$summary
-  sm[c(1,nrow(sm)), 2:3] <- matrix(c(lon.calib, lat.calib), ncol = 2, nrow = 2, byrow = T)
-  sm[c(1,nrow(sm)), -c(1:3)] <- NA
+sm[c(1,nrow(sm)), 2:3] <- matrix(c(lon.calib, lat.calib), ncol = 2, nrow = 2, byrow = T)
+sm[c(1,nrow(sm)), -c(1:3)] <- NA
+sm <- as.data.frame(sm)
 
 day  <- as.POSIXlt(aggregate(mS$twl$tFirst[mS$site>0], by = list(mS$site[mS$site>0]), FUN = median)$x, 
                    origin = "1970-01-01", tz  ="GMT")$yday
@@ -246,11 +253,13 @@ text(sm[,2], sm[,3], 1:nrow(sm),
 mapplots::add.pie(x = -90, y = -28, z = rep(1, 12), radius = 10, col = Seasonal_palette(12), init.angle = day[1])
 ```
 
+
 In comparison, we can use the `sites` vector and plot all location estimates grouped into the sites using the `siteMap` function.
 
 ```{r, fig.height=8, fig.width=6.5}
 siteMap(crds, site = mS$site, type = "points", xlim = range(crds[,1], na.rm = T), ylim = range(crds[,2], na.rm = T))
-  siteMap(crds, site = mS$site, type = "cross", add = TRUE)
+
+siteMap(crds, site = mS$site, type = "cross", add = TRUE)
 ```
 
 Finally, we can extract the migration schedule:
