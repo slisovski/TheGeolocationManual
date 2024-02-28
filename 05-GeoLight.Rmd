@@ -120,13 +120,11 @@ We can now calculate the locations and have a fist look at a map by either using
 ```{r, fig.width = 7, fig.height=10}
 crds <- coord(twl.gl, degElevation = 90-gE[1], note = FALSE)
 
-## using tripMap
-gg_tripMap <- tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50))
-
 point_sf <- dplyr::tibble(lon = lon.calib, lat = lat.calib) %>% 
   st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% st_as_sfc()
 
-gg_tripMap +
+## using tripMap
+tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50)) + 
   geom_sf(data = point_sf, mapping = aes(geometry = geometry),
           color = "white")
 ```
@@ -163,13 +161,11 @@ So, let's use this reference sun elevation angle to calculate the locations.
 ```{r, fig.width = 7, fig.height=10}
 crds <- coord(twl.gl, degElevation = 90-HE)
 
-## using tripMap
-gg_tripMap <- tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50))
-
 point_sf <- dplyr::tibble(lon = lon.calib, lat = lat.calib) %>% 
   st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% st_as_sfc()
 
-gg_tripMap +
+## using tripMap
+tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50)) +
   geom_sf(data = point_sf, mapping = aes(geometry = geometry),
           color = "white")
 ```
@@ -261,9 +257,9 @@ mapplots::add.pie(x = -90, y = -28, z = rep(1, 12), radius = 10, col = Seasonal_
 In comparison, we can use the `sites` vector and plot all location estimates grouped into the sites using the `siteMap` function.
 
 ```{r, fig.height=8, fig.width=6.5}
-siteMap(crds, site = mS$site, type = "cross", add = TRUE)
-
 siteMap(crds, site = mS$site, type = "points", xlim = range(crds[,1], na.rm = T), ylim = range(crds[,2], na.rm = T))
+
+siteMap(crds, site = mS$site, type = "cross", add = TRUE)
 ```
 
 Finally, we can extract the migration schedule:

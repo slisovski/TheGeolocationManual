@@ -140,13 +140,11 @@ We can now calculate the locations and have a fist look at a map by either using
 ```r
 crds <- coord(twl.gl, degElevation = 90-gE[1], note = FALSE)
 
-## using tripMap
-gg_tripMap <- tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50))
-
 point_sf <- dplyr::tibble(lon = lon.calib, lat = lat.calib) %>% 
   st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% st_as_sfc()
 
-gg_tripMap +
+## using tripMap
+tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50)) + 
   geom_sf(data = point_sf, mapping = aes(geometry = geometry),
           color = "white")
 ```
@@ -198,13 +196,11 @@ Note: Out of 592 twilight pairs, the calculation of 25 latitudes failed (4 %)
 ```
 
 ```r
-## using tripMap
-gg_tripMap <- tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50))
-
 point_sf <- dplyr::tibble(lon = lon.calib, lat = lat.calib) %>% 
   st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% st_as_sfc()
 
-gg_tripMap +
+## using tripMap
+tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50)) +
   geom_sf(data = point_sf, mapping = aes(geometry = geometry),
           color = "white")
 ```
@@ -300,9 +296,9 @@ In comparison, we can use the `sites` vector and plot all location estimates gro
 
 
 ```r
-siteMap(crds, site = mS$site, type = "cross", add = TRUE)
-
 siteMap(crds, site = mS$site, type = "points", xlim = range(crds[,1], na.rm = T), ylim = range(crds[,2], na.rm = T))
+
+siteMap(crds, site = mS$site, type = "cross", add = TRUE)
 ```
 
 <img src="05-GeoLight_files/figure-html/unnamed-chunk-21-1.png" width="624" /><img src="05-GeoLight_files/figure-html/unnamed-chunk-21-2.png" width="624" />

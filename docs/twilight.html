@@ -1,23 +1,21 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Light-level geolocation analyses</title>
-  <meta name="description" content="This is a compilation of lecture notes that accompany my Intro to GIS and Spatial Analysis course.">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Twilight Annotation | Light-level geolocation analyses</title>
+  <meta name="description" content="This is a compilation of lecture notes that accompany my Intro to GIS and Spatial Analysis course." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Light-level geolocation analyses" />
+  <meta property="og:title" content="Chapter 4 Twilight Annotation | Light-level geolocation analyses" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This is a compilation of lecture notes that accompany my Intro to GIS and Spatial Analysis course." />
   <meta name="github-repo" content="slisovski/TheGeolocationManual" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Light-level geolocation analyses" />
+  <meta name="twitter:title" content="Chapter 4 Twilight Annotation | Light-level geolocation analyses" />
   
   <meta name="twitter:description" content="This is a compilation of lecture notes that accompany my Intro to GIS and Spatial Analysis course." />
   
@@ -25,20 +23,22 @@
 
 
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="loadingData.html">
-<link rel="next" href="GeoLight.html">
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link rel="prev" href="loadingData.html"/>
+<link rel="next" href="GeoLight.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -46,39 +46,75 @@
 
 
 
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #0000ff; } /* Keyword */
-code > span.ch { color: #008080; } /* Char */
-code > span.st { color: #008080; } /* String */
-code > span.co { color: #008000; } /* Comment */
-code > span.ot { color: #ff4000; } /* Other */
-code > span.al { color: #ff0000; } /* Alert */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #008000; font-weight: bold; } /* Warning */
-code > span.cn { } /* Constant */
-code > span.sc { color: #008080; } /* SpecialChar */
-code > span.vs { color: #008080; } /* VerbatimString */
-code > span.ss { color: #008080; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { } /* Variable */
-code > span.cf { color: #0000ff; } /* ControlFlow */
-code > span.op { } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #ff4000; } /* Preprocessor */
-code > span.do { color: #008000; } /* Documentation */
-code > span.an { color: #008000; } /* Annotation */
-code > span.cv { color: #008000; } /* CommentVar */
-code > span.at { } /* Attribute */
-code > span.in { color: #008000; } /* Information */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -97,27 +133,32 @@ code > span.in { color: #008000; } /* Information */
 <li><a href="./">Light level geolocation analyses</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="structure.html"><a href="structure.html"><i class="fa fa-check"></i><b>1</b> Structure of the manual</a><ul>
+<li class="chapter" data-level="1" data-path="structure.html"><a href="structure.html"><i class="fa fa-check"></i><b>1</b> Structure of the manual</a>
+<ul>
 <li class="chapter" data-level="" data-path="structure.html"><a href="structure.html#the-datasets"><i class="fa fa-check"></i>The datasets</a></li>
 <li class="chapter" data-level="" data-path="structure.html"><a href="structure.html#reproducing-the-analyses"><i class="fa fa-check"></i>Reproducing the analyses</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="start.html"><a href="start.html"><i class="fa fa-check"></i><b>2</b> Getting started</a></li>
 <li class="chapter" data-level="3" data-path="loadingData.html"><a href="loadingData.html"><i class="fa fa-check"></i><b>3</b> Loading data</a></li>
-<li class="chapter" data-level="4" data-path="twilight.html"><a href="twilight.html"><i class="fa fa-check"></i><b>4</b> Twilight Annotation</a><ul>
+<li class="chapter" data-level="4" data-path="twilight.html"><a href="twilight.html"><i class="fa fa-check"></i><b>4</b> Twilight Annotation</a>
+<ul>
 <li class="chapter" data-level="" data-path="twilight.html"><a href="twilight.html#cleaningfiltering-twilight-times"><i class="fa fa-check"></i>Cleaning/Filtering twilight times</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="GeoLight.html"><a href="GeoLight.html"><i class="fa fa-check"></i><b>5</b> GeoLight</a><ul>
+<li class="chapter" data-level="5" data-path="GeoLight.html"><a href="GeoLight.html"><i class="fa fa-check"></i><b>5</b> GeoLight</a>
+<ul>
 <li class="chapter" data-level="" data-path="GeoLight.html"><a href="GeoLight.html#getting-started"><i class="fa fa-check"></i>Getting started</a></li>
 <li class="chapter" data-level="" data-path="GeoLight.html"><a href="GeoLight.html#calibration"><i class="fa fa-check"></i>Calibration</a></li>
 <li class="chapter" data-level="" data-path="GeoLight.html"><a href="GeoLight.html#location-estimation"><i class="fa fa-check"></i>Location estimation</a></li>
 <li class="chapter" data-level="" data-path="GeoLight.html"><a href="GeoLight.html#hill-ekstrom-calibration"><i class="fa fa-check"></i>Hill-Ekstrom calibration</a></li>
 <li class="chapter" data-level="" data-path="GeoLight.html"><a href="GeoLight.html#movement-analysis"><i class="fa fa-check"></i>Movement analysis</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="probGLS.html"><a href="probGLS.html"><i class="fa fa-check"></i><b>6</b> probGLS</a><ul>
+<li class="chapter" data-level="6" data-path="probGLS.html"><a href="probGLS.html"><i class="fa fa-check"></i><b>6</b> probGLS</a>
+<ul>
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#getting-started-1"><i class="fa fa-check"></i>Getting started</a></li>
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#load-additional-data"><i class="fa fa-check"></i>Load additional data</a></li>
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#download-remote-sensed-environmental-data"><i class="fa fa-check"></i>Download remote sensed environmental data</a></li>
@@ -125,7 +166,8 @@ code > span.in { color: #008000; } /* Information */
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#run-the-iterative-algorithm"><i class="fa fa-check"></i>Run the iterative algorithm</a></li>
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#plot-results"><i class="fa fa-check"></i>Plot results</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="SGAT.html"><a href="SGAT.html"><i class="fa fa-check"></i><b>7</b> SGAT</a><ul>
+<li class="chapter" data-level="7" data-path="SGAT.html"><a href="SGAT.html"><i class="fa fa-check"></i><b>7</b> SGAT</a>
+<ul>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#getting-started-2"><i class="fa fa-check"></i>Getting started</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#calibration-1"><i class="fa fa-check"></i>Calibration</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#alternative-calibration"><i class="fa fa-check"></i>Alternative calibration</a></li>
@@ -133,14 +175,16 @@ code > span.in { color: #008000; } /* Information */
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#initial-path"><i class="fa fa-check"></i>Initial path</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#define-known-locations"><i class="fa fa-check"></i>Define known locations</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#land-mask"><i class="fa fa-check"></i>Land mask</a></li>
-<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#the-estelle-model"><i class="fa fa-check"></i>The Estelle Model</a><ul>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#the-estelle-model"><i class="fa fa-check"></i>The Estelle Model</a>
+<ul>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#tuning-the-proposals"><i class="fa fa-check"></i>Tuning the proposals</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#final-run"><i class="fa fa-check"></i>Final run</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#summarize-the-results"><i class="fa fa-check"></i>Summarize the results</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#plotting-the-results"><i class="fa fa-check"></i>Plotting the results</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#saving-the-results"><i class="fa fa-check"></i>Saving the Results</a></li>
-<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#the-groupe-model"><i class="fa fa-check"></i>The Groupe Model</a><ul>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#the-groupe-model"><i class="fa fa-check"></i>The Groupe Model</a>
+<ul>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#initiate-the-model"><i class="fa fa-check"></i>Initiate the model</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#land-mask-for-group-model"><i class="fa fa-check"></i>Land mask for group model</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#the-estelle-model-1"><i class="fa fa-check"></i>The Estelle Model</a></li>
@@ -151,29 +195,47 @@ code > span.in { color: #008000; } /* Information */
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#saving-the-results-1"><i class="fa fa-check"></i>Saving the Results</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="FLightR.html"><a href="FLightR.html"><i class="fa fa-check"></i><b>8</b> FLightR</a><ul>
+<li class="chapter" data-level="8" data-path="FLightR.html"><a href="FLightR.html"><i class="fa fa-check"></i><b>8</b> FLightR</a>
+<ul>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#getting-started-3"><i class="fa fa-check"></i>Getting started</a></li>
-<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#calibration-2"><i class="fa fa-check"></i>Calibration</a><ul>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#calibration-2"><i class="fa fa-check"></i>Calibration</a>
+<ul>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#find-calibration-periods-for-a-known-calibration-location"><i class="fa fa-check"></i>Find calibration periods for a known calibration location</a></li>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#find-a-calibration-location-for-a-known-calibration-period"><i class="fa fa-check"></i>Find a calibration location for a known calibration period</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#assign-spatial-extent"><i class="fa fa-check"></i>Assign spatial extent</a></li>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#prepare-the-model-for-run"><i class="fa fa-check"></i>Prepare the model for run</a></li>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#particle-filter-run"><i class="fa fa-check"></i>Particle filter run</a></li>
-<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#exploration-of-results"><i class="fa fa-check"></i>Exploration of results</a><ul>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#exploration-of-results"><i class="fa fa-check"></i>Exploration of results</a>
+<ul>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#first-look---plot-longitude-and-latitude"><i class="fa fa-check"></i>First look - plot longitude and latitude</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#summary"><i class="fa fa-check"></i>Summary</a><ul>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#summary"><i class="fa fa-check"></i>Summary</a>
+<ul>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#repeatability-of-output"><i class="fa fa-check"></i>Repeatability of output</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#defining-stopovers"><i class="fa fa-check"></i>Defining stopovers</a></li>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#getting-specific-output"><i class="fa fa-check"></i>Getting specific output</a></li>
-<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#visualisation-of-the-results"><i class="fa fa-check"></i>Visualisation of the results</a><ul>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#visualisation-of-the-results"><i class="fa fa-check"></i>Visualisation of the results</a>
+<ul>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#plot-a-simple-map"><i class="fa fa-check"></i>Plot a simple map</a></li>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#plot-utilization-distribution"><i class="fa fa-check"></i>Plot utilization distribution</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="repositories.html"><a href="repositories.html"><i class="fa fa-check"></i><b>9</b> Data repositories</a></li>
+<li class="chapter" data-level="9" data-path="repositories.html"><a href="repositories.html"><i class="fa fa-check"></i><b>9</b> Data repositories</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="repositories.html"><a href="repositories.html#basic-principles-of-storing-data-in-movebank"><i class="fa fa-check"></i><b>9.1</b> Basic principles of storing data in Movebank</a></li>
+<li class="chapter" data-level="9.2" data-path="repositories.html"><a href="repositories.html#what-can-and-should-be-stored-in-movebank"><i class="fa fa-check"></i><b>9.2</b> What can (and should) be stored in Movebank</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="repositories.html"><a href="repositories.html#raw-light-recordings"><i class="fa fa-check"></i><b>9.2.1</b> Raw light recordings</a></li>
+<li class="chapter" data-level="9.2.2" data-path="repositories.html"><a href="repositories.html#annotated-twilights"><i class="fa fa-check"></i><b>9.2.2</b> Annotated twilights</a></li>
+<li class="chapter" data-level="9.2.3" data-path="repositories.html"><a href="repositories.html#location-estimates"><i class="fa fa-check"></i><b>9.2.3</b> Location estimates</a></li>
+<li class="chapter" data-level="9.2.4" data-path="repositories.html"><a href="repositories.html#reference-data"><i class="fa fa-check"></i><b>9.2.4</b> Reference data</a></li>
+<li class="chapter" data-level="9.2.5" data-path="repositories.html"><a href="repositories.html#additional-files"><i class="fa fa-check"></i><b>9.2.5</b> Additional files</a></li>
+<li class="chapter" data-level="9.2.6" data-path="repositories.html"><a href="repositories.html#merging-files"><i class="fa fa-check"></i><b>9.2.6</b> Merging files</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="repositories.html"><a href="repositories.html#examples-of-geolocator-studies-in-movebank"><i class="fa fa-check"></i><b>9.3</b> Examples of geolocator studies in Movebank</a></li>
+</ul></li>
 <li class="chapter" data-level="10" data-path="contribution.html"><a href="contribution.html"><i class="fa fa-check"></i><b>10</b> Your contribution</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -196,74 +258,73 @@ code > span.in { color: #008000; } /* Information */
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="twilight" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Twilight Annotation</h1>
+<div id="twilight" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">Chapter 4</span> Twilight Annotation<a href="twilight.html#twilight" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p>There are a few options for how to define and edit twilights.</p>
-<p>All tools discussed in this manual require as one of their inputs a data frame containing the times of sunrise and sunset (henceforth twilight events) for the duration of the study period. The twilight events are estimated based on a light-level threshold, which is the light value that separates day from night - values above the threshold indicate the sun has risen and values below the threshold value indicate the sun has set. There are a few options for how to generate the twilight data. <code>twilightCalc</code> is one function that allows transitions to be defined and is part of the GeoLight package. Given the much better realisation of this process in TwGeos, we will not discuss the GeoLight version of defining twilights. <code>TwGeos</code> provides an easier to use and more interactive process that is called <code>preprocessLight</code>. An important input, besides the raw data, is a pre-defined light intensity threshold value.</p>
+<p>All tools discussed in this manual require as one of their inputs a data frame containing the times of sunrise and sunset (henceforth twilight events) for the duration of the study period. The twilight events are estimated based on a light-level threshold, which is the light value that separates day from night - values above the threshold indicate the sun has risen and values below the threshold value indicate the sun has set. There are a few options for how to generate the twilight data. <code>twilightCalc</code> is one function that allows transitions to be defined and is part of the GeoLight package. Given the much better realization of this process in TwGeos, we will not discuss the GeoLight version of defining twilights. <code>TwGeos</code> provides an easier to use and more interactive process that is called <code>preprocessLight</code>. An important input, besides the raw data, is a pre-defined light intensity threshold value.</p>
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
-<p><img src="images/important.png" style="display: block; margin: auto;" /> How do I choose the right threshold?</p>
+<p><img src="images/important.png" style="display: block; margin: auto;" />
+How do I choose the right threshold?</p>
 <p>How do I know which threshold to use: You should choose the lowest value that is consistently above any noise in the nighttime light levels. Here, we use a threshold of 2.5, that is above any nighttime noise. However, this value is tag and species specific. For forest interior, ground dwelling species a lower threshold may be helpful, especially if there isn’t much ‘noise’ during the night. A threshold of 1 may be appropriate for such species.</p>
 </div>
 <p>It is a good idea to plot (parts) of the dataset and see how the threshold fits into the light recordings:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">threshold &lt;-<span class="st"> </span><span class="fl">2.5</span>
-
-col =<span class="st"> </span><span class="kw">colorRampPalette</span>(<span class="kw">c</span>(<span class="st">&#39;black&#39;</span>,<span class="st">&quot;purple&quot;</span>,<span class="st">&#39;orange&#39;</span>))(<span class="dv">50</span>)[<span class="kw">as.numeric</span>(<span class="kw">cut</span>(raw[<span class="dv">2000</span><span class="op">:</span><span class="dv">5000</span>,<span class="dv">2</span>],<span class="dt">breaks =</span> <span class="dv">50</span>))]
-
-<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>) )
-<span class="kw">with</span>(raw[<span class="dv">2000</span><span class="op">:</span><span class="dv">5000</span>,], <span class="kw">plot</span>(Date, Light, <span class="dt">type =</span> <span class="st">&quot;o&quot;</span>, <span class="dt">pch=</span><span class="dv">16</span>,  <span class="dt">col =</span> col, <span class="dt">cex =</span> <span class="fl">0.5</span>)) 
-<span class="kw">abline</span>(<span class="dt">h=</span>threshold, <span class="dt">col=</span><span class="st">&quot;orange&quot;</span>, <span class="dt">lty =</span> <span class="dv">2</span>, <span class="dt">lwd =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="twilight.html#cb1-1" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> <span class="fl">2.5</span></span>
+<span id="cb1-2"><a href="twilight.html#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="twilight.html#cb1-3" tabindex="-1"></a>col <span class="ot">=</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">&#39;black&#39;</span>,<span class="st">&quot;purple&quot;</span>,<span class="st">&#39;orange&#39;</span>))(<span class="dv">50</span>)[<span class="fu">as.numeric</span>(<span class="fu">cut</span>(raw[<span class="dv">2000</span><span class="sc">:</span><span class="dv">5000</span>,<span class="dv">2</span>],<span class="at">breaks =</span> <span class="dv">50</span>))]</span>
+<span id="cb1-4"><a href="twilight.html#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="twilight.html#cb1-5" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>) )</span>
+<span id="cb1-6"><a href="twilight.html#cb1-6" tabindex="-1"></a><span class="fu">with</span>(raw[<span class="dv">2000</span><span class="sc">:</span><span class="dv">5000</span>,], <span class="fu">plot</span>(Date, Light, <span class="at">type =</span> <span class="st">&quot;o&quot;</span>, <span class="at">pch=</span><span class="dv">16</span>,  <span class="at">col =</span> col, <span class="at">cex =</span> <span class="fl">0.5</span>)) </span>
+<span id="cb1-7"><a href="twilight.html#cb1-7" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h=</span>threshold, <span class="at">col=</span><span class="st">&quot;orange&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="04-TwilightAnnotation_files/figure-html/rawData-1.png" width="960" /></p>
-<p>Another useful plot can be created using lightImage; In the resulting figure, each day is represented by a thin horizontal line that plots the light values as grayscale pixels (dark = low light and white = maximum light) in order from bottom to top. a A light image allows you to visualize an entire data set at once, and easily spot discrepancies in light to dark transitions. Additionally, you can add the sunrise and sunset times of the deployment or retrieval locaitons (using <code>addTwilightLine</code>). This may help to spot inconsistncies in the dataset, e.g.: <em>time shifts - resulting in a good overlap of twilight times at the beginning but a systematic shift between expected and recorded twilight times. </em>false time zone - if the predicted sunrise and sunset times are shifted up- or downwards it is highly likely that your raw data is not recorded (or has been transformed) in GMT (or UTC). Check with producer or data provider. Furthermore, the lines can help to identify the approximate timing of departure and arrival to the known deployment or retrieval site and this may help to identify calibration periods that are required in the next steps of the analysis.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">offset &lt;-<span class="st"> </span><span class="dv">12</span> <span class="co"># adjusts the y-axis to put night (dark shades) in the middle</span>
-
-<span class="kw">lightImage</span>( <span class="dt">tagdata =</span> raw,
-  <span class="dt">offset =</span> offset,     
-  <span class="dt">zlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">20</span>))
-
-<span class="kw">tsimageDeploymentLines</span>(raw<span class="op">$</span>Date, <span class="dt">lon =</span> lon.calib, <span class="dt">lat =</span> lat.calib,
-                       <span class="dt">offset =</span> offset, <span class="dt">lwd =</span> <span class="dv">3</span>, <span class="dt">col =</span> <span class="kw">adjustcolor</span>(<span class="st">&quot;orange&quot;</span>, <span class="dt">alpha.f =</span> <span class="fl">0.5</span>))</code></pre></div>
-<p><img src="04-TwilightAnnotation_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Another useful plot can be created using lightImage; In the resulting figure, each day is represented by a thin horizontal line that plots the light values as grayscale pixels (dark = low light and white = maximum light) in order from bottom to top. a A light image allows you to visualize an entire data set at once, and easily spot discrepancies in light to dark transitions. Additionally, you can add the sunrise and sunset times of the deployment or retrieval locations (using <code>addTwilightLine</code>). This may help to spot inconsistencies in the dataset, e.g.:
+<em>time shifts - resulting in a good overlap of twilight times at the beginning but a systematic shift between expected and recorded twilight times.
+</em>false time zone - if the predicted sunrise and sunset times are shifted up- or downwards it is highly likely that your raw data is not recorded (or has been transformed) in GMT (or UTC). Check with producer or data provider.
+Furthermore, the lines can help to identify the approximate timing of departure and arrival to the known deployment or retrieval site and this may help to identify calibration periods that are required in the next steps of the analysis.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="twilight.html#cb2-1" tabindex="-1"></a>offset <span class="ot">&lt;-</span> <span class="dv">12</span> <span class="co"># adjusts the y-axis to put night (dark shades) in the middle</span></span>
+<span id="cb2-2"><a href="twilight.html#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="twilight.html#cb2-3" tabindex="-1"></a><span class="fu">lightImage</span>( <span class="at">tagdata =</span> raw,</span>
+<span id="cb2-4"><a href="twilight.html#cb2-4" tabindex="-1"></a>  <span class="at">offset =</span> offset,     </span>
+<span id="cb2-5"><a href="twilight.html#cb2-5" tabindex="-1"></a>  <span class="at">zlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>))</span>
+<span id="cb2-6"><a href="twilight.html#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="twilight.html#cb2-7" tabindex="-1"></a><span class="fu">tsimageDeploymentLines</span>(raw<span class="sc">$</span>Date, <span class="at">lon =</span> lon.calib, <span class="at">lat =</span> lat.calib,</span>
+<span id="cb2-8"><a href="twilight.html#cb2-8" tabindex="-1"></a>                       <span class="at">offset =</span> offset, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">&quot;orange&quot;</span>, <span class="at">alpha.f =</span> <span class="fl">0.5</span>))</span></code></pre></div>
+<p><img src="04-TwilightAnnotation_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
-<p><img src="images/important.png" style="display: block; margin: auto;" /> Depending on the tag type, geolocator data are automatically adjusted for clock drift by the manufacturer, or, can be easily corrected by comparing the internal device time and real time when data is downloaded. For practical reasons, clock drift in geolocators is assumed to occur at a constant rate. If geolocator data are affected by clock drift the longitude estimates during stationary periods will drift continuously in one direction. In case the tag had stopped recording before data download or the internal time stamp is obviously incorrect, clock drift can be adjusted during the process of locations estimation. In short, an estimated clock drift is added to the twilight data and longitudinal positions are (re)calculated, e.g. using a best-guess sun elevation angle. Clock drift is adequately corrected for, if the slope of a linear regression between longitude and time during stationary periods is zero, showing that there is no directional changes in longitude over time anymore. Latitude estimates are negligibly affected due to the small difference in shifting sunrise and sunset times within the same day.</p>
+<p><img src="images/important.png" style="display: block; margin: auto;" />
+Depending on the tag type, geolocator data are automatically adjusted for clock drift by the manufacturer, or, can be easily corrected by comparing the internal device time and real time when data is downloaded. For practical reasons, clock drift in geolocator is assumed to occur at a constant rate. If geolocator data are affected by clock drift the longitude estimates during stationary periods will drift continuously in one direction. In case the tag had stopped recording before data download or the internal time stamp is obviously incorrect, clock drift can be adjusted during the process of locations estimation. In short, an estimated clock drift is added to the twilight data and longitudinal positions are (re)calculated, e.g. using a best-guess sun elevation angle. Clock drift is adequately corrected for, if the slope of a linear regression between longitude and time during stationary periods is zero, showing that there is no directional changes in longitude over time anymore. Latitude estimates are negligibly affected due to the small difference in shifting sunrise and sunset times within the same day.</p>
 </div>
 <p>In the next step, we want to define daily sunrise and sunset times. <code>preprocessLight</code> is an interactive function for editing light data and deriving these twilight times Note: if you are working on a Mac you must install Quartz first (<a href="https://www.xquartz.org" class="uri">https://www.xquartz.org</a>) and then set gr.Device to “x11” in the function. If you are working with a virtual machine, the function may not work at all. Detailed instructions of how to complete the interactive process can be found by running the following code:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">?preprocessLight</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="twilight.html#cb3-1" tabindex="-1"></a>?preprocessLight</span></code></pre></div>
 <p>Below, we explain the major functionalities.</p>
 <p>When you run,</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">twl &lt;-<span class="st"> </span><span class="kw">preprocessLight</span>(raw, 
-  <span class="dt">threshold =</span> threshold,
-  <span class="dt">offset =</span> offset, 
-  <span class="dt">lmax =</span> <span class="dv">20</span>,         <span class="co"># max. light valu</span>
-  <span class="dt">gr.Device =</span> <span class="st">&quot;x11&quot;</span>) <span class="co"># MacOS version (and windows)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="twilight.html#cb4-1" tabindex="-1"></a>twl <span class="ot">&lt;-</span> <span class="fu">preprocessLight</span>(raw, </span>
+<span id="cb4-2"><a href="twilight.html#cb4-2" tabindex="-1"></a>  <span class="at">threshold =</span> threshold,</span>
+<span id="cb4-3"><a href="twilight.html#cb4-3" tabindex="-1"></a>  <span class="at">offset =</span> offset, </span>
+<span id="cb4-4"><a href="twilight.html#cb4-4" tabindex="-1"></a>  <span class="at">lmax =</span> <span class="dv">20</span>,         <span class="co"># max. light valu</span></span>
+<span id="cb4-5"><a href="twilight.html#cb4-5" tabindex="-1"></a>  <span class="at">gr.Device =</span> <span class="st">&quot;x11&quot;</span>) <span class="co"># MacOS version (and windows)</span></span></code></pre></div>
 <p>two windows will appear. Move them so they are not on top of each other and you can see both. They should look like a big black blob. This identifies the “nightime” period over time. The top of the blob shows all the sunrises and the bottom of blob shows all the sunsets. You can note for instance that the days get longer (and thus the nights shorter) at the end of the time series, because the blob gets thinner. You may even note changes in the light image that relate to changes in activity patterns or breeding behavior.</p>
-<p><em>Step 1.</em> Click on the window entitled “Select subset”. With the left mouse button choose where you want the start of the dataset to be, and right mouse button to choose the end. You will notice that the red bar at the top moves and that the second window zooms into that time period. Select when you want your time series to start and end. This allows you to ignore for instance periods of nesting. Once you are happy with the start and end of the timeseries press “a” on the keyboard to accept and move to next step.</p>
+<p><em>Step 1.</em> Click on the window entitled “Select subset”. With the left mouse button choose where you want the start of the dataset to be, and right mouse button to choose the end. You will notice that the red bar at the top moves and that the second window zooms into that time period. Select when you want your time series to start and end. This allows you to ignore for instance periods of nesting. Once you are happy with the start and end of the time series press “a” on the keyboard to accept and move to next step.</p>
 <p><img src="images/step1.png" style="display: block; margin: auto;" /></p>
 <p><em>Step 2.</em> click on the window entitled “Find twilights” and the second window will zoom in. All you need to do here is click in the dark part (in the zoomed in image i.e. the one not entitled “Find twilights”) of the image and this will identify all the sunrises (orange) and sunsets (blue) based on the threshold defined in the previous section. Press “a” on the keyboard to accept and move to next step.</p>
 <p><img src="images/step2.png" style="display: block; margin: auto;" /></p>
-<p><em>Step 3.</em> This step is for adding or deleting points. If there are no missing data points, you can skip this step by pressing “a” on the keyboard. However, if you do want to add a point, you can click on the “Insert twilights” window to select a region of “the blob” that the second unintitled window will zoom into. In the zoomed window, use left mouse click to add a sunrise, and right mouse click to add a sunset. You can use “u” on the keyboard to undo any changes, and “d” to delete any points which are extra. Press “a” to move to next step.</p>
+<p><em>Step 3.</em> This step is for adding or deleting points. If there are no missing data points, you can skip this step by pressing “a” on the keyboard. However, if you do want to add a point, you can click on the “Insert twilights” window to select a region of “the blob” that the second untitled window will zoom into. In the zoomed window, use left mouse click to add a sunrise, and right mouse click to add a sunset. You can use “u” on the keyboard to undo any changes, and “d” to delete any points which are extra. Press “a” to move to next step.</p>
 <p><em>Step 4.</em> This step allows you to find points which have been miss-classified (often because the bird was in the shade or in a burrow) and to move the respective sunrise or sunset to where it should be. Choose a point by clicking on it in the “edit twilights” window and the other window will display the sunrise (or sunset) from the previous and next days (purple and green) relative to the current sunrise or sunset (in black). Thus if the black line shows a much earlier sunset or later sunrise than the purple and green ones, it is likely badly classified. . You can then left click at the point where you want the day to start and press “a” to accept and move the sunrise or sunset. You will notice the red line then moves. Do this for as many points as necessary.</p>
 <p><img src="images/Step4.png" style="display: block; margin: auto;" /></p>
 <p>Then close the windows with “q”.</p>
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
-<p><img src="images/caution.png" style="display: block; margin: auto;" /> How important is it to edit twilights?</p>
-<p>If you have no a priori reason and criteria to strongly edit twilight events, it is generally better to be a bit conservative with editing. This prevents that data are changed into an unwanted direction, e.g. erroneously removing good data points (amidst shading events), or informative events such as strong movements. Also the criteria to edit or remove badly classified twilights will be different depending on the method you use to infer locations. For curve methods, similarity in the shape of the curve around sunrise or sunset is most important, while for threshold methods the similarity in the sunrise and sunset events itself is important.</p>
+<p><img src="images/caution.png" style="display: block; margin: auto;" />
+How important is it to edit twilights?</p>
+<p>If you don’t have a priori reason and criteria to strongly edit twilight events, it is generally better to be a bit conservative with editing. This prevents that data are changed into an unwanted direction, e.g. erroneously removing good data points (amidst shading events), or informative events such as strong movements. Also the criteria to edit or remove badly classified twilights will be different depending on the method you use to infer locations. For curve methods, similarity in the shape of the curve around sunrise or sunset is most important, while for threshold methods the similarity in the sunrise and sunset events itself is important.</p>
 </div>
 <p>Have a look at the output</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(twl)</code></pre></div>
-<pre><code>             Twilight  Rise Deleted Marker Inserted           Twilight3
-1 2015-07-15 19:34:02 FALSE   FALSE      0    FALSE 2015-07-15 19:34:02
-2 2015-07-16 03:01:00  TRUE   FALSE      0    FALSE 2015-07-16 03:01:00
-3 2015-07-16 19:43:53 FALSE   FALSE      0    FALSE 2015-07-16 19:43:53
-4 2015-07-17 02:51:06  TRUE   FALSE      0    FALSE 2015-07-17 02:51:06
-5 2015-07-17 19:48:53 FALSE   FALSE      0    FALSE 2015-07-17 19:48:53
-6 2015-07-18 02:46:06  TRUE   FALSE      0    FALSE 2015-07-18 02:46:06
-  Marker3
-1       0
-2       0
-3       0
-4       0
-5       0
-6       0</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="twilight.html#cb5-1" tabindex="-1"></a><span class="fu">head</span>(twl)</span></code></pre></div>
+<pre><code>             Twilight  Rise Deleted Marker Inserted           Twilight3 Marker3
+1 2015-07-15 19:34:02 FALSE   FALSE      0    FALSE 2015-07-15 19:34:02       0
+2 2015-07-16 03:01:00  TRUE   FALSE      0    FALSE 2015-07-16 03:01:00       0
+3 2015-07-16 19:43:53 FALSE   FALSE      0    FALSE 2015-07-16 19:43:53       0
+4 2015-07-17 02:51:06  TRUE   FALSE      0    FALSE 2015-07-17 02:51:06       0
+5 2015-07-17 19:48:53 FALSE   FALSE      0    FALSE 2015-07-17 19:48:53       0
+6 2015-07-18 02:46:06  TRUE   FALSE      0    FALSE 2015-07-18 02:46:06       0</code></pre>
 <p>The output contains the following important information:</p>
 <ul>
 <li><span style="color:darkred"><strong>Twilight</strong></span></li>
@@ -278,15 +339,16 @@ col =<span class="st"> </span><span class="kw">colorRampPalette</span>(<span cla
 </ul>
 <p>Other processes like <code>twilightCalc</code> or the software <code>TAGS</code> produce different outputs but it is preferred to get them into this format (at least with the columns <code>Twilight</code> and <code>Rise</code>), since you can go ahead with any analysis you want using these two columns (<strong><em>note: do not save these two columns only, since the other information is important to reproduce your analysis</em></strong>).</p>
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
-<p><img src="images/important.png" style="display: block; margin: auto;" /> Save the output file as a .csv file, so that you never have to do this step again.</p>
+<p><img src="images/important.png" style="display: block; margin: auto;" />
+Save the output file as a .csv file, so that you never have to do this step again.</p>
 </div>
 <p>To save this file we use the metadata variables that were defined above:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.csv</span>(twl, <span class="kw">paste0</span>(wd, <span class="st">&quot;/Results/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;_twl.csv&quot;</span>), <span class="dt">row.names =</span> F)</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="twilight.html#cb7-1" tabindex="-1"></a><span class="fu">write.csv</span>(twl, <span class="fu">paste0</span>(wd, <span class="st">&quot;/Results/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;_twl.csv&quot;</span>), <span class="at">row.names =</span> F)</span></code></pre></div>
 <p>This can later be loaded using the following code (note, that you have to define the class type <code>POSIXC</code> for the date):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">twl &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="kw">paste0</span>(wd, <span class="st">&quot;/Results/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;_twl.csv&quot;</span>))
-twl<span class="op">$</span>Twilight &lt;-<span class="st"> </span><span class="kw">as.POSIXct</span>(twl<span class="op">$</span>Twilight, <span class="dt">tz =</span> <span class="st">&quot;GMT&quot;</span>) <span class="co"># get the Twilight times back into the POSIX. class format</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="twilight.html#cb8-1" tabindex="-1"></a>twl <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(wd, <span class="st">&quot;/Results/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;_twl.csv&quot;</span>))</span>
+<span id="cb8-2"><a href="twilight.html#cb8-2" tabindex="-1"></a>twl<span class="sc">$</span>Twilight <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(twl<span class="sc">$</span>Twilight, <span class="at">tz =</span> <span class="st">&quot;GMT&quot;</span>) <span class="co"># get the Twilight times back into the POSIX. class format</span></span></code></pre></div>
 <p>The result of this first part that is <strong>independent</strong> of which package/analysis will be used next is the twilight file that should at least look like (can have more columns):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(twl[,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)])</code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="twilight.html#cb9-1" tabindex="-1"></a><span class="fu">head</span>(twl[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)])</span></code></pre></div>
 <pre><code>             Twilight  Rise
 1 2015-07-15 19:34:02 FALSE
 2 2015-07-16 03:01:00  TRUE
@@ -294,24 +356,25 @@ twl<span class="op">$</span>Twilight &lt;-<span class="st"> </span><span class="
 4 2015-07-17 02:51:06  TRUE
 5 2015-07-17 19:48:53 FALSE
 6 2015-07-18 02:46:06  TRUE</code></pre>
-<div id="cleaningfiltering-twilight-times" class="section level2 unnumbered">
-<h2>Cleaning/Filtering twilight times</h2>
+<div id="cleaningfiltering-twilight-times" class="section level2 unnumbered hasAnchor">
+<h2>Cleaning/Filtering twilight times<a href="twilight.html#cleaningfiltering-twilight-times" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Automated filtering of twilight times should be handled carefully. There is no <em>perfect</em> function that cleans your twilight file. However, <code>twilightEdit</code> can help to filter and remove (mark them as deleted) outliers (e.g. false twilights). The filtering and removing of twilight times is based on a set of rules:</p>
 <ol style="list-style-type: decimal">
-<li>if a twilight time is e.g. 45 minutes (<strong>outlier.mins</strong>) different to its surrounding twilight times, and these sourrounding twilight times are within a certain range of minutes (<strong>stationary.mins</strong>), then the twilight times will be adjusted to the median of the surrounding twilights.</li>
+<li>if a twilight time is e.g. 45 minutes (<strong>outlier.mins</strong>) different to its surrounding twilight times, and these surrounding twilight times are within a certain range of minutes (<strong>stationary.mins</strong>), then the twilight times will be adjusted to the median of the surrounding twilights.</li>
 <li>if a twilight time is e.g. 45 minutes (<strong>outlier.mins</strong>) different to its surrounding twilight times, but the surrounding twilight times are more variable then you would expect them to be if they were recorded during stationary behavior, then the twilight time will be marked as deleted.</li>
 </ol>
 <p>The argument <strong>windows</strong> defines the number of twilight times surrounding the twilight in focus (e.g. same as in conventional moving window methods).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">twl &lt;-<span class="st"> </span><span class="kw">twilightEdit</span>(<span class="dt">twilights =</span> twl,
-                    <span class="dt">offset =</span> offset,
-                    <span class="dt">window =</span> <span class="dv">4</span>,           <span class="co"># two days before and two days after</span>
-                    <span class="dt">outlier.mins =</span> <span class="dv">45</span>,    <span class="co"># difference in mins</span>
-                    <span class="dt">stationary.mins =</span> <span class="dv">25</span>, <span class="co"># are the other surrounding twilights within 25 mins of one another</span>
-                    <span class="dt">plot =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<p><img src="04-TwilightAnnotation_files/figure-html/unnamed-chunk-18-1.png" width="960" /></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="twilight.html#cb11-1" tabindex="-1"></a>twl <span class="ot">&lt;-</span> <span class="fu">twilightEdit</span>(<span class="at">twilights =</span> twl,</span>
+<span id="cb11-2"><a href="twilight.html#cb11-2" tabindex="-1"></a>                    <span class="at">offset =</span> offset,</span>
+<span id="cb11-3"><a href="twilight.html#cb11-3" tabindex="-1"></a>                    <span class="at">window =</span> <span class="dv">4</span>,           <span class="co"># two days before and two days after</span></span>
+<span id="cb11-4"><a href="twilight.html#cb11-4" tabindex="-1"></a>                    <span class="at">outlier.mins =</span> <span class="dv">45</span>,    <span class="co"># difference in mins</span></span>
+<span id="cb11-5"><a href="twilight.html#cb11-5" tabindex="-1"></a>                    <span class="at">stationary.mins =</span> <span class="dv">25</span>, <span class="co"># are the other surrounding twilights within 25 mins of one another</span></span>
+<span id="cb11-6"><a href="twilight.html#cb11-6" tabindex="-1"></a>                    <span class="at">plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img src="04-TwilightAnnotation_files/figure-html/unnamed-chunk-17-1.png" width="960" /></p>
 <p>In this particular case and with the parameters, four twilight times have been corrected. Based on the output, you can also exclude them for further analysis. While you can also save the output file, we recommend archiving the twilight file from above and redo the <code>twilightEdit</code> after reading in the archived twilight file from above.</p>
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
-<p><img src="images/important.png" style="display: block; margin: auto;" /> This method helps to adjust and remove twilight times that are either outliers or false twilights given a set of rules. While subjective to a certain degree as well as reproducible, the method may not be able to detect all false twilight times and may even remove correct entries during fast migration periods.</p>
+<p><img src="images/important.png" style="display: block; margin: auto;" />
+This method helps to adjust and remove twilight times that are either outliers or false twilights given a set of rules. While subjective to a certain degree as well as reproducible, the method may not be able to detect all false twilight times and may even remove correct entries during fast migration periods.</p>
 </div>
 
 </div>
@@ -326,12 +389,13 @@ twl<span class="op">$</span>Twilight &lt;-<span class="st"> </span><span class="
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -339,12 +403,13 @@ gitbook.start({
 "github": false,
 "facebook": false,
 "twitter": false,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false,
+"google": false,
 "instapper": false
 },
 "fontsettings": {
@@ -356,29 +421,27 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["Light-level geolocation analyses.pdf"],
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section",
 "scroll_highlight": true
-},
-"search": true
+}
 });
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

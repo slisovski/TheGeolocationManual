@@ -6,11 +6,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Chapter 1 Structure of the manual | Light-level geolocation analyses</title>
   <meta name="description" content="This is a compilation of lecture notes that accompany my Intro to GIS and Spatial Analysis course." />
-  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Chapter 1 Structure of the manual | Light-level geolocation analyses" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This is a compilation of lecture notes that accompany my Intro to GIS and Spatial Analysis course." />
   <meta name="github-repo" content="slisovski/TheGeolocationManual" />
@@ -31,8 +30,8 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="start.html"/>
-<script src="libs/header-attrs-2.10/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -48,14 +47,14 @@
 
 
 
-
-<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
-<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -113,6 +112,10 @@ code span.vs { color: #008080; } /* VerbatimString */
 code span.wa { color: #008000; font-weight: bold; } /* Warning */
 </style>
 
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -255,12 +258,12 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="structure" class="section level1" number="1">
-<h1><span class="header-section-number">Chapter 1</span> Structure of the manual</h1>
-<p>This manual should allow users with limited knowledge in R coding to perform a state-of-the-art analysis of geolocator data. Thus, we start with the very basics of loading packages and data <a href="loadingData.html#loadingData">3</a> Starting with the initial data editing steps, which we call twilight annotation <a href="twilight.html#twilight">4</a>, we provide instructions on how to use several prominent analysis packages, illustrate the general analysis workflow using example data, and provide some recommendations for how to visualize and present results. We do not cover every available analysis package but focus on what we percieve to be the most frequently used tools, which are GeoLight <a href="GeoLight.html#GeoLight">5</a>, probGLS <a href="probGLS.html#probGLS">6</a>, SGAT <a href="SGAT.html#SGAT">7</a> and FLightR <a href="FLightR.html#FLightR">8</a>. The manual concludes with a section on data repositories such as Movebank that allows storing and shring geolocator tracks <a href="repositories.html#repositories">9</a>.</p>
-<div id="the-datasets" class="section level2 unnumbered">
-<h2>The datasets</h2>
-<p>To illustrate the capabilities of the different packages, discuss the potential pitfalls, and provide some recommendations, we will use raw geolocator data from four individuals of different species. All used tag data and the results as well as the code for the analyses has been uploaded onto Movebank unter study: Light-Level Geolocation Manual.</p>
+<div id="structure" class="section level1 hasAnchor" number="1">
+<h1><span class="header-section-number">Chapter 1</span> Structure of the manual<a href="structure.html#structure" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>This manual should allow users with limited knowledge in R coding to perform a state-of-the-art analysis of geolocator data. Thus, we start with the very basics of loading packages and data <a href="loadingData.html#loadingData">3</a> Starting with the initial data editing steps, which we call twilight annotation <a href="twilight.html#twilight">4</a>, we provide instructions on how to use several prominent analysis packages, illustrate the general analysis workflow using example data, and provide some recommendations for how to visualize and present results. We do not cover every available analysis package but focus on what we perceive to be the most frequently used tools, which are GeoLight <a href="GeoLight.html#GeoLight">5</a>, probGLS <a href="probGLS.html#probGLS">6</a>, SGAT <a href="SGAT.html#SGAT">7</a> and FLightR <a href="FLightR.html#FLightR">8</a>. The manual concludes with a section on data repositories such as Movebank that allows storing and sharing geolocator tracks <a href="repositories.html#repositories">9</a>.</p>
+<div id="the-datasets" class="section level2 unnumbered hasAnchor">
+<h2>The datasets<a href="structure.html#the-datasets" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>To illustrate the capabilities of the different packages, discuss the potential pitfalls, and provide some recommendations, we will use raw geolocator data from four individuals of different species. All used tag data and the results as well as the code for the analyses has been uploaded onto Movebank under study: Light-Level Geolocation Manual.</p>
 <table>
 <colgroup>
 <col width="10%" />
@@ -309,11 +312,11 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 </tr>
 </tbody>
 </table>
-<p>Although all of these tag types record light values over time, they differ in some key details. First, tags often differ in the frequency at which they write/log data. Many tags collect a reading every minute and store the maximal light value every 5 or 10 minutes. Other may store a maximum every 2 minutes. The tag that yielded the Purple martin data set, averaged 1min readings every 10min instead of taking a maximum. These four tags also differ in their sensitivity and how they record light levels. Some tags are sensitive only at low light levels and quickly “max out” when they experience a lot of light. As such, their light-levels do not have units and are simply an index of light intensity. The Integio tags can record unique light values for all natural light levels on earth, and they store lux values that range from 0 to ~70,000. Depending on the tag type, you may have to perform some preliminary steps such as log-transforming your data or time shifting light values for sunsets (we will provide details while working on the specific datasets).</p>
+<p>Although all of these tag types record light values over time, they differ in some key details. First, tags often differ in the frequency at which they write/log data. Many tags collect a reading every minute and store the maximal light value every 5 or 10 minutes. Other may store a maximum every 2 minutes. The tag that yielded the Purple martin dataset, averaged 1min readings every 10min instead of taking a maximum. These four tags also differ in their sensitivity and how they record light levels. Some tags are sensitive only at low light levels and quickly “max out” when they experience a lot of light. As such, their light-levels do not have units and are simply an index of light intensity. The Integio tags can record unique light values for all natural light levels on earth, and they store lux values that range from 0 to ~70,000. Depending on the tag type, you may have to perform some preliminary steps such as log-transforming your data or time shifting light values for sunsets (we will provide details while working on the specific datasets).</p>
 </div>
-<div id="reproducing-the-analyses" class="section level2 unnumbered">
-<h2>Reproducing the analyses</h2>
-<p>This manual contains code that can be copy pasted into an R script and executed to reproduce the results. In order to do so, you need to download the raw data as well as annotated twilight files used in this manual. The data need to be in a specific structure of folders and we do recommend you have a similar structure for your own analysis. During the processing of the data we save intermediate steps that allow us to step into the next analysis step without going through all initial and often time consuming parts. Having your raw data and your results in a well structured fomr, becomes especially important if you run analyses for many tags of the same or different species. It is also recommended that you create a single R script for each analysis (e.g. for each individual and each analysis using different tools). For example, you can name the R scripts using the tag id and the tool e.g. <code>14SA_SGAT.R</code>. Since this manual is dealing with tags from different species, the following structure with sub-folders per speces (first three letters of the genus name and the species name) is setup within the main folder (called <em>data</em>):</p>
+<div id="reproducing-the-analyses" class="section level2 unnumbered hasAnchor">
+<h2>Reproducing the analyses<a href="structure.html#reproducing-the-analyses" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This manual contains code that can be copy pasted into an R script and executed to reproduce the results. In order to do so, you need to download the raw data as well as annotated twilight files used in this manual. The data need to be in a specific structure of folders and we do recommend you have a similar structure for your own analysis. During the processing of the data we save intermediate steps that allow us to step into the next analysis step without going through all initial and often time consuming parts. Having your raw data and your results in a well structured form becomes especially important if you run analyses for many tags of the same or different species. It is also recommended that you create a single R script for each analysis (e.g. for each individual and each analysis using different tools). For example, you can name the R scripts using the tag id and the tool e.g. <code>14SA_SGAT.R</code>. Since this manual is dealing with tags from different species, the following structure with sub-folders per species (first three letters of the genus name and the species name) is setup within the main folder (called <em>data</em>):</p>
 <ul>
 <li>RawData
 <ul>
@@ -334,14 +337,14 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
 <li>PasCir</li>
 </ul></li>
 </ul>
-<p>You can download the folders with the raw data as well as the annotaded twilight files directly via R and extract into a <em>data</em> folder.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="structure.html#cb1-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/slisovski/TheGeolocationManual/raw/master/download.zip&quot;</span></span>
-<span id="cb1-2"><a href="structure.html#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="structure.html#cb1-3" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
-<span id="cb1-4"><a href="structure.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(url, temp)</span>
-<span id="cb1-5"><a href="structure.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">unzip</span>(temp, <span class="at">exdir =</span> <span class="st">&quot;data&quot;</span>)</span></code></pre></div>
+<p>You can download the folders with the raw data as well as the annotated twilight files directly via R and extract into a <em>data</em> folder.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="structure.html#cb1-1" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://github.com/slisovski/TheGeolocationManual/raw/master/download.zip&quot;</span></span>
+<span id="cb1-2"><a href="structure.html#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="structure.html#cb1-3" tabindex="-1"></a>temp <span class="ot">&lt;-</span> <span class="fu">tempfile</span>()</span>
+<span id="cb1-4"><a href="structure.html#cb1-4" tabindex="-1"></a><span class="fu">download.file</span>(url, temp)</span>
+<span id="cb1-5"><a href="structure.html#cb1-5" tabindex="-1"></a><span class="fu">unzip</span>(temp, <span class="at">exdir =</span> <span class="st">&quot;data&quot;</span>)</span></code></pre></div>
 <p>We also recommend using R Studio and creating a project (File -&gt; NewProject). Alternatively, you can set the working directory using the <code>setwd</code> function. With the <em>data</em> folder in your project folder (or more in general in your working directory) you should be able to run the code provided in this manual.</p>
-<p>We also recommend to use <em>R Studio</em> and to create a project (File -&gt; NewProject). Save the project file into the existing <em>Data</em> folder. This makes sure that <em>Data</em> is your working directory and it will remain the working directory even if the folder moves around on your drive. Alternatively, you can set the working directory using the <code>setwd</code> function. With the suggested folder structure and the raw data and the annotaded twiligth files you should be able to run the code provided in this manual.</p>
+<p>We also recommend to use <em>R Studio</em> and to create a project (File -&gt; NewProject). Save the project file into the existing <em>Data</em> folder. This makes sure that <em>Data</em> is your working directory and it will remain the working directory even if the folder moves around on your drive. Alternatively, you can set the working directory using the <code>setwd</code> function. With the suggested folder structure and the raw data and the annotated twilight files you should be able to run the code provided in this manual.</p>
 
 </div>
 </div>
@@ -355,7 +358,6 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -397,11 +399,14 @@ gitbook.start({
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section",
 "scroll_highlight": true
-},
-"search": true
+}
 });
 });
 </script>
