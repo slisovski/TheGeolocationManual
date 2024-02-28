@@ -1,23 +1,21 @@
 <!DOCTYPE html>
-<html >
-
+<html lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Light-level geolocation analyses</title>
-  <meta name="description" content="This is a compilation of lecture notes that accompany my Intro to GIS and Spatial Analysis course.">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 GeoLight | Light-level geolocation analyses</title>
+  <meta name="description" content="This is a compilation of lecture notes that accompany my Intro to GIS and Spatial Analysis course." />
+  <meta name="generator" content="bookdown 0.37 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Light-level geolocation analyses" />
+  <meta property="og:title" content="Chapter 5 GeoLight | Light-level geolocation analyses" />
   <meta property="og:type" content="book" />
-  
   
   <meta property="og:description" content="This is a compilation of lecture notes that accompany my Intro to GIS and Spatial Analysis course." />
   <meta name="github-repo" content="slisovski/TheGeolocationManual" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Light-level geolocation analyses" />
+  <meta name="twitter:title" content="Chapter 5 GeoLight | Light-level geolocation analyses" />
   
   <meta name="twitter:description" content="This is a compilation of lecture notes that accompany my Intro to GIS and Spatial Analysis course." />
   
@@ -25,20 +23,22 @@
 
 
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="twilight.html">
-<link rel="next" href="probGLS.html">
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link rel="prev" href="twilight.html"/>
+<link rel="next" href="probGLS.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
 
 
 
@@ -46,39 +46,75 @@
 
 
 
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #0000ff; } /* Keyword */
-code > span.ch { color: #008080; } /* Char */
-code > span.st { color: #008080; } /* String */
-code > span.co { color: #008000; } /* Comment */
-code > span.ot { color: #ff4000; } /* Other */
-code > span.al { color: #ff0000; } /* Alert */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #008000; font-weight: bold; } /* Warning */
-code > span.cn { } /* Constant */
-code > span.sc { color: #008080; } /* SpecialChar */
-code > span.vs { color: #008080; } /* VerbatimString */
-code > span.ss { color: #008080; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { } /* Variable */
-code > span.cf { color: #0000ff; } /* ControlFlow */
-code > span.op { } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #ff4000; } /* Preprocessor */
-code > span.do { color: #008000; } /* Documentation */
-code > span.an { color: #008000; } /* Annotation */
-code > span.cv { color: #008000; } /* CommentVar */
-code > span.at { } /* Attribute */
-code > span.in { color: #008000; } /* Information */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -97,27 +133,32 @@ code > span.in { color: #008000; } /* Information */
 <li><a href="./">Light level geolocation analyses</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#acknowledgements"><i class="fa fa-check"></i>Acknowledgements</a></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#license"><i class="fa fa-check"></i>License</a></li>
 </ul></li>
-<li class="chapter" data-level="1" data-path="structure.html"><a href="structure.html"><i class="fa fa-check"></i><b>1</b> Structure of the manual</a><ul>
+<li class="chapter" data-level="1" data-path="structure.html"><a href="structure.html"><i class="fa fa-check"></i><b>1</b> Structure of the manual</a>
+<ul>
 <li class="chapter" data-level="" data-path="structure.html"><a href="structure.html#the-datasets"><i class="fa fa-check"></i>The datasets</a></li>
 <li class="chapter" data-level="" data-path="structure.html"><a href="structure.html#reproducing-the-analyses"><i class="fa fa-check"></i>Reproducing the analyses</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="start.html"><a href="start.html"><i class="fa fa-check"></i><b>2</b> Getting started</a></li>
 <li class="chapter" data-level="3" data-path="loadingData.html"><a href="loadingData.html"><i class="fa fa-check"></i><b>3</b> Loading data</a></li>
-<li class="chapter" data-level="4" data-path="twilight.html"><a href="twilight.html"><i class="fa fa-check"></i><b>4</b> Twilight Annotation</a><ul>
+<li class="chapter" data-level="4" data-path="twilight.html"><a href="twilight.html"><i class="fa fa-check"></i><b>4</b> Twilight Annotation</a>
+<ul>
 <li class="chapter" data-level="" data-path="twilight.html"><a href="twilight.html#cleaningfiltering-twilight-times"><i class="fa fa-check"></i>Cleaning/Filtering twilight times</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="GeoLight.html"><a href="GeoLight.html"><i class="fa fa-check"></i><b>5</b> GeoLight</a><ul>
+<li class="chapter" data-level="5" data-path="GeoLight.html"><a href="GeoLight.html"><i class="fa fa-check"></i><b>5</b> GeoLight</a>
+<ul>
 <li class="chapter" data-level="" data-path="GeoLight.html"><a href="GeoLight.html#getting-started"><i class="fa fa-check"></i>Getting started</a></li>
 <li class="chapter" data-level="" data-path="GeoLight.html"><a href="GeoLight.html#calibration"><i class="fa fa-check"></i>Calibration</a></li>
 <li class="chapter" data-level="" data-path="GeoLight.html"><a href="GeoLight.html#location-estimation"><i class="fa fa-check"></i>Location estimation</a></li>
 <li class="chapter" data-level="" data-path="GeoLight.html"><a href="GeoLight.html#hill-ekstrom-calibration"><i class="fa fa-check"></i>Hill-Ekstrom calibration</a></li>
 <li class="chapter" data-level="" data-path="GeoLight.html"><a href="GeoLight.html#movement-analysis"><i class="fa fa-check"></i>Movement analysis</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="probGLS.html"><a href="probGLS.html"><i class="fa fa-check"></i><b>6</b> probGLS</a><ul>
+<li class="chapter" data-level="6" data-path="probGLS.html"><a href="probGLS.html"><i class="fa fa-check"></i><b>6</b> probGLS</a>
+<ul>
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#getting-started-1"><i class="fa fa-check"></i>Getting started</a></li>
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#load-additional-data"><i class="fa fa-check"></i>Load additional data</a></li>
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#download-remote-sensed-environmental-data"><i class="fa fa-check"></i>Download remote sensed environmental data</a></li>
@@ -125,7 +166,8 @@ code > span.in { color: #008000; } /* Information */
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#run-the-iterative-algorithm"><i class="fa fa-check"></i>Run the iterative algorithm</a></li>
 <li class="chapter" data-level="" data-path="probGLS.html"><a href="probGLS.html#plot-results"><i class="fa fa-check"></i>Plot results</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="SGAT.html"><a href="SGAT.html"><i class="fa fa-check"></i><b>7</b> SGAT</a><ul>
+<li class="chapter" data-level="7" data-path="SGAT.html"><a href="SGAT.html"><i class="fa fa-check"></i><b>7</b> SGAT</a>
+<ul>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#getting-started-2"><i class="fa fa-check"></i>Getting started</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#calibration-1"><i class="fa fa-check"></i>Calibration</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#alternative-calibration"><i class="fa fa-check"></i>Alternative calibration</a></li>
@@ -133,14 +175,16 @@ code > span.in { color: #008000; } /* Information */
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#initial-path"><i class="fa fa-check"></i>Initial path</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#define-known-locations"><i class="fa fa-check"></i>Define known locations</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#land-mask"><i class="fa fa-check"></i>Land mask</a></li>
-<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#the-estelle-model"><i class="fa fa-check"></i>The Estelle Model</a><ul>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#the-estelle-model"><i class="fa fa-check"></i>The Estelle Model</a>
+<ul>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#tuning-the-proposals"><i class="fa fa-check"></i>Tuning the proposals</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#final-run"><i class="fa fa-check"></i>Final run</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#summarize-the-results"><i class="fa fa-check"></i>Summarize the results</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#plotting-the-results"><i class="fa fa-check"></i>Plotting the results</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#saving-the-results"><i class="fa fa-check"></i>Saving the Results</a></li>
-<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#the-groupe-model"><i class="fa fa-check"></i>The Groupe Model</a><ul>
+<li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#the-groupe-model"><i class="fa fa-check"></i>The Groupe Model</a>
+<ul>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#initiate-the-model"><i class="fa fa-check"></i>Initiate the model</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#land-mask-for-group-model"><i class="fa fa-check"></i>Land mask for group model</a></li>
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#the-estelle-model-1"><i class="fa fa-check"></i>The Estelle Model</a></li>
@@ -151,29 +195,47 @@ code > span.in { color: #008000; } /* Information */
 <li class="chapter" data-level="" data-path="SGAT.html"><a href="SGAT.html#saving-the-results-1"><i class="fa fa-check"></i>Saving the Results</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="FLightR.html"><a href="FLightR.html"><i class="fa fa-check"></i><b>8</b> FLightR</a><ul>
+<li class="chapter" data-level="8" data-path="FLightR.html"><a href="FLightR.html"><i class="fa fa-check"></i><b>8</b> FLightR</a>
+<ul>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#getting-started-3"><i class="fa fa-check"></i>Getting started</a></li>
-<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#calibration-2"><i class="fa fa-check"></i>Calibration</a><ul>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#calibration-2"><i class="fa fa-check"></i>Calibration</a>
+<ul>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#find-calibration-periods-for-a-known-calibration-location"><i class="fa fa-check"></i>Find calibration periods for a known calibration location</a></li>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#find-a-calibration-location-for-a-known-calibration-period"><i class="fa fa-check"></i>Find a calibration location for a known calibration period</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#assign-spatial-extent"><i class="fa fa-check"></i>Assign spatial extent</a></li>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#prepare-the-model-for-run"><i class="fa fa-check"></i>Prepare the model for run</a></li>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#particle-filter-run"><i class="fa fa-check"></i>Particle filter run</a></li>
-<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#exploration-of-results"><i class="fa fa-check"></i>Exploration of results</a><ul>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#exploration-of-results"><i class="fa fa-check"></i>Exploration of results</a>
+<ul>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#first-look---plot-longitude-and-latitude"><i class="fa fa-check"></i>First look - plot longitude and latitude</a></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#summary"><i class="fa fa-check"></i>Summary</a><ul>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#summary"><i class="fa fa-check"></i>Summary</a>
+<ul>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#repeatability-of-output"><i class="fa fa-check"></i>Repeatability of output</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#defining-stopovers"><i class="fa fa-check"></i>Defining stopovers</a></li>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#getting-specific-output"><i class="fa fa-check"></i>Getting specific output</a></li>
-<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#visualisation-of-the-results"><i class="fa fa-check"></i>Visualisation of the results</a><ul>
+<li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#visualisation-of-the-results"><i class="fa fa-check"></i>Visualisation of the results</a>
+<ul>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#plot-a-simple-map"><i class="fa fa-check"></i>Plot a simple map</a></li>
 <li class="chapter" data-level="" data-path="FLightR.html"><a href="FLightR.html#plot-utilization-distribution"><i class="fa fa-check"></i>Plot utilization distribution</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="repositories.html"><a href="repositories.html"><i class="fa fa-check"></i><b>9</b> Data repositories</a></li>
+<li class="chapter" data-level="9" data-path="repositories.html"><a href="repositories.html"><i class="fa fa-check"></i><b>9</b> Data repositories</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="repositories.html"><a href="repositories.html#basic-principles-of-storing-data-in-movebank"><i class="fa fa-check"></i><b>9.1</b> Basic principles of storing data in Movebank</a></li>
+<li class="chapter" data-level="9.2" data-path="repositories.html"><a href="repositories.html#what-can-and-should-be-stored-in-movebank"><i class="fa fa-check"></i><b>9.2</b> What can (and should) be stored in Movebank</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="repositories.html"><a href="repositories.html#raw-light-recordings"><i class="fa fa-check"></i><b>9.2.1</b> Raw light recordings</a></li>
+<li class="chapter" data-level="9.2.2" data-path="repositories.html"><a href="repositories.html#annotated-twilights"><i class="fa fa-check"></i><b>9.2.2</b> Annotated twilights</a></li>
+<li class="chapter" data-level="9.2.3" data-path="repositories.html"><a href="repositories.html#location-estimates"><i class="fa fa-check"></i><b>9.2.3</b> Location estimates</a></li>
+<li class="chapter" data-level="9.2.4" data-path="repositories.html"><a href="repositories.html#reference-data"><i class="fa fa-check"></i><b>9.2.4</b> Reference data</a></li>
+<li class="chapter" data-level="9.2.5" data-path="repositories.html"><a href="repositories.html#additional-files"><i class="fa fa-check"></i><b>9.2.5</b> Additional files</a></li>
+<li class="chapter" data-level="9.2.6" data-path="repositories.html"><a href="repositories.html#merging-files"><i class="fa fa-check"></i><b>9.2.6</b> Merging files</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="repositories.html"><a href="repositories.html#examples-of-geolocator-studies-in-movebank"><i class="fa fa-check"></i><b>9.3</b> Examples of geolocator studies in Movebank</a></li>
+</ul></li>
 <li class="chapter" data-level="10" data-path="contribution.html"><a href="contribution.html"><i class="fa fa-check"></i><b>10</b> Your contribution</a></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
@@ -196,43 +258,44 @@ code > span.in { color: #008000; } /* Information */
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="GeoLight" class="section level1">
-<h1><span class="header-section-number">Chapter 5</span> GeoLight</h1>
+<div id="GeoLight" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> GeoLight<a href="GeoLight.html#GeoLight" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><em>GeoLight</em> uses the threshold method to estimate simple discrete locations per set of twilight events. It was developed in 2012 with the goal of being a complete, quick, and reproducible method of geolocator analysis <a href="references.html#lisovski_2012b">Lisovski &amp; Hahn 2012</a>. Over time, <em>GeoLight</em> has been further developed and functions such as <code>mergeSites</code>, <code>mergeSites2</code> and <code>siteEstiamte</code> were added. These functions make use of a very simple movement analysis that aims to separate periods of movement from periods of residency by finding changes in the recorded sunrise and sunset times. Investigating entire stationary periods and estimating a single location (e.g., for all sunrise and sunset times during the major non-breeding period when the bird was stationary) using a optimization procedure (maximum likelihood) we can both, refine location estimates and estimate credible intervals around the most likely location. Even with these new functions, <em>GeoLight</em> is still a tool that uses simple principles and requires low computing capacity. It also allows for a quick analysis (that should be thoroughly checked if used for publications) and is thus an analysis tool by itself but can also be used as an initial step before going into the more sophisticated and complex approaches like <a href="SGAT.html#SGAT">SGAT</a> or <a href="#FlightR">FLightR</a>.</p>
-<div id="getting-started" class="section level2 unnumbered">
-<h2>Getting started</h2>
+<div id="getting-started" class="section level2 unnumbered hasAnchor">
+<h2>Getting started<a href="GeoLight.html#getting-started" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>To illustrate the <em>GeoLight</em> analysis, we use the Purple martin dataset.</p>
 <p>We first define the metadata and read in the raw recordings. We skip the twilight definition process but read in the file that has been generated using <code>preprocessLight</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Species &lt;-<span class="st"> &quot;PasCir&quot;</span>
-ID      &lt;-<span class="st"> &quot;PasCir01&quot;</span>
-
-lat.calib &lt;-<span class="st">  </span><span class="fl">33.9</span>
-lon.calib &lt;-<span class="st"> </span><span class="op">-</span><span class="fl">96.8</span>
-
-wd &lt;-<span class="st"> &quot;data&quot;</span>
-
-raw &lt;-<span class="st"> </span><span class="kw">readLig</span>(<span class="kw">paste0</span>(wd, <span class="st">&quot;/RawData/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;.lig&quot;</span>))
-  raw<span class="op">$</span>Light &lt;-<span class="st"> </span><span class="kw">log</span>(raw<span class="op">$</span>Light)
-
-twl &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="kw">paste0</span>(wd, <span class="st">&quot;/Results/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;_twl.csv&quot;</span>))
-  twl<span class="op">$</span>Twilight &lt;-<span class="st"> </span><span class="kw">as.POSIXct</span>(twl<span class="op">$</span>Twilight, <span class="dt">tz =</span> <span class="st">&quot;GMT&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="GeoLight.html#cb1-1" tabindex="-1"></a>Species <span class="ot">&lt;-</span> <span class="st">&quot;PasCir&quot;</span></span>
+<span id="cb1-2"><a href="GeoLight.html#cb1-2" tabindex="-1"></a>ID      <span class="ot">&lt;-</span> <span class="st">&quot;PasCir01&quot;</span></span>
+<span id="cb1-3"><a href="GeoLight.html#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="GeoLight.html#cb1-4" tabindex="-1"></a>lat.calib <span class="ot">&lt;-</span>  <span class="fl">33.9</span></span>
+<span id="cb1-5"><a href="GeoLight.html#cb1-5" tabindex="-1"></a>lon.calib <span class="ot">&lt;-</span> <span class="sc">-</span><span class="fl">96.8</span></span>
+<span id="cb1-6"><a href="GeoLight.html#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="GeoLight.html#cb1-7" tabindex="-1"></a>wd <span class="ot">&lt;-</span> <span class="st">&quot;data&quot;</span></span>
+<span id="cb1-8"><a href="GeoLight.html#cb1-8" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="GeoLight.html#cb1-9" tabindex="-1"></a>raw <span class="ot">&lt;-</span> <span class="fu">readLig</span>(<span class="fu">paste0</span>(wd, <span class="st">&quot;/RawData/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;.lig&quot;</span>))</span>
+<span id="cb1-10"><a href="GeoLight.html#cb1-10" tabindex="-1"></a>raw<span class="sc">$</span>Light <span class="ot">&lt;-</span> <span class="fu">log</span>(raw<span class="sc">$</span>Light)</span>
+<span id="cb1-11"><a href="GeoLight.html#cb1-11" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="GeoLight.html#cb1-12" tabindex="-1"></a>twl <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">paste0</span>(wd, <span class="st">&quot;/Results/&quot;</span>, Species, <span class="st">&quot;/&quot;</span>, ID, <span class="st">&quot;_twl.csv&quot;</span>))</span>
+<span id="cb1-13"><a href="GeoLight.html#cb1-13" tabindex="-1"></a>twl<span class="sc">$</span>Twilight <span class="ot">&lt;-</span> <span class="fu">as.POSIXct</span>(twl<span class="sc">$</span>Twilight, <span class="at">tz =</span> <span class="st">&quot;GMT&quot;</span>)</span></code></pre></div>
 <p>Let’s have a look at the dataset using the <code>lightImage</code> function from <em>TwGeos</em>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">offset &lt;-<span class="st"> </span><span class="dv">17</span> <span class="co"># adjusts the y-axis to put night (dark shades) in the middle</span>
-
-<span class="kw">lightImage</span>( <span class="dt">tagdata =</span> raw,
-            <span class="dt">offset =</span> offset,     
-            <span class="dt">zlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">4</span>))
-
-<span class="kw">tsimagePoints</span>(twl<span class="op">$</span>Twilight, <span class="dt">offset =</span> offset, <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">cex =</span> <span class="fl">1.2</span>,
-              <span class="dt">col =</span> <span class="kw">ifelse</span>(twl<span class="op">$</span>Deleted, <span class="st">&quot;grey20&quot;</span>, <span class="kw">ifelse</span>(twl<span class="op">$</span>Rise, <span class="st">&quot;firebrick&quot;</span>, <span class="st">&quot;cornflowerblue&quot;</span>)))</code></pre></div>
-<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="GeoLight.html#cb2-1" tabindex="-1"></a>offset <span class="ot">&lt;-</span> <span class="dv">17</span> <span class="co"># adjusts the y-axis to put night (dark shades) in the middle</span></span>
+<span id="cb2-2"><a href="GeoLight.html#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="GeoLight.html#cb2-3" tabindex="-1"></a><span class="fu">lightImage</span>( <span class="at">tagdata =</span> raw,</span>
+<span id="cb2-4"><a href="GeoLight.html#cb2-4" tabindex="-1"></a>            <span class="at">offset =</span> offset,     </span>
+<span id="cb2-5"><a href="GeoLight.html#cb2-5" tabindex="-1"></a>            <span class="at">zlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4</span>))</span>
+<span id="cb2-6"><a href="GeoLight.html#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="GeoLight.html#cb2-7" tabindex="-1"></a><span class="fu">tsimagePoints</span>(twl<span class="sc">$</span>Twilight, <span class="at">offset =</span> offset, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">cex =</span> <span class="fl">1.2</span>,</span>
+<span id="cb2-8"><a href="GeoLight.html#cb2-8" tabindex="-1"></a>              <span class="at">col =</span> <span class="fu">ifelse</span>(twl<span class="sc">$</span>Deleted, <span class="st">&quot;grey20&quot;</span>, <span class="fu">ifelse</span>(twl<span class="sc">$</span>Rise, <span class="st">&quot;firebrick&quot;</span>, <span class="st">&quot;cornflowerblue&quot;</span>)))</span></code></pre></div>
+<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <p>As you can see, there are many twilight events that are marked as deleted. Therefore, we have to subset out twilight table.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">twl &lt;-<span class="st"> </span><span class="kw">subset</span>(twl, <span class="op">!</span>Deleted) <span class="co"># only rows that are not marked as deleted.</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="GeoLight.html#cb3-1" tabindex="-1"></a>twl <span class="ot">&lt;-</span> <span class="fu">subset</span>(twl, <span class="sc">!</span>Deleted) <span class="co"># only rows that are not marked as deleted.</span></span></code></pre></div>
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
-<p><img src="images/important.png" style="display: block; margin: auto;" /> <em>GeoLight</em> requires a certain input format of the twilight table that differs from the ouput of e.g. <code>preprocessLight</code> or <em>TAGS</em>. We need to have rows that always have a set of twilight times, e.g. sunrise and sunset of a day or sunset and sunrise of a night. The first columns (and the first twilight) is called <em>tFirst</em>, the second <em>tSecond</em> and the third column <em>type</em> defines whether it is a day (1) or a night (2). The function <code>export2GeoLight</code> can transform the table from above (twl) into the required format.</p>
+<p><img src="images/important.png" style="display: block; margin: auto;" />
+<em>GeoLight</em> requires a certain input format of the twilight table that differs from the ouput of e.g. <code>preprocessLight</code> or <em>TAGS</em>. We need to have rows that always have a set of twilight times, e.g. sunrise and sunset of a day or sunset and sunrise of a night. The first columns (and the first twilight) is called <em>tFirst</em>, the second <em>tSecond</em> and the third column <em>type</em> defines whether it is a day (1) or a night (2). The function <code>export2GeoLight</code> can transform the table from above (twl) into the required format.</p>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">twl.gl  &lt;-<span class="st"> </span><span class="kw">export2GeoLight</span>(twl) 
-<span class="kw">head</span>(twl.gl)</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="GeoLight.html#cb4-1" tabindex="-1"></a>twl.gl  <span class="ot">&lt;-</span> <span class="fu">export2GeoLight</span>(twl) </span>
+<span id="cb4-2"><a href="GeoLight.html#cb4-2" tabindex="-1"></a><span class="fu">head</span>(twl.gl)</span></code></pre></div>
 <pre><code>               tFirst             tSecond type
 1 2011-06-21 11:06:22 2011-06-22 02:01:18    1
 2 2011-06-22 02:01:18 2011-06-22 11:00:25    2
@@ -241,153 +304,168 @@ twl &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="
 5 2011-06-23 11:01:08 2011-06-24 02:01:44    1
 6 2011-06-24 02:01:44 2011-06-24 11:01:08    2</code></pre>
 </div>
-<div id="calibration" class="section level2 unnumbered">
-<h2>Calibration</h2>
+<div id="calibration" class="section level2 unnumbered hasAnchor">
+<h2>Calibration<a href="GeoLight.html#calibration" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>From the image above, we see that there are two clear periods when the birds has been at the release/recapture site. We can use either one period or both. Given that calibration is best if we use as many twilight times as possible, we here use both periods. We again use the <code>ligthImage</code> and plot the sunrise/sunset curve of the deployment site. Then we play with the dates and add lines until we are satisfied with the calibration periods.</p>
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
-<p><img src="images/caution.png" style="display: block; margin: auto;" /> It is most important to not include any periods when the birds has not been at the known location since that can totally screw the calibration. Thus, it is preferred have a buffer to the departure/arrival.</p>
+<p><img src="images/caution.png" style="display: block; margin: auto;" />
+It is most important to not include any periods when the birds has not been at the known location since that can totally screw the calibration. Thus, it is preferred have a buffer to the departure/arrival.</p>
 </div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">lightImage</span>( <span class="dt">tagdata =</span> raw,
-            <span class="dt">offset =</span> offset,     
-            <span class="dt">zlim =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">4</span>))
-
-<span class="kw">tsimageDeploymentLines</span>(twl<span class="op">$</span>Twilight, lon.calib, lat.calib, <span class="dt">offset =</span> offset,
-                       <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">col =</span> <span class="kw">adjustcolor</span>(<span class="st">&quot;orange&quot;</span>, <span class="dt">alpha.f =</span> <span class="fl">0.8</span>))
-
-tm1 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">as.POSIXct</span>(<span class="st">&quot;2011-06-25&quot;</span>), <span class="kw">as.POSIXct</span>(<span class="st">&quot;2011-08-10&quot;</span>))
-tm2 &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">as.POSIXct</span>(<span class="st">&quot;2012-04-15&quot;</span>), <span class="kw">as.POSIXct</span>(<span class="st">&quot;2012-05-30&quot;</span>))
-
-<span class="kw">abline</span>(<span class="dt">v =</span> tm1, <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">col =</span> <span class="st">&quot;firebrick&quot;</span>, <span class="dt">lwd =</span> <span class="fl">1.5</span>)
-<span class="kw">abline</span>(<span class="dt">v =</span> tm2, <span class="dt">lty =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="dt">col =</span> <span class="st">&quot;firebrick&quot;</span>, <span class="dt">lwd =</span> <span class="fl">1.5</span>)</code></pre></div>
-<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="GeoLight.html#cb6-1" tabindex="-1"></a><span class="fu">lightImage</span>( <span class="at">tagdata =</span> raw,</span>
+<span id="cb6-2"><a href="GeoLight.html#cb6-2" tabindex="-1"></a>            <span class="at">offset =</span> offset,     </span>
+<span id="cb6-3"><a href="GeoLight.html#cb6-3" tabindex="-1"></a>            <span class="at">zlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">4</span>))</span>
+<span id="cb6-4"><a href="GeoLight.html#cb6-4" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="GeoLight.html#cb6-5" tabindex="-1"></a><span class="fu">tsimageDeploymentLines</span>(twl<span class="sc">$</span>Twilight, lon.calib, lat.calib, <span class="at">offset =</span> offset,</span>
+<span id="cb6-6"><a href="GeoLight.html#cb6-6" tabindex="-1"></a>                       <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">&quot;orange&quot;</span>, <span class="at">alpha.f =</span> <span class="fl">0.8</span>))</span>
+<span id="cb6-7"><a href="GeoLight.html#cb6-7" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="GeoLight.html#cb6-8" tabindex="-1"></a>tm1 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">as.POSIXct</span>(<span class="st">&quot;2011-06-25&quot;</span>), <span class="fu">as.POSIXct</span>(<span class="st">&quot;2011-08-10&quot;</span>))</span>
+<span id="cb6-9"><a href="GeoLight.html#cb6-9" tabindex="-1"></a>tm2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">as.POSIXct</span>(<span class="st">&quot;2012-04-15&quot;</span>), <span class="fu">as.POSIXct</span>(<span class="st">&quot;2012-05-30&quot;</span>))</span>
+<span id="cb6-10"><a href="GeoLight.html#cb6-10" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="GeoLight.html#cb6-11" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> tm1, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">col =</span> <span class="st">&quot;firebrick&quot;</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span>
+<span id="cb6-12"><a href="GeoLight.html#cb6-12" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> tm2, <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">col =</span> <span class="st">&quot;firebrick&quot;</span>, <span class="at">lwd =</span> <span class="fl">1.5</span>)</span></code></pre></div>
+<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>We can now subset the twilight table <code>twl.gl</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">d.calib &lt;-<span class="st"> </span><span class="kw">subset</span>(twl.gl, (tFirst<span class="op">&gt;=</span>tm1[<span class="dv">1</span>] <span class="op">&amp;</span><span class="st"> </span>tSecond<span class="op">&lt;=</span>tm1[<span class="dv">2</span>]) <span class="op">|</span><span class="st"> </span>
-<span class="st">                          </span>(tFirst<span class="op">&gt;=</span>tm2[<span class="dv">1</span>] <span class="op">&amp;</span><span class="st"> </span>tSecond<span class="op">&lt;=</span>tm2[<span class="dv">2</span>]))</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="GeoLight.html#cb7-1" tabindex="-1"></a>d.calib <span class="ot">&lt;-</span> <span class="fu">subset</span>(twl.gl, (tFirst<span class="sc">&gt;=</span>tm1[<span class="dv">1</span>] <span class="sc">&amp;</span> tSecond<span class="sc">&lt;=</span>tm1[<span class="dv">2</span>]) <span class="sc">|</span> </span>
+<span id="cb7-2"><a href="GeoLight.html#cb7-2" tabindex="-1"></a>                    (tFirst<span class="sc">&gt;=</span>tm2[<span class="dv">1</span>] <span class="sc">&amp;</span> tSecond<span class="sc">&lt;=</span>tm2[<span class="dv">2</span>]))</span></code></pre></div>
 <p>The method behind the calibration function <code>getElevation</code> in <em>GeoLight</em> has changed over time and is now based in the error distribution (the variation) of the detected twilight times during the calibration period.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">gE      &lt;-<span class="st"> </span><span class="kw">getElevation</span>(<span class="dt">twl =</span> d.calib, <span class="dt">known.coord =</span> <span class="kw">c</span>(lon.calib, lat.calib), 
-                        <span class="dt">method =</span> <span class="st">&quot;gamma&quot;</span>)
-gE</code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="GeoLight.html#cb8-1" tabindex="-1"></a>gE      <span class="ot">&lt;-</span> <span class="fu">getElevation</span>(<span class="at">twl =</span> d.calib, <span class="at">known.coord =</span> <span class="fu">c</span>(lon.calib, lat.calib), </span>
+<span id="cb8-2"><a href="GeoLight.html#cb8-2" tabindex="-1"></a>                        <span class="at">method =</span> <span class="st">&quot;gamma&quot;</span>)</span>
+<span id="cb8-3"><a href="GeoLight.html#cb8-3" tabindex="-1"></a>gE</span></code></pre></div>
 <pre><code>        a1         e0      shape      scale 
 93.8281938 -5.6759414  2.5305391  0.2317587 </code></pre>
-<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>The figure above represents a nice calibration curve; the twilight error indicating the deviation from the true twilight events in minutes follows quite nicely a gamma distribution (the red dotted line). The function provides four numbers. The first one is the reference sun elevation angle (the round dot with the 1) that can be used to calculate the threshold locations. This reference angle is based on the median of the twilight error distribution, minimizing the accuracy of the location estimates (not the precision that is affected by the variability in twilight events). The second value in the output is the sun elevation angle that defines the zero deviation and thus the lowest sun elevation angle a twilight could be detected. This sun elevation angle is important in the <code>mergeSites2</code> function but is also used in the e.g. <em>SGAT</em> analysis.</p>
+<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p>The figure above represents a nice calibration curve; the twilight error indicating the deviation from the true twilight events in minutes follows quite nicely a gamma distribution (the red dotted line). The function provides four numbers. The first one is the reference sun elevation angle (the round dot with the 1) that can be used to calculate the threshold locations. This reference angle is based on the median of the twilight error distribution, minimizing the accuracy of the location estimates (not the precision that is affected by the variability in twilight events). The second value in the output is the sun elevation angle that defines the zero deviation and thus the lowest sun elevation angle a twilight could be detected. This sun elevation angle is important in the <code>mergeSites2</code> function but is also used in the e.g. <em>SGAT</em> analysis.</p>
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
-<p><img src="images/note.png" style="display: block; margin: auto;" /> The graph produced by <code>getElevation</code> can help to judge whether your calibration data is sufficiently long and whether it is correct. A twilight error that fits the gamma distribution is a good sign, that you have enough data for your calibration. In case you have a few bars only, the fit is poor, and your time series is probably too short. You can also use a log-normal error distribution (method = “log-norm”), in some cases this results in a better fit. Additionally, if you see a few values at zero deviation and a big gap between them and the next junk of data points you have most likely included a period that was not recorded at the known location or you have falsely defined twilight events that are earlier/later than the logger is able to detect light (go back to the twilight annotation and have a thorough look at the data).</p>
+<p><img src="images/note.png" style="display: block; margin: auto;" />
+The graph produced by <code>getElevation</code> can help to judge whether your calibration data is sufficiently long and whether it is correct. A twilight error that fits the gamma distribution is a good sign, that you have enough data for your calibration. In case you have a few bars only, the fit is poor, and your time series is probably too short. You can also use a log-normal error distribution (method = “log-norm”), in some cases this results in a better fit. Additionally, if you see a few values at zero deviation and a big gap between them and the next junk of data points you have most likely included a period that was not recorded at the known location or you have falsely defined twilight events that are earlier/later than the logger is able to detect light (go back to the twilight annotation and have a thorough look at the data).</p>
 </div>
 </div>
-<div id="location-estimation" class="section level2 unnumbered">
-<h2>Location estimation</h2>
+<div id="location-estimation" class="section level2 unnumbered hasAnchor">
+<h2>Location estimation<a href="GeoLight.html#location-estimation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We can now calculate the locations and have a fist look at a map by either using the implemented <code>tripMap</code> function or by simply plotting the locations and adding a map.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">crds &lt;-<span class="st"> </span><span class="kw">coord</span>(twl.gl, <span class="dt">degElevation =</span> <span class="dv">90</span><span class="op">-</span>gE[<span class="dv">1</span>], <span class="dt">note =</span> <span class="ot">FALSE</span>)
-
-## using tripMap
-<span class="kw">tripMap</span>(crds, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">98.75</span>, <span class="op">-</span><span class="fl">42.4</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">32</span>, <span class="dv">50</span>))
-<span class="kw">points</span>(lon.calib, lat.calib, <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">cex =</span> <span class="fl">1.5</span>, <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>) <span class="co"># adding the release location</span>
-
-## using the plot option (you need to remove the hash in front of the code)
-<span class="co"># plot(crds, type = &quot;n&quot;) # sets the extent</span>
-<span class="co"># plot(wrld_simpl, col = &quot;grey90&quot;, border = &quot;grey50&quot;, add = T) # adds the map from maptools</span>
-<span class="co"># points(crds, pch = 21, cex = 0.5, bg = &quot;white&quot;, type = &quot;o&quot;)</span>
-<span class="co"># points(lon.calib, lat.calib, pch = 21, cex = 1.5, bg = &quot;firebrick&quot;) # adding the release location</span></code></pre></div>
-<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="GeoLight.html#cb10-1" tabindex="-1"></a>crds <span class="ot">&lt;-</span> <span class="fu">coord</span>(twl.gl, <span class="at">degElevation =</span> <span class="dv">90</span><span class="sc">-</span>gE[<span class="dv">1</span>], <span class="at">note =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb10-2"><a href="GeoLight.html#cb10-2" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="GeoLight.html#cb10-3" tabindex="-1"></a><span class="do">## using tripMap</span></span>
+<span id="cb10-4"><a href="GeoLight.html#cb10-4" tabindex="-1"></a>gg_tripMap <span class="ot">&lt;-</span> <span class="fu">tripMap</span>(crds, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">98.75</span>, <span class="sc">-</span><span class="fl">42.4</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">32</span>, <span class="dv">50</span>))</span>
+<span id="cb10-5"><a href="GeoLight.html#cb10-5" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="GeoLight.html#cb10-6" tabindex="-1"></a>point_sf <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">lon =</span> lon.calib, <span class="at">lat =</span> lat.calib) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-7"><a href="GeoLight.html#cb10-7" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&#39;lon&#39;</span>, <span class="st">&#39;lat&#39;</span>), <span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">%&gt;%</span> <span class="fu">st_as_sfc</span>()</span>
+<span id="cb10-8"><a href="GeoLight.html#cb10-8" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="GeoLight.html#cb10-9" tabindex="-1"></a>gg_tripMap <span class="sc">+</span></span>
+<span id="cb10-10"><a href="GeoLight.html#cb10-10" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> point_sf, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">geometry =</span> geometry),</span>
+<span id="cb10-11"><a href="GeoLight.html#cb10-11" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">&quot;white&quot;</span>)</span></code></pre></div>
+<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-12-1.png" width="672" /><img src="05-GeoLight_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
 <p>ven the crude location estimates of the simple threshold method provide useful information and we get a feeling of the track, the major non-breeding sites and potentially the stopover locations. We also the huge jumps, notably during migration that is most likely influenced by the equinox. However, large north-south jumps are also an indication of rapid east-west movements.</p>
 </div>
-<div id="hill-ekstrom-calibration" class="section level2 unnumbered">
-<h2>Hill-Ekstrom calibration</h2>
-<p><em>GeoLight</em> has tools to make simple adjustments and refine the location estimates. First, we can use alternative calibration methods to see if the calibration at the known site is actually representative for the twilight error during the entire year. Assuming a fixed sun elevation angle is often not correct. Birds may behave very different during the breeding season and my use different habitat (more open or more in the vegetation). There is a good chance that this is unknown and that we cannot investigate if that is indeed the case and we have therefore make the assumption that it is the same as during the calibration period (simply assuming that is different without evidence from data is not recommended). However, in some cases we can use the s called <em>Hill-Ekstrom calibration</em> to estimate a reference sun elevation angle from stationary periods at unknown location. The <em>Hill-Ekstrom calibration</em>, is based on the theory that the precision in latitude estimates of a stationary period is highest (lowest variation) if the correct sun elevation angle has been chosen (see Lisovski et al. 2012 for more details). We can thus define stationary periods and estimate latitude using a range of sun elevation angles and see which one result in the lowest variation in latitudes.</p>
+<div id="hill-ekstrom-calibration" class="section level2 unnumbered hasAnchor">
+<h2>Hill-Ekstrom calibration<a href="GeoLight.html#hill-ekstrom-calibration" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p><em>GeoLight</em> has tools to make simple adjustments and refine the location estimates. First, we can use alternative calibration methods to see if the calibration at the known site is actually representative for the twilight error during the entire year. Assuming a fixed sun elevation angle is often not correct. Birds may behave very different during the breeding season and my use different habitat (more open or more in the vegetation). There is a good chance that this is unknown and that we cannot investigate if that is indeed the case and we have therefore make the assumption that it is the same as during the calibration period (simply assuming that is different without evidence from data is not recommended). However, in some cases we can use the s called <em>Hill-Ekstrom calibration</em> to estimate a reference sun elevation angle from stationary periods at unknown location. The <em>Hill-Ekstrom calibration</em>, is based on the theory that the precision in latitude estimates of a stationary period is highest (lowest variation) if the correct sun elevation angle has been chosen (see Lisovski et al. 2012 for more details). We can thus define stationary periods and estimate latitude using a range of sun elevation angles and see which one result in the lowest variation in latitudes.</p>
 <p><em>GeoLight</em> offers a tool to distinguish between periods of movement and periods of residency. The <code>changeLight</code> function uses the twilight times (not the location estimates) that are unaffected by e.g. the equinox and searches for sudden changes that indicate changes in the location of the animal.</p>
 <p>If we are simply interested in a long stationary period outside the deployment/release location we can use very conservative parameters, e.g. low values for the quantile. This means that we except changes with a relatively low likelihood (e.g. 0.75).</p>
 <p>Play with the settings and you will see how this changes the separation of periods (upper panel)</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cL &lt;-<span class="st"> </span><span class="kw">changeLight</span>(<span class="dt">twl =</span> twl.gl, <span class="dt">quantile =</span> <span class="fl">0.8</span>)</code></pre></div>
-<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-14-1.png" width="576" /></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="GeoLight.html#cb11-1" tabindex="-1"></a>cL <span class="ot">&lt;-</span> <span class="fu">changeLight</span>(<span class="at">twl =</span> twl.gl, <span class="at">quantile =</span> <span class="fl">0.8</span>)</span></code></pre></div>
+<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-13-1.png" width="576" /></p>
 <p>Besides other information, the <code>changeLight</code> function returns a vector with the sites <code>cL$site</code> that we can use to subset the twilight table for the e.g. longest period (in this case stationary period Nr. 5). <strong>Important</strong>, the function we use to run the <em>Hill-Ekstrom calibration</em>, <code>findHEZenith</code>, is from the <em>TwGeos</em> package and requires the twilight table with all twilight in one column called Twilight, and the information on whether it is a sunrise or a sunset in a second column called Rise, e.g. the output from the <code>preprocessLight</code> function. Using the output of the change-point analysis we can define the start and the end of the long stationary period. It is however recommended to reduce the stationary period by a couple of days at each side. This makes sure that potential movement that can be mis-identified at the transition between real movements and stopover behavior are not part of the analysis.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">StartEnd &lt;-<span class="st"> </span><span class="kw">range</span>(<span class="kw">which</span>(twl<span class="op">$</span>Twilight<span class="op">&gt;=</span>(<span class="kw">min</span>(twl.gl<span class="op">$</span>tFirst[cL<span class="op">$</span>site<span class="op">==</span><span class="dv">5</span>])<span class="op">+</span><span class="dv">5</span><span class="op">*</span><span class="dv">24</span><span class="op">*</span><span class="dv">60</span><span class="op">*</span><span class="dv">60</span>) <span class="op">&amp;</span>
-<span class="st">                        </span>twl<span class="op">$</span>Twilight<span class="op">&lt;=</span>(<span class="kw">max</span>(twl.gl<span class="op">$</span>tFirst[cL<span class="op">$</span>site<span class="op">==</span><span class="dv">5</span>])<span class="op">+</span><span class="dv">5</span><span class="op">*</span><span class="dv">24</span><span class="op">*</span><span class="dv">60</span><span class="op">*</span><span class="dv">60</span>)))
-
-HE &lt;-<span class="st"> </span><span class="kw">findHEZenith</span>(twl, <span class="dt">range =</span> StartEnd)</code></pre></div>
-<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-15-1.png" width="576" /></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="GeoLight.html#cb12-1" tabindex="-1"></a>StartEnd <span class="ot">&lt;-</span> <span class="fu">range</span>(<span class="fu">which</span>(twl<span class="sc">$</span>Twilight<span class="sc">&gt;=</span>(<span class="fu">min</span>(twl.gl<span class="sc">$</span>tFirst[cL<span class="sc">$</span>site<span class="sc">==</span><span class="dv">5</span>])<span class="sc">+</span><span class="dv">5</span><span class="sc">*</span><span class="dv">24</span><span class="sc">*</span><span class="dv">60</span><span class="sc">*</span><span class="dv">60</span>) <span class="sc">&amp;</span></span>
+<span id="cb12-2"><a href="GeoLight.html#cb12-2" tabindex="-1"></a>                          twl<span class="sc">$</span>Twilight<span class="sc">&lt;=</span>(<span class="fu">max</span>(twl.gl<span class="sc">$</span>tFirst[cL<span class="sc">$</span>site<span class="sc">==</span><span class="dv">5</span>])<span class="sc">+</span><span class="dv">5</span><span class="sc">*</span><span class="dv">24</span><span class="sc">*</span><span class="dv">60</span><span class="sc">*</span><span class="dv">60</span>)))</span>
+<span id="cb12-3"><a href="GeoLight.html#cb12-3" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="GeoLight.html#cb12-4" tabindex="-1"></a>HE <span class="ot">&lt;-</span> <span class="fu">findHEZenith</span>(twl, <span class="at">range =</span> StartEnd)</span></code></pre></div>
+<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-14-1.png" width="576" /></p>
 <p>In the plots above, you see the calculated latitudes of the entire tracking period. The latitudes have been calculated using a while range of sun elevation angels. The lower graph has the most important information; the standard deviation of the latitudes from the selected stationary period over the used zenith angle. In this case there is a clear minima (a sign that the <em>Hill-Ekstrom calibration</em> is working) at 94.25 degrees. We will discuss the issue of having different references for the sun elevation angle (e.g. sun elevation angle vs. zenith angle) in the <a href="SGAT.html#SGAT">SGAT</a> section. Here, we simply transfer the zenith to sun elevation angle: 94.25 = -4.25. That means, that the optimal sun elevation angle for this period is 0.5 degrees higher than the one we estimated for the calibration period. This is not massive but still a significant difference probably explained by the non-breeding site being close to the equator with higher likelihood of clouds than in e.g. south of the US.</p>
 <p>So, let’s use this reference sun elevation angle to calculate the locations.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">crds &lt;-<span class="st"> </span><span class="kw">coord</span>(twl.gl, <span class="dt">degElevation =</span> <span class="dv">90</span><span class="op">-</span>HE)</code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="GeoLight.html#cb13-1" tabindex="-1"></a>crds <span class="ot">&lt;-</span> <span class="fu">coord</span>(twl.gl, <span class="at">degElevation =</span> <span class="dv">90</span><span class="sc">-</span>HE)</span></code></pre></div>
 <pre><code>Note: Out of 592 twilight pairs, the calculation of 25 latitudes failed (4 %)</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## using tripMap
-<span class="kw">tripMap</span>(crds, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="fl">98.75</span>, <span class="op">-</span><span class="fl">42.4</span>), <span class="dt">ylim =</span> <span class="kw">c</span>(<span class="op">-</span><span class="dv">32</span>, <span class="dv">50</span>))
-<span class="kw">points</span>(lon.calib, lat.calib, <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">cex =</span> <span class="fl">1.5</span>, <span class="dt">bg =</span> <span class="st">&quot;white&quot;</span>) <span class="co"># adding the release location</span></code></pre></div>
-<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="GeoLight.html#cb15-1" tabindex="-1"></a><span class="do">## using tripMap</span></span>
+<span id="cb15-2"><a href="GeoLight.html#cb15-2" tabindex="-1"></a>gg_tripMap <span class="ot">&lt;-</span> <span class="fu">tripMap</span>(crds, <span class="at">xlim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">98.75</span>, <span class="sc">-</span><span class="fl">42.4</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">32</span>, <span class="dv">50</span>))</span>
+<span id="cb15-3"><a href="GeoLight.html#cb15-3" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="GeoLight.html#cb15-4" tabindex="-1"></a>point_sf <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">tibble</span>(<span class="at">lon =</span> lon.calib, <span class="at">lat =</span> lat.calib) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-5"><a href="GeoLight.html#cb15-5" tabindex="-1"></a>  <span class="fu">st_as_sf</span>(<span class="at">coords =</span> <span class="fu">c</span>(<span class="st">&#39;lon&#39;</span>, <span class="st">&#39;lat&#39;</span>), <span class="at">crs =</span> <span class="dv">4326</span>) <span class="sc">%&gt;%</span> <span class="fu">st_as_sfc</span>()</span>
+<span id="cb15-6"><a href="GeoLight.html#cb15-6" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="GeoLight.html#cb15-7" tabindex="-1"></a>gg_tripMap <span class="sc">+</span></span>
+<span id="cb15-8"><a href="GeoLight.html#cb15-8" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> point_sf, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">geometry =</span> geometry),</span>
+<span id="cb15-9"><a href="GeoLight.html#cb15-9" tabindex="-1"></a>          <span class="at">color =</span> <span class="st">&quot;white&quot;</span>)</span></code></pre></div>
+<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-15-1.png" width="672" /><img src="05-GeoLight_files/figure-html/unnamed-chunk-15-2.png" width="672" /></p>
 </div>
-<div id="movement-analysis" class="section level2 unnumbered">
-<h2>Movement analysis</h2>
+<div id="movement-analysis" class="section level2 unnumbered hasAnchor">
+<h2>Movement analysis<a href="GeoLight.html#movement-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>We have now put sufficient effort into the calibration and are ready to continue with the movement analysis. We again use the <code>changeLight</code> function but it is very important to adjust the settings until you are satisfied, and you are sure that you used a quantile value and a certain number of days (minimum days to define a stationary period), that results in a good separation between movement and resident behavior. Most importantly, you want to make sure that all movement are detected. Don’t worry of the analysis detect too many movements, we will deal with that later. The likelihood of changes (lower barplots) are relative to the biggest change. Thus, if you have strong outliers in your twilight table (false twilight times) the analysis is biased towards these outliers and you should go back to the twilight annotation process and remove strong outliers. In some cases the likelihood of changes and the variability in twilight events is very different between sunrise and sunset, if that is the case define a threshold for sunrise and sunset separately (see <code>?changeLight</code> for details).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cL &lt;-<span class="st"> </span><span class="kw">changeLight</span>(<span class="dt">twl =</span> twl.gl, <span class="dt">quantile =</span> <span class="fl">0.78</span>, <span class="dt">days =</span> <span class="dv">1</span>)</code></pre></div>
-<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-17-1.png" width="576" /></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="GeoLight.html#cb16-1" tabindex="-1"></a>cL <span class="ot">&lt;-</span> <span class="fu">changeLight</span>(<span class="at">twl =</span> twl.gl, <span class="at">quantile =</span> <span class="fl">0.78</span>, <span class="at">days =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-16-1.png" width="576" /></p>
 <p>These settings seem to detect all changes that are obviously visible (and more). We can now use <code>mergeSites</code> to refine this selection and to merge consecutive sites if they are only separated by single large errors in the twilight times but are otherwise likely to be at the same site. <code>mergeSite</code> uses a maximum likelihood fit to optimize longitude and latitude for each stationary period. However, the error term is modeled using a Gaussian distribution and that is certainly wrong. However, the analysis often returns good results and even good estimates of the most likely location and the credible intervals. The <code>mergeSites2</code> function is a further development and uses the correct assumptions (it also replaces the function <code>siteEstimation</code>). We can use the twilight error parameters and the reference angle that we have calculated using the <code>getElevation</code> function. The <code>mergeSites2</code> function evaluates the likelihood surface for each stationary period, starting from the first one and compares the most likely location and the 95% credible interval with the most likely location and the credible intervals of the next stationary site. If the most likely locations are smaller than the <code>distThreshold</code> and the 95% credible intervals overlap, the site is merged and the process starts again from the new merged period to the next period. Additionally, we can use a simple masking option to prevent locations from beeing on land or at sea. The function requires some calculation power and can take several minutes to complete.</p>
 <p>The function returns the updated vector of the sites as well as the locations estimated using the maximum likelihood approach.</p>
 <p>…</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## may take several minutes to complete
-mS &lt;-<span class="st"> </span><span class="kw">mergeSites2</span>(<span class="dt">twl =</span> twl.gl, <span class="dt">site =</span> cL<span class="op">$</span>site, 
-                  <span class="dt">distThreshold =</span> <span class="dv">500</span>, 
-                  <span class="dt">degElevation =</span> gE[<span class="dv">2</span>]<span class="op">-</span><span class="fl">0.75</span>,         <span class="co"># the HE corrected zero sun elevation angle</span>
-                  <span class="dt">alpha =</span> gE[<span class="dv">3</span><span class="op">:</span><span class="dv">4</span>], <span class="dt">method =</span> <span class="st">&quot;gamma&quot;</span>, <span class="co"># parameters and model of the twilight errro</span>
-                  <span class="dt">mask =</span> <span class="st">&quot;land&quot;</span>)                     <span class="co"># mask option</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="GeoLight.html#cb17-1" tabindex="-1"></a><span class="do">## may take several minutes to complete</span></span>
+<span id="cb17-2"><a href="GeoLight.html#cb17-2" tabindex="-1"></a>mS <span class="ot">&lt;-</span> <span class="fu">mergeSites2</span>(<span class="at">twl =</span> twl.gl, <span class="at">site =</span> cL<span class="sc">$</span>site, </span>
+<span id="cb17-3"><a href="GeoLight.html#cb17-3" tabindex="-1"></a>                  <span class="at">distThreshold =</span> <span class="dv">500</span>, </span>
+<span id="cb17-4"><a href="GeoLight.html#cb17-4" tabindex="-1"></a>                  <span class="at">degElevation =</span> gE[<span class="dv">2</span>]<span class="sc">-</span><span class="fl">0.75</span>,         <span class="co"># the HE corrected zero sun elevation angle</span></span>
+<span id="cb17-5"><a href="GeoLight.html#cb17-5" tabindex="-1"></a>                  <span class="at">alpha =</span> gE[<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">method =</span> <span class="st">&quot;gamma&quot;</span>, <span class="co"># parameters and model of the twilight errro</span></span>
+<span id="cb17-6"><a href="GeoLight.html#cb17-6" tabindex="-1"></a>                  <span class="at">mask =</span> <span class="st">&quot;land&quot;</span>)                     <span class="co"># mask option</span></span></code></pre></div>
 <p><img src="images/mergeSites2.png" style="display: block; margin: auto;" /></p>
 <p>The plot created by <code>mergeSites2</code> is similar to what we know from <code>changeLight</code>. However, the top panel shows which of the original sites were merged (red lines around dotted lines), and the same is shown for the longitude and latitude estimates in the two bottom panels. The middle panel shows the sunrise and sunset times recorded by the geolocator and the fitted sunrise and sunset times (lines) of the most likely location.</p>
 <p>We can now plot the results, using the longitude and latitude estimates of <code>mergeSites2</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(wrld_simpl)
-## create a color scale for stationary sites dependent on data
-Seasonal_palette &lt;-<span class="st"> </span>grDevices<span class="op">::</span><span class="kw">colorRampPalette</span>(grDevices<span class="op">::</span><span class="kw">hsv</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>((<span class="dv">1</span><span class="op">:</span><span class="dv">365</span>) <span class="op">+</span><span class="st"> </span>(<span class="dv">365</span><span class="op">/</span><span class="dv">4</span>))<span class="op">%%</span><span class="dv">365</span><span class="op">/</span><span class="dv">365</span>, <span class="dt">s =</span> <span class="fl">0.8</span>, <span class="dt">v =</span> <span class="fl">0.8</span>), 
-                                                <span class="dt">space =</span> <span class="st">&quot;Lab&quot;</span>)
-
-
-### replace first and last estimate with the deployment/retrieval location
-sm &lt;-<span class="st"> </span>mS<span class="op">$</span>summary
-  sm[<span class="kw">c</span>(<span class="dv">1</span>,<span class="kw">nrow</span>(sm)), <span class="dv">2</span><span class="op">:</span><span class="dv">3</span>] &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="kw">c</span>(lon.calib, lat.calib), <span class="dt">ncol =</span> <span class="dv">2</span>, <span class="dt">nrow =</span> <span class="dv">2</span>, <span class="dt">byrow =</span> T)
-  sm[<span class="kw">c</span>(<span class="dv">1</span>,<span class="kw">nrow</span>(sm)), <span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)] &lt;-<span class="st"> </span><span class="ot">NA</span>
-
-day  &lt;-<span class="st"> </span><span class="kw">as.POSIXlt</span>(<span class="kw">aggregate</span>(mS<span class="op">$</span>twl<span class="op">$</span>tFirst[mS<span class="op">$</span>site<span class="op">&gt;</span><span class="dv">0</span>], <span class="dt">by =</span> <span class="kw">list</span>(mS<span class="op">$</span>site[mS<span class="op">$</span>site<span class="op">&gt;</span><span class="dv">0</span>]), <span class="dt">FUN =</span> median)<span class="op">$</span>x, 
-                   <span class="dt">origin =</span> <span class="st">&quot;1970-01-01&quot;</span>, <span class="dt">tz  =</span><span class="st">&quot;GMT&quot;</span>)<span class="op">$</span>yday
-stp  &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(<span class="kw">aggregate</span>(mS<span class="op">$</span>twl<span class="op">$</span>tFirst[mS<span class="op">$</span>site<span class="op">&gt;</span><span class="dv">0</span>], <span class="dt">by =</span> <span class="kw">list</span>(mS<span class="op">$</span>site[mS<span class="op">$</span>site<span class="op">&gt;</span><span class="dv">0</span>]), <span class="dt">FUN =</span> <span class="cf">function</span>(x) <span class="dt">x =</span>
-                               <span class="kw">difftime</span>(x[<span class="kw">length</span>(x)],x[<span class="dv">1</span>], <span class="dt">units =</span> <span class="st">&quot;days&quot;</span>))<span class="op">$</span>x)
-
-## scale point of stationary periods according to the time spent on the site
-cexf &lt;-<span class="st"> </span><span class="kw">approxfun</span>(<span class="kw">range</span>(stp), <span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">9</span>), <span class="dt">rule =</span> <span class="dv">3</span>)
-
-
-<span class="kw">plot</span>(<span class="ot">NA</span>, <span class="dt">xlim =</span> <span class="kw">range</span>(sm[,<span class="kw">c</span>(<span class="dv">2</span>,<span class="dv">4</span><span class="op">:</span><span class="dv">7</span>)], <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)<span class="op">+</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>,<span class="dv">2</span>), <span class="dt">ylim =</span> <span class="kw">range</span>(sm[,<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">8</span><span class="op">:</span><span class="dv">10</span>)], <span class="dt">na.rm =</span> T)<span class="op">+</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">2</span>,<span class="dv">2</span>), 
-     <span class="dt">type =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="dt">mgp =</span> <span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="dt">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="dt">las =</span> <span class="dv">1</span>)
-<span class="kw">plot</span>(wrld_simpl, <span class="dt">add =</span> T, <span class="dt">col =</span> <span class="st">&quot;grey90&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;grey90&quot;</span>)
-
-<span class="kw">lines</span>(sm[,<span class="dv">2</span>], sm[,<span class="dv">3</span>], <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">lty =</span> <span class="dv">2</span>)
-<span class="kw">arrows</span>(sm[,<span class="dv">2</span>], sm[,<span class="dv">8</span>], sm[,<span class="dv">2</span>], sm[,<span class="dv">11</span>], <span class="dt">lwd =</span> <span class="fl">0.8</span>, <span class="dt">length =</span> <span class="dv">0</span>, <span class="dt">col =</span> <span class="kw">adjustcolor</span>(<span class="st">&quot;black&quot;</span>, <span class="dt">alpha.f =</span> <span class="fl">0.6</span>))
-<span class="kw">arrows</span>(sm[,<span class="dv">2</span>], sm[,<span class="dv">9</span>], sm[,<span class="dv">2</span>], sm[,<span class="dv">10</span>], <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">length =</span> <span class="dv">0</span>)
-
-<span class="kw">arrows</span>(sm[,<span class="dv">4</span>], sm[,<span class="dv">3</span>], sm[,<span class="dv">7</span>], sm[,<span class="dv">3</span>], <span class="dt">lwd =</span> <span class="fl">0.8</span>, <span class="dt">length =</span> <span class="dv">0</span>, <span class="dt">col =</span> <span class="kw">adjustcolor</span>(<span class="st">&quot;black&quot;</span>, <span class="dt">alpha.f =</span> <span class="fl">0.6</span>))
-<span class="kw">arrows</span>(sm[,<span class="dv">5</span>], sm[,<span class="dv">3</span>], sm[,<span class="dv">6</span>], sm[,<span class="dv">3</span>], <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">length =</span> <span class="dv">0</span>)
-
-<span class="kw">arrows</span>(sm[,<span class="dv">4</span>], sm[,<span class="dv">3</span>], sm[,<span class="dv">5</span>], sm[,<span class="dv">3</span>], <span class="dt">lwd =</span> <span class="fl">1.2</span>, <span class="dt">length =</span> <span class="dv">0</span>)
-<span class="kw">points</span>(sm[,<span class="dv">2</span>], sm[,<span class="dv">3</span>], <span class="dt">pch =</span> <span class="dv">21</span>, <span class="dt">cex =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="kw">cexf</span>(stp[<span class="op">-</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="kw">length</span>(stp))]), <span class="dv">1</span>), <span class="dt">bg =</span> <span class="kw">Seasonal_palette</span>(<span class="dv">365</span>)[day], <span class="dt">lwd =</span> <span class="dv">2</span>)
-<span class="kw">text</span>(sm[,<span class="dv">2</span>], sm[,<span class="dv">3</span>], <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(sm), 
-     <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">&quot;transparent&quot;</span>, <span class="kw">rep</span>(<span class="dv">0</span>, <span class="kw">nrow</span>(sm)<span class="op">-</span><span class="dv">2</span>), <span class="st">&quot;transparent&quot;</span>))
-mapplots<span class="op">::</span><span class="kw">add.pie</span>(<span class="dt">x =</span> <span class="op">-</span><span class="dv">90</span>, <span class="dt">y =</span> <span class="op">-</span><span class="dv">28</span>, <span class="dt">z =</span> <span class="kw">rep</span>(<span class="dv">1</span>, <span class="dv">12</span>), <span class="dt">radius =</span> <span class="dv">10</span>, <span class="dt">col =</span> <span class="kw">Seasonal_palette</span>(<span class="dv">12</span>), <span class="dt">init.angle =</span> day[<span class="dv">1</span>])</code></pre></div>
-<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-21-1.png" width="768" /></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="GeoLight.html#cb18-1" tabindex="-1"></a>world <span class="ot">&lt;-</span> rnaturalearth<span class="sc">::</span><span class="fu">ne_countries</span>(<span class="at">scale =</span> <span class="st">&quot;medium&quot;</span>, <span class="at">returnclass =</span> <span class="st">&quot;sf&quot;</span>)</span>
+<span id="cb18-2"><a href="GeoLight.html#cb18-2" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="GeoLight.html#cb18-3" tabindex="-1"></a>world <span class="ot">&lt;-</span> world <span class="sc">%&gt;%</span> </span>
+<span id="cb18-4"><a href="GeoLight.html#cb18-4" tabindex="-1"></a>  <span class="fu">st_as_sfc</span>()</span>
+<span id="cb18-5"><a href="GeoLight.html#cb18-5" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="GeoLight.html#cb18-6" tabindex="-1"></a><span class="do">## create a color scale for stationary sites dependent on data</span></span>
+<span id="cb18-7"><a href="GeoLight.html#cb18-7" tabindex="-1"></a>Seasonal_palette <span class="ot">&lt;-</span> grDevices<span class="sc">::</span><span class="fu">colorRampPalette</span>(grDevices<span class="sc">::</span><span class="fu">hsv</span>(<span class="dv">1</span> <span class="sc">-</span> ((<span class="dv">1</span><span class="sc">:</span><span class="dv">365</span>) <span class="sc">+</span> (<span class="dv">365</span><span class="sc">/</span><span class="dv">4</span>))<span class="sc">%%</span><span class="dv">365</span><span class="sc">/</span><span class="dv">365</span>, <span class="at">s =</span> <span class="fl">0.8</span>, <span class="at">v =</span> <span class="fl">0.8</span>), </span>
+<span id="cb18-8"><a href="GeoLight.html#cb18-8" tabindex="-1"></a>                                                <span class="at">space =</span> <span class="st">&quot;Lab&quot;</span>)</span>
+<span id="cb18-9"><a href="GeoLight.html#cb18-9" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="GeoLight.html#cb18-10" tabindex="-1"></a><span class="do">### replace first and last estimate with the deployment/retrieval location</span></span>
+<span id="cb18-11"><a href="GeoLight.html#cb18-11" tabindex="-1"></a>sm <span class="ot">&lt;-</span> mS<span class="sc">$</span>summary</span>
+<span id="cb18-12"><a href="GeoLight.html#cb18-12" tabindex="-1"></a>sm[<span class="fu">c</span>(<span class="dv">1</span>,<span class="fu">nrow</span>(sm)), <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(lon.calib, lat.calib), <span class="at">ncol =</span> <span class="dv">2</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">byrow =</span> T)</span>
+<span id="cb18-13"><a href="GeoLight.html#cb18-13" tabindex="-1"></a>sm[<span class="fu">c</span>(<span class="dv">1</span>,<span class="fu">nrow</span>(sm)), <span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb18-14"><a href="GeoLight.html#cb18-14" tabindex="-1"></a>sm <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(sm)</span>
+<span id="cb18-15"><a href="GeoLight.html#cb18-15" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="GeoLight.html#cb18-16" tabindex="-1"></a>day  <span class="ot">&lt;-</span> <span class="fu">as.POSIXlt</span>(<span class="fu">aggregate</span>(mS<span class="sc">$</span>twl<span class="sc">$</span>tFirst[mS<span class="sc">$</span>site<span class="sc">&gt;</span><span class="dv">0</span>], <span class="at">by =</span> <span class="fu">list</span>(mS<span class="sc">$</span>site[mS<span class="sc">$</span>site<span class="sc">&gt;</span><span class="dv">0</span>]), <span class="at">FUN =</span> median)<span class="sc">$</span>x, </span>
+<span id="cb18-17"><a href="GeoLight.html#cb18-17" tabindex="-1"></a>                   <span class="at">origin =</span> <span class="st">&quot;1970-01-01&quot;</span>, <span class="at">tz  =</span><span class="st">&quot;GMT&quot;</span>)<span class="sc">$</span>yday</span>
+<span id="cb18-18"><a href="GeoLight.html#cb18-18" tabindex="-1"></a>stp  <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">aggregate</span>(mS<span class="sc">$</span>twl<span class="sc">$</span>tFirst[mS<span class="sc">$</span>site<span class="sc">&gt;</span><span class="dv">0</span>], <span class="at">by =</span> <span class="fu">list</span>(mS<span class="sc">$</span>site[mS<span class="sc">$</span>site<span class="sc">&gt;</span><span class="dv">0</span>]), <span class="at">FUN =</span> <span class="cf">function</span>(x) <span class="at">x =</span></span>
+<span id="cb18-19"><a href="GeoLight.html#cb18-19" tabindex="-1"></a>                               <span class="fu">difftime</span>(x[<span class="fu">length</span>(x)],x[<span class="dv">1</span>], <span class="at">units =</span> <span class="st">&quot;days&quot;</span>))<span class="sc">$</span>x)</span>
+<span id="cb18-20"><a href="GeoLight.html#cb18-20" tabindex="-1"></a></span>
+<span id="cb18-21"><a href="GeoLight.html#cb18-21" tabindex="-1"></a><span class="do">## scale point of stationary periods according to the time spent on the site</span></span>
+<span id="cb18-22"><a href="GeoLight.html#cb18-22" tabindex="-1"></a>cexf <span class="ot">&lt;-</span> <span class="fu">approxfun</span>(<span class="fu">range</span>(stp), <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">9</span>), <span class="at">rule =</span> <span class="dv">3</span>)</span>
+<span id="cb18-23"><a href="GeoLight.html#cb18-23" tabindex="-1"></a></span>
+<span id="cb18-24"><a href="GeoLight.html#cb18-24" tabindex="-1"></a></span>
+<span id="cb18-25"><a href="GeoLight.html#cb18-25" tabindex="-1"></a><span class="fu">plot</span>(<span class="cn">NA</span>, <span class="at">xlim =</span> <span class="fu">range</span>(sm[,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span><span class="sc">:</span><span class="dv">7</span>)], <span class="at">na.rm =</span> <span class="cn">TRUE</span>)<span class="sc">+</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>), <span class="at">ylim =</span> <span class="fu">range</span>(sm[,<span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">8</span><span class="sc">:</span><span class="dv">10</span>)], <span class="at">na.rm =</span> T)<span class="sc">+</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">2</span>,<span class="dv">2</span>), </span>
+<span id="cb18-26"><a href="GeoLight.html#cb18-26" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">&quot;n&quot;</span>, <span class="at">bty =</span> <span class="st">&quot;n&quot;</span>, <span class="at">mgp =</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>), <span class="at">xlab =</span> <span class="st">&quot;&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb18-27"><a href="GeoLight.html#cb18-27" tabindex="-1"></a><span class="fu">plot</span>(wrld_simpl, <span class="at">add =</span> T, <span class="at">col =</span> <span class="st">&quot;grey90&quot;</span>, <span class="at">border =</span> <span class="st">&quot;grey90&quot;</span>)</span>
+<span id="cb18-28"><a href="GeoLight.html#cb18-28" tabindex="-1"></a></span>
+<span id="cb18-29"><a href="GeoLight.html#cb18-29" tabindex="-1"></a><span class="fu">lines</span>(sm[,<span class="dv">2</span>], sm[,<span class="dv">3</span>], <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb18-30"><a href="GeoLight.html#cb18-30" tabindex="-1"></a><span class="fu">arrows</span>(sm[,<span class="dv">2</span>], sm[,<span class="dv">8</span>], sm[,<span class="dv">2</span>], sm[,<span class="dv">11</span>], <span class="at">lwd =</span> <span class="fl">0.8</span>, <span class="at">length =</span> <span class="dv">0</span>, <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">&quot;black&quot;</span>, <span class="at">alpha.f =</span> <span class="fl">0.6</span>))</span>
+<span id="cb18-31"><a href="GeoLight.html#cb18-31" tabindex="-1"></a><span class="fu">arrows</span>(sm[,<span class="dv">2</span>], sm[,<span class="dv">9</span>], sm[,<span class="dv">2</span>], sm[,<span class="dv">10</span>], <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">length =</span> <span class="dv">0</span>)</span>
+<span id="cb18-32"><a href="GeoLight.html#cb18-32" tabindex="-1"></a></span>
+<span id="cb18-33"><a href="GeoLight.html#cb18-33" tabindex="-1"></a><span class="fu">arrows</span>(sm[,<span class="dv">4</span>], sm[,<span class="dv">3</span>], sm[,<span class="dv">7</span>], sm[,<span class="dv">3</span>], <span class="at">lwd =</span> <span class="fl">0.8</span>, <span class="at">length =</span> <span class="dv">0</span>, <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">&quot;black&quot;</span>, <span class="at">alpha.f =</span> <span class="fl">0.6</span>))</span>
+<span id="cb18-34"><a href="GeoLight.html#cb18-34" tabindex="-1"></a><span class="fu">arrows</span>(sm[,<span class="dv">5</span>], sm[,<span class="dv">3</span>], sm[,<span class="dv">6</span>], sm[,<span class="dv">3</span>], <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">length =</span> <span class="dv">0</span>)</span>
+<span id="cb18-35"><a href="GeoLight.html#cb18-35" tabindex="-1"></a></span>
+<span id="cb18-36"><a href="GeoLight.html#cb18-36" tabindex="-1"></a><span class="fu">arrows</span>(sm[,<span class="dv">4</span>], sm[,<span class="dv">3</span>], sm[,<span class="dv">5</span>], sm[,<span class="dv">3</span>], <span class="at">lwd =</span> <span class="fl">1.2</span>, <span class="at">length =</span> <span class="dv">0</span>)</span>
+<span id="cb18-37"><a href="GeoLight.html#cb18-37" tabindex="-1"></a><span class="fu">points</span>(sm[,<span class="dv">2</span>], sm[,<span class="dv">3</span>], <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">cex =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">cexf</span>(stp[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">length</span>(stp))]), <span class="dv">1</span>), <span class="at">bg =</span> <span class="fu">Seasonal_palette</span>(<span class="dv">365</span>)[day], <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb18-38"><a href="GeoLight.html#cb18-38" tabindex="-1"></a><span class="fu">text</span>(sm[,<span class="dv">2</span>], sm[,<span class="dv">3</span>], <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(sm), </span>
+<span id="cb18-39"><a href="GeoLight.html#cb18-39" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">c</span>(<span class="st">&quot;transparent&quot;</span>, <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(sm)<span class="sc">-</span><span class="dv">2</span>), <span class="st">&quot;transparent&quot;</span>))</span>
+<span id="cb18-40"><a href="GeoLight.html#cb18-40" tabindex="-1"></a>mapplots<span class="sc">::</span><span class="fu">add.pie</span>(<span class="at">x =</span> <span class="sc">-</span><span class="dv">90</span>, <span class="at">y =</span> <span class="sc">-</span><span class="dv">28</span>, <span class="at">z =</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">12</span>), <span class="at">radius =</span> <span class="dv">10</span>, <span class="at">col =</span> <span class="fu">Seasonal_palette</span>(<span class="dv">12</span>), <span class="at">init.angle =</span> day[<span class="dv">1</span>])</span></code></pre></div>
+<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-20-1.png" width="768" /></p>
 <p>In comparison, we can use the <code>sites</code> vector and plot all location estimates grouped into the sites using the <code>siteMap</code> function.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">siteMap</span>(crds, <span class="dt">site =</span> mS<span class="op">$</span>site, <span class="dt">type =</span> <span class="st">&quot;points&quot;</span>, <span class="dt">xlim =</span> <span class="kw">range</span>(crds[,<span class="dv">1</span>], <span class="dt">na.rm =</span> T), <span class="dt">ylim =</span> <span class="kw">range</span>(crds[,<span class="dv">2</span>], <span class="dt">na.rm =</span> T))
-  <span class="kw">siteMap</span>(crds, <span class="dt">site =</span> mS<span class="op">$</span>site, <span class="dt">type =</span> <span class="st">&quot;cross&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</code></pre></div>
-<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-22-1.png" width="624" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="GeoLight.html#cb19-1" tabindex="-1"></a><span class="fu">siteMap</span>(crds, <span class="at">site =</span> mS<span class="sc">$</span>site, <span class="at">type =</span> <span class="st">&quot;cross&quot;</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-2"><a href="GeoLight.html#cb19-2" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="GeoLight.html#cb19-3" tabindex="-1"></a><span class="fu">siteMap</span>(crds, <span class="at">site =</span> mS<span class="sc">$</span>site, <span class="at">type =</span> <span class="st">&quot;points&quot;</span>, <span class="at">xlim =</span> <span class="fu">range</span>(crds[,<span class="dv">1</span>], <span class="at">na.rm =</span> T), <span class="at">ylim =</span> <span class="fu">range</span>(crds[,<span class="dv">2</span>], <span class="at">na.rm =</span> T))</span></code></pre></div>
+<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-21-1.png" width="624" /><img src="05-GeoLight_files/figure-html/unnamed-chunk-21-2.png" width="624" /></p>
 <p>Finally, we can extract the migration schedule:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">schedule</span>(mS<span class="op">$</span>twl<span class="op">$</span>tFirst, mS<span class="op">$</span>twl<span class="op">$</span>tSecond, <span class="dt">site =</span> mS<span class="op">$</span>site)</code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="GeoLight.html#cb20-1" tabindex="-1"></a><span class="fu">schedule</span>(mS<span class="sc">$</span>twl<span class="sc">$</span>tFirst, mS<span class="sc">$</span>twl<span class="sc">$</span>tSecond, <span class="at">site =</span> mS<span class="sc">$</span>site)</span></code></pre></div>
 <pre><code>   Site             Arrival           Departure
-1     a                &lt;NA&gt; 2011-08-13 06:24:43
-2     b 2011-08-21 05:46:22 2011-08-22 05:51:30
-3     c 2011-09-07 15:55:15 2011-10-10 03:35:25
-4     d 2011-10-13 03:12:52 2011-12-12 15:03:45
-5     e 2011-12-14 03:05:24 2012-02-05 15:20:55
-6     f 2012-02-07 03:33:51 2012-02-08 15:33:01
-7     g 2012-02-15 15:35:00 2012-02-27 15:28:11
-8     h 2012-02-29 03:29:28 2012-03-21 03:24:29
-9     i 2012-04-04 18:21:08 2012-05-09 18:20:37
-10    j 2012-05-14 18:21:36                &lt;NA&gt;</code></pre>
+1     a                &lt;NA&gt; 2011-08-15 06:19:26
+2     b 2011-08-23 17:45:38 2011-08-24 17:33:56
+3     c 2011-09-10 15:57:53 2011-10-13 15:12:18
+4     d 2011-10-16 15:13:16 2011-12-21 03:04:10
+5     e 2011-12-24 03:05:43 2012-02-21 03:51:46
+6     f 2012-02-22 15:41:47 2012-02-24 03:28:56
+7     g 2012-02-27 15:28:11 2012-03-10 03:23:43
+8     h 2012-03-11 15:21:08 2012-04-01 05:57:45
+9     i 2012-04-19 18:17:44 2012-04-20 18:29:36
+10    j 2012-05-01 06:22:19 2012-05-25 06:24:14
+11    k 2012-05-28 06:18:37                &lt;NA&gt;</code></pre>
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
-<p><img src="images/caution.png" style="display: block; margin: auto;" /> The temporal resolution of a <em>GeoLight</em> analysis is very low. And while high quality data may produce exact timing, the extracted dates should only be seen as approximate departure and arrival dates that can have errors of plus/minus two days.</p>
+<p><img src="images/caution.png" style="display: block; margin: auto;" />
+The temporal resolution of a <em>GeoLight</em> analysis is very low. And while high quality data may produce exact timing, the extracted dates should only be seen as approximate departure and arrival dates that can have errors of plus/minus two days.</p>
 </div>
 <p>My own contribution: I like GeoLight!</p>
 
@@ -403,12 +481,13 @@ mapplots<span class="op">::</span><span class="kw">add.pie</span>(<span class="d
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -416,12 +495,13 @@ gitbook.start({
 "github": false,
 "facebook": false,
 "twitter": false,
-"google": false,
 "linkedin": false,
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": false,
+"google": false,
 "instapper": false
 },
 "fontsettings": {
@@ -433,29 +513,27 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["Light-level geolocation analyses.pdf"],
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "section",
 "scroll_highlight": true
-},
-"search": true
+}
 });
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>

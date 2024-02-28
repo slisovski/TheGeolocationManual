@@ -1,4 +1,3 @@
-
 # GeoLight {#GeoLight}
 
 
@@ -23,10 +22,10 @@ lon.calib <- -96.8
 wd <- "data"
 
 raw <- readLig(paste0(wd, "/RawData/", Species, "/", ID, ".lig"))
-  raw$Light <- log(raw$Light)
+raw$Light <- log(raw$Light)
 
 twl <- read.csv(paste0(wd, "/Results/", Species, "/", ID, "_twl.csv"))
-  twl$Twilight <- as.POSIXct(twl$Twilight, tz = "GMT")
+twl$Twilight <- as.POSIXct(twl$Twilight, tz = "GMT")
 ```
 
 Let's have a look at the dataset using the `lightImage` function from _TwGeos_.
@@ -43,7 +42,7 @@ tsimagePoints(twl$Twilight, offset = offset, pch = 16, cex = 1.2,
               col = ifelse(twl$Deleted, "grey20", ifelse(twl$Rise, "firebrick", "cornflowerblue")))
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-4-1.png" width="672" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 
 As you can see, there are many twilight events that are marked as deleted. Therefore, we have to subset out twilight table.
 
@@ -54,7 +53,7 @@ twl <- subset(twl, !Deleted) # only rows that are not marked as deleted.
 
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
 <img src="images/important.png" style="display: block; margin: auto;" />
- _GeoLight_ requires a certain input format of the twilight table that differs from the ouput of e.g. `preprocessLight` or _TAGS_. We need to have rows that always have a set of twilight times, e.g. sunrise and sunset of a day or sunset and sunrise of a night. The first columns (and the first twilight) is called *tFirst*, the second *tSecond* and the third column *type* defines whether it is a day (1) or a night (2). The function `export2GeoLight` can transform the table from above (twl) into the required format.
+_GeoLight_ requires a certain input format of the twilight table that differs from the ouput of e.g. `preprocessLight` or _TAGS_. We need to have rows that always have a set of twilight times, e.g. sunrise and sunset of a day or sunset and sunrise of a night. The first columns (and the first twilight) is called *tFirst*, the second *tSecond* and the third column *type* defines whether it is a day (1) or a night (2). The function `export2GeoLight` can transform the table from above (twl) into the required format.
 </div>
 
 
@@ -100,14 +99,14 @@ abline(v = tm1, lty = c(1,2), col = "firebrick", lwd = 1.5)
 abline(v = tm2, lty = c(1,2), col = "firebrick", lwd = 1.5)
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-9-1.png" width="672" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-8-1.png" width="672" />
 
 We can now subset the twilight table `twl.gl`.
 
 
 ```r
 d.calib <- subset(twl.gl, (tFirst>=tm1[1] & tSecond<=tm1[2]) | 
-                          (tFirst>=tm2[1] & tSecond<=tm2[2]))
+                    (tFirst>=tm2[1] & tSecond<=tm2[2]))
 ```
 
 The method behind the calibration function `getElevation` in _GeoLight_ has changed over time and is now based in the error distribution (the variation) of the detected twilight times during the calibration period. 
@@ -124,7 +123,7 @@ gE
 93.8281938 -5.6759414  2.5305391  0.2317587 
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-10-1.png" width="672" />
 
 The figure above represents a nice calibration curve; the twilight error indicating the deviation from the true twilight events in minutes follows quite nicely a gamma distribution (the red dotted line). The function provides four numbers. The first one is the reference sun elevation angle (the round dot with the 1) that can be used to calculate the threshold locations. This reference angle is based on the median of the twilight error distribution, minimizing the accuracy of the location estimates (not the precision that is affected by the variability in twilight events). The second value in the output is the sun elevation angle that defines the zero deviation and thus the lowest sun elevation angle a twilight could be detected. This sun elevation angle is important in the `mergeSites2` function but is also used in the e.g. _SGAT_ analysis.
 
@@ -142,17 +141,17 @@ We can now calculate the locations and have a fist look at a map by either using
 crds <- coord(twl.gl, degElevation = 90-gE[1], note = FALSE)
 
 ## using tripMap
-tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50))
-points(lon.calib, lat.calib, pch = 21, cex = 1.5, bg = "white") # adding the release location
+gg_tripMap <- tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50))
 
-## using the plot option (you need to remove the hash in front of the code)
-# plot(crds, type = "n") # sets the extent
-# plot(wrld_simpl, col = "grey90", border = "grey50", add = T) # adds the map from maptools
-# points(crds, pch = 21, cex = 0.5, bg = "white", type = "o")
-# points(lon.calib, lat.calib, pch = 21, cex = 1.5, bg = "firebrick") # adding the release location
+point_sf <- dplyr::tibble(lon = lon.calib, lat = lat.calib) %>% 
+  st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% st_as_sfc()
+
+gg_tripMap +
+  geom_sf(data = point_sf, mapping = aes(geometry = geometry),
+          color = "white")
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-12-1.png" width="672" /><img src="05-GeoLight_files/figure-html/unnamed-chunk-12-2.png" width="672" />
 
 ven the crude location estimates of the simple threshold method provide useful information and we get a feeling of the track, the major non-breeding sites and potentially the stopover locations. We also the huge jumps, notably during migration that is most likely influenced by the equinox. However, large north-south jumps are also an indication of rapid east-west movements.
 
@@ -171,19 +170,19 @@ Play with the settings and you will see how this changes the separation of perio
 cL <- changeLight(twl = twl.gl, quantile = 0.8)
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-14-1.png" width="576" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-13-1.png" width="576" />
 
 Besides other information, the `changeLight` function returns a vector with the sites `cL$site` that we can use to subset the twilight table for the e.g. longest period (in this case stationary period Nr. 5). **Important**, the function we use to run the _Hill-Ekstrom calibration_, `findHEZenith`, is from the _TwGeos_ package and requires the twilight table with all twilight in one column called Twilight, and the information on whether it is a sunrise or a sunset in a second column called Rise, e.g. the output from the `preprocessLight` function. Using the output of the change-point analysis we can define the start and the end of the long stationary period. It is however recommended to reduce the stationary period by a couple of days at each side. This makes sure that potential movement that can be mis-identified at the transition between real movements and stopover behavior are not part of the analysis.
 
 
 ```r
 StartEnd <- range(which(twl$Twilight>=(min(twl.gl$tFirst[cL$site==5])+5*24*60*60) &
-                        twl$Twilight<=(max(twl.gl$tFirst[cL$site==5])+5*24*60*60)))
+                          twl$Twilight<=(max(twl.gl$tFirst[cL$site==5])+5*24*60*60)))
 
 HE <- findHEZenith(twl, range = StartEnd)
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-15-1.png" width="576" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-14-1.png" width="576" />
 
 In the plots above, you see the calculated latitudes of the entire tracking period. The latitudes have been calculated using a while range of sun elevation angels. The lower graph has the most important information; the standard deviation of the latitudes from the selected stationary period over the used zenith angle. In this case there is a clear minima (a sign that the _Hill-Ekstrom calibration_ is working) at 94.25 degrees. We will discuss the issue of having different references for the sun elevation angle (e.g. sun elevation angle vs. zenith angle) in the [SGAT](#SGAT) section. Here, we simply transfer the zenith to sun elevation angle: 94.25 = -4.25. That means, that the optimal sun elevation angle for this period is 0.5 degrees higher than the one we estimated for the calibration period. This is not massive but still a significant difference probably explained by the non-breeding site being close to the equator with higher likelihood of clouds than in e.g. south of the US.
 
@@ -200,11 +199,17 @@ Note: Out of 592 twilight pairs, the calculation of 25 latitudes failed (4 %)
 
 ```r
 ## using tripMap
-tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50))
-points(lon.calib, lat.calib, pch = 21, cex = 1.5, bg = "white") # adding the release location
+gg_tripMap <- tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50))
+
+point_sf <- dplyr::tibble(lon = lon.calib, lat = lat.calib) %>% 
+  st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% st_as_sfc()
+
+gg_tripMap +
+  geom_sf(data = point_sf, mapping = aes(geometry = geometry),
+          color = "white")
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-15-1.png" width="672" /><img src="05-GeoLight_files/figure-html/unnamed-chunk-15-2.png" width="672" />
 
 ## Movement analysis {-}
 
@@ -215,7 +220,7 @@ We have now put sufficient effort into the calibration and are ready to continue
 cL <- changeLight(twl = twl.gl, quantile = 0.78, days = 1)
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-17-1.png" width="576" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-16-1.png" width="576" />
 
 These settings seem to detect all changes that are obviously visible (and more). We can now use `mergeSites` to refine this selection and to merge consecutive sites if they are only separated by single large errors in the twilight times but are otherwise likely to be at the same site. `mergeSite` uses a maximum likelihood fit to optimize longitude and latitude for each stationary period. However, the error term is modeled using a Gaussian distribution and that is certainly wrong. However, the analysis often returns good results and even good estimates of the most likely location and the credible intervals. The `mergeSites2` function is a further development and uses the correct assumptions (it also replaces the function `siteEstimation`). We can use the twilight error parameters and the reference angle that we have calculated using the `getElevation` function. The `mergeSites2` function evaluates the likelihood surface for each stationary period, starting from the first one and compares the most likely location and the 95% credible interval with the most likely location and the credible intervals of the next stationary site. If the most likely locations are smaller than the `distThreshold` and the 95% credible intervals overlap, the site is merged and the process starts again from the new merged period to the next period. Additionally, we can use a simple masking option to prevent locations from beeing on land or at sea. The function requires some calculation power and can take several minutes to complete.
 
@@ -246,16 +251,20 @@ We can now plot the results, using the longitude and latitude estimates of `merg
 
 
 ```r
-data(wrld_simpl)
+world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
+
+world <- world %>% 
+  st_as_sfc()
+
 ## create a color scale for stationary sites dependent on data
 Seasonal_palette <- grDevices::colorRampPalette(grDevices::hsv(1 - ((1:365) + (365/4))%%365/365, s = 0.8, v = 0.8), 
                                                 space = "Lab")
 
-
 ### replace first and last estimate with the deployment/retrieval location
 sm <- mS$summary
-  sm[c(1,nrow(sm)), 2:3] <- matrix(c(lon.calib, lat.calib), ncol = 2, nrow = 2, byrow = T)
-  sm[c(1,nrow(sm)), -c(1:3)] <- NA
+sm[c(1,nrow(sm)), 2:3] <- matrix(c(lon.calib, lat.calib), ncol = 2, nrow = 2, byrow = T)
+sm[c(1,nrow(sm)), -c(1:3)] <- NA
+sm <- as.data.frame(sm)
 
 day  <- as.POSIXlt(aggregate(mS$twl$tFirst[mS$site>0], by = list(mS$site[mS$site>0]), FUN = median)$x, 
                    origin = "1970-01-01", tz  ="GMT")$yday
@@ -284,17 +293,19 @@ text(sm[,2], sm[,3], 1:nrow(sm),
 mapplots::add.pie(x = -90, y = -28, z = rep(1, 12), radius = 10, col = Seasonal_palette(12), init.angle = day[1])
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-21-1.png" width="768" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-20-1.png" width="768" />
+
 
 In comparison, we can use the `sites` vector and plot all location estimates grouped into the sites using the `siteMap` function.
 
 
 ```r
+siteMap(crds, site = mS$site, type = "cross", add = TRUE)
+
 siteMap(crds, site = mS$site, type = "points", xlim = range(crds[,1], na.rm = T), ylim = range(crds[,2], na.rm = T))
-  siteMap(crds, site = mS$site, type = "cross", add = TRUE)
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-22-1.png" width="624" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-21-1.png" width="624" /><img src="05-GeoLight_files/figure-html/unnamed-chunk-21-2.png" width="624" />
 
 Finally, we can extract the migration schedule:
 
@@ -305,16 +316,17 @@ schedule(mS$twl$tFirst, mS$twl$tSecond, site = mS$site)
 
 ```
    Site             Arrival           Departure
-1     a                <NA> 2011-08-13 06:24:43
-2     b 2011-08-21 05:46:22 2011-08-22 05:51:30
-3     c 2011-09-07 15:55:15 2011-10-10 03:35:25
-4     d 2011-10-13 03:12:52 2011-12-12 15:03:45
-5     e 2011-12-14 03:05:24 2012-02-05 15:20:55
-6     f 2012-02-07 03:33:51 2012-02-08 15:33:01
-7     g 2012-02-15 15:35:00 2012-02-27 15:28:11
-8     h 2012-02-29 03:29:28 2012-03-21 03:24:29
-9     i 2012-04-04 18:21:08 2012-05-09 18:20:37
-10    j 2012-05-14 18:21:36                <NA>
+1     a                <NA> 2011-08-15 06:19:26
+2     b 2011-08-23 17:45:38 2011-08-24 17:33:56
+3     c 2011-09-10 15:57:53 2011-10-13 15:12:18
+4     d 2011-10-16 15:13:16 2011-12-21 03:04:10
+5     e 2011-12-24 03:05:43 2012-02-21 03:51:46
+6     f 2012-02-22 15:41:47 2012-02-24 03:28:56
+7     g 2012-02-27 15:28:11 2012-03-10 03:23:43
+8     h 2012-03-11 15:21:08 2012-04-01 05:57:45
+9     i 2012-04-19 18:17:44 2012-04-20 18:29:36
+10    j 2012-05-01 06:22:19 2012-05-25 06:24:14
+11    k 2012-05-28 06:18:37                <NA>
 ```
 
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">

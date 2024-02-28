@@ -1,4 +1,3 @@
-base
 GeoLocTools
 devtools
 usethis
@@ -36,3 +35,5 @@ zoo
 PolarGeolocation
 FLightR
 mapplots
+viridisLite
+sf
