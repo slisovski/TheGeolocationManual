@@ -333,7 +333,7 @@ It is most important to not include any periods when the birds has not been at t
 <span id="cb8-3"><a href="GeoLight.html#cb8-3" tabindex="-1"></a>gE</span></code></pre></div>
 <pre><code>        a1         e0      shape      scale 
 93.8281938 -5.6759414  2.5305391  0.2317587 </code></pre>
-<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="05-GeoLight_files/figure-html/unnamed-chunk-10-1.png" width="768" /></p>
 <p>The figure above represents a nice calibration curve; the twilight error indicating the deviation from the true twilight events in minutes follows quite nicely a gamma distribution (the red dotted line). The function provides four numbers. The first one is the reference sun elevation angle (the round dot with the 1) that can be used to calculate the threshold locations. This reference angle is based on the median of the twilight error distribution, minimizing the accuracy of the location estimates (not the precision that is affected by the variability in twilight events). The second value in the output is the sun elevation angle that defines the zero deviation and thus the lowest sun elevation angle a twilight could be detected. This sun elevation angle is important in the <code>mergeSites2</code> function but is also used in the e.g. <em>SGAT</em> analysis.</p>
 <div style="background-color:rgba(0, 0, 0, 0.0470588); border-radius: 10px; text-align:left; vertical-align: middle; padding:6px 2; width: 700px; margin: auto:">
 <p><img src="images/note.png" style="display: block; margin: auto;" />

@@ -98,7 +98,7 @@ d.calib <- subset(twl.gl, (tFirst>=tm1[1] & tSecond<=tm1[2]) |
 
 The method behind the calibration function `getElevation` in _GeoLight_ has changed over time and is now based in the error distribution (the variation) of the detected twilight times during the calibration period. 
 
-```{r, fig.width=7, fig.height=6}
+```{r, fig.width=8, fig.height=6}
 gE      <- getElevation(twl = d.calib, known.coord = c(lon.calib, lat.calib), 
                         method = "gamma")
 gE
@@ -148,6 +148,7 @@ cL <- changeLight(twl = twl.gl, quantile = 0.8)
 Besides other information, the `changeLight` function returns a vector with the sites `cL$site` that we can use to subset the twilight table for the e.g. longest period (in this case stationary period Nr. 5). **Important**, the function we use to run the _Hill-Ekstrom calibration_, `findHEZenith`, is from the _TwGeos_ package and requires the twilight table with all twilight in one column called Twilight, and the information on whether it is a sunrise or a sunset in a second column called Rise, e.g. the output from the `preprocessLight` function. Using the output of the change-point analysis we can define the start and the end of the long stationary period. It is however recommended to reduce the stationary period by a couple of days at each side. This makes sure that potential movement that can be mis-identified at the transition between real movements and stopover behavior are not part of the analysis.
 
 ```{r, fig.width=6, fig.height=6}
+
 StartEnd <- range(which(twl$Twilight>=(min(twl.gl$tFirst[cL$site==5])+5*24*60*60) &
                           twl$Twilight<=(max(twl.gl$tFirst[cL$site==5])+5*24*60*60)))
 
@@ -210,7 +211,6 @@ We can now plot the results, using the longitude and latitude estimates of `merg
 
 
 ```{r, fig.height=9, fig.width=8}
-
 world <- rnaturalearth::ne_countries(scale = "medium", returnclass = "sf")
 
 world <- world %>% 

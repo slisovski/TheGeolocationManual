@@ -123,7 +123,7 @@ gE
 93.8281938 -5.6759414  2.5305391  0.2317587 
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-10-1.png" width="768" />
 
 The figure above represents a nice calibration curve; the twilight error indicating the deviation from the true twilight events in minutes follows quite nicely a gamma distribution (the red dotted line). The function provides four numbers. The first one is the reference sun elevation angle (the round dot with the 1) that can be used to calculate the threshold locations. This reference angle is based on the median of the twilight error distribution, minimizing the accuracy of the location estimates (not the precision that is affected by the variability in twilight events). The second value in the output is the sun elevation angle that defines the zero deviation and thus the lowest sun elevation angle a twilight could be detected. This sun elevation angle is important in the `mergeSites2` function but is also used in the e.g. _SGAT_ analysis.
 
