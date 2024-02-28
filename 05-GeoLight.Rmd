@@ -115,16 +115,20 @@ The graph produced by `getElevation` can help to judge whether your calibration 
 
 ## Location estimation {-}
 
-We can now calculate the locations and have a fist look at a map by either using the implemented `tripMap` function or by simply plotting the locations and adding a map.
+We can now calculate the locations and have a fist look at a map by  using the implemented `tripMap` function.
 
-```{r, fig.width = 7, fig.height=10}
+```{r, fig.show='hide'}
 crds <- coord(twl.gl, degElevation = 90-gE[1], note = FALSE)
+
+gg_tripMap <- tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50))
 
 point_sf <- dplyr::tibble(lon = lon.calib, lat = lat.calib) %>% 
   st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% st_as_sfc()
+```
 
-## using tripMap
-tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50)) + 
+
+```{r, fig.width = 7, fig.height=10, warning=FALSE}
+gg_tripMap + 
   geom_sf(data = point_sf, mapping = aes(geometry = geometry),
           color = "white")
 ```
@@ -159,14 +163,19 @@ In the plots above, you see the calculated latitudes of the entire tracking peri
 
 So, let's use this reference sun elevation angle to calculate the locations.
 
-```{r, fig.width = 7, fig.height=10}
+```{r, fig.show='hide'}
 crds <- coord(twl.gl, degElevation = 90-HE)
+
+gg_tripMap <- tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50))
 
 point_sf <- dplyr::tibble(lon = lon.calib, lat = lat.calib) %>% 
   st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% st_as_sfc()
+```
 
+
+```{r, fig.width = 7, fig.height=10, warning=FALSE}
 ## using tripMap
-tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50)) +
+gg_tripMap +
   geom_sf(data = point_sf, mapping = aes(geometry = geometry),
           color = "white")
 ```

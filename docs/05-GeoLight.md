@@ -134,22 +134,29 @@ The graph produced by `getElevation` can help to judge whether your calibration 
 
 ## Location estimation {-}
 
-We can now calculate the locations and have a fist look at a map by either using the implemented `tripMap` function or by simply plotting the locations and adding a map.
+We can now calculate the locations and have a fist look at a map by  using the implemented `tripMap` function.
 
 
 ```r
 crds <- coord(twl.gl, degElevation = 90-gE[1], note = FALSE)
 
+gg_tripMap <- tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50))
+```
+
+```r
 point_sf <- dplyr::tibble(lon = lon.calib, lat = lat.calib) %>% 
   st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% st_as_sfc()
+```
 
-## using tripMap
-tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50)) + 
+
+
+```r
+gg_tripMap + 
   geom_sf(data = point_sf, mapping = aes(geometry = geometry),
           color = "white")
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-12-1.png" width="672" /><img src="05-GeoLight_files/figure-html/unnamed-chunk-12-2.png" width="672" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-13-1.png" width="672" />
 
 ven the crude location estimates of the simple threshold method provide useful information and we get a feeling of the track, the major non-breeding sites and potentially the stopover locations. We also the huge jumps, notably during migration that is most likely influenced by the equinox. However, large north-south jumps are also an indication of rapid east-west movements.
 
@@ -168,7 +175,7 @@ Play with the settings and you will see how this changes the separation of perio
 cL <- changeLight(twl = twl.gl, quantile = 0.8)
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-13-1.png" width="576" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-14-1.png" width="576" />
 
 Besides other information, the `changeLight` function returns a vector with the sites `cL$site` that we can use to subset the twilight table for the e.g. longest period (in this case stationary period Nr. 5). **Important**, the function we use to run the _Hill-Ekstrom calibration_, `findHEZenith`, is from the _TwGeos_ package and requires the twilight table with all twilight in one column called Twilight, and the information on whether it is a sunrise or a sunset in a second column called Rise, e.g. the output from the `preprocessLight` function. Using the output of the change-point analysis we can define the start and the end of the long stationary period. It is however recommended to reduce the stationary period by a couple of days at each side. This makes sure that potential movement that can be mis-identified at the transition between real movements and stopover behavior are not part of the analysis.
 
@@ -180,7 +187,7 @@ StartEnd <- range(which(twl$Twilight>=(min(twl.gl$tFirst[cL$site==5])+5*24*60*60
 HE <- findHEZenith(twl, range = StartEnd)
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-14-1.png" width="576" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-15-1.png" width="576" />
 
 In the plots above, you see the calculated latitudes of the entire tracking period. The latitudes have been calculated using a while range of sun elevation angels. The lower graph has the most important information; the standard deviation of the latitudes from the selected stationary period over the used zenith angle. In this case there is a clear minima (a sign that the _Hill-Ekstrom calibration_ is working) at 94.25 degrees. We will discuss the issue of having different references for the sun elevation angle (e.g. sun elevation angle vs. zenith angle) in the [SGAT](#SGAT) section. Here, we simply transfer the zenith to sun elevation angle: 94.25 = -4.25. That means, that the optimal sun elevation angle for this period is 0.5 degrees higher than the one we estimated for the calibration period. This is not massive but still a significant difference probably explained by the non-breeding site being close to the equator with higher likelihood of clouds than in e.g. south of the US.
 
@@ -196,16 +203,24 @@ Note: Out of 592 twilight pairs, the calculation of 25 latitudes failed (4 %)
 ```
 
 ```r
+gg_tripMap <- tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50))
+```
+
+```r
 point_sf <- dplyr::tibble(lon = lon.calib, lat = lat.calib) %>% 
   st_as_sf(coords = c('lon', 'lat'), crs = 4326) %>% st_as_sfc()
+```
 
+
+
+```r
 ## using tripMap
-tripMap(crds, xlim = c(-98.75, -42.4), ylim = c(-32, 50)) +
+gg_tripMap +
   geom_sf(data = point_sf, mapping = aes(geometry = geometry),
           color = "white")
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-15-1.png" width="672" /><img src="05-GeoLight_files/figure-html/unnamed-chunk-15-2.png" width="672" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-17-1.png" width="672" />
 
 ## Movement analysis {-}
 
@@ -216,7 +231,7 @@ We have now put sufficient effort into the calibration and are ready to continue
 cL <- changeLight(twl = twl.gl, quantile = 0.78, days = 1)
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-16-1.png" width="576" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-18-1.png" width="576" />
 
 These settings seem to detect all changes that are obviously visible (and more). We can now use `mergeSites` to refine this selection and to merge consecutive sites if they are only separated by single large errors in the twilight times but are otherwise likely to be at the same site. `mergeSite` uses a maximum likelihood fit to optimize longitude and latitude for each stationary period. However, the error term is modeled using a Gaussian distribution and that is certainly wrong. However, the analysis often returns good results and even good estimates of the most likely location and the credible intervals. The `mergeSites2` function is a further development and uses the correct assumptions (it also replaces the function `siteEstimation`). We can use the twilight error parameters and the reference angle that we have calculated using the `getElevation` function. The `mergeSites2` function evaluates the likelihood surface for each stationary period, starting from the first one and compares the most likely location and the 95% credible interval with the most likely location and the credible intervals of the next stationary site. If the most likely locations are smaller than the `distThreshold` and the 95% credible intervals overlap, the site is merged and the process starts again from the new merged period to the next period. Additionally, we can use a simple masking option to prevent locations from beeing on land or at sea. The function requires some calculation power and can take several minutes to complete.
 
@@ -289,7 +304,7 @@ text(sm[,2], sm[,3], 1:nrow(sm),
 mapplots::add.pie(x = -90, y = -28, z = rep(1, 12), radius = 10, col = Seasonal_palette(12), init.angle = day[1])
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-20-1.png" width="768" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-22-1.png" width="768" />
 
 
 In comparison, we can use the `sites` vector and plot all location estimates grouped into the sites using the `siteMap` function.
@@ -301,7 +316,7 @@ siteMap(crds, site = mS$site, type = "points", xlim = range(crds[,1], na.rm = T)
 siteMap(crds, site = mS$site, type = "cross", add = TRUE)
 ```
 
-<img src="05-GeoLight_files/figure-html/unnamed-chunk-21-1.png" width="624" /><img src="05-GeoLight_files/figure-html/unnamed-chunk-21-2.png" width="624" />
+<img src="05-GeoLight_files/figure-html/unnamed-chunk-23-1.png" width="624" /><img src="05-GeoLight_files/figure-html/unnamed-chunk-23-2.png" width="624" />
 
 Finally, we can extract the migration schedule:
 
